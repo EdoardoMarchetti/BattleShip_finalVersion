@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Preferences -->
+    <string name="confing_sound_title">Sound configuration</string>
+    <string name="background_music_title">Background Music</string>
+    <string name="background_music_summary">Enable or disable Music</string>
+
+    <string name="animation_sound_title">Sound Effect</string>
+    <string name="animation_sound_summary">Enable or disable animation sound</string>
+
+    <string name="config_language_title">Language configuration</string>
+    <string name="language_selection_title">Select Language</string>
+    <string name="language_selection_summary">Change language</string>
+    <string name="language_selection_default_value">English</string>
+    <string-array name="language_selection_array">
+        <item>English</item>
+        <item>Italian</item>
+    </string-array>
+    <string-array name="language_selection_values">
+        <item>English</item>
+        <item>Italian</item>
+    </string-array>
+
+    <string name="config_badge_background">Badge configuration</string>
+    <string name="badge_background_selection_title">Select Badge Background</string>
+    <string name="badge_background_selection_summary">Change flag</string>
+    <string-array name="badge_background_array">
+        <item>Italy</item>
+        <item>England</item>
+        <item>Australia</item>
+        <item>Brazil</item>
+    </string-array>
+    <array name="badge_background_entryValues">
+        <item>R.drawable.flag_italy</item>
+        <item>R.drawable.flag_england</item>
+        <item>R.drawable.flag_australia</item>
+        <item>R.drawable.flag_brazil</item>
+    </array>
+
+
+</resources>

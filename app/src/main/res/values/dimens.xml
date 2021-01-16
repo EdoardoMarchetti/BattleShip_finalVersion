@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <dimen name="header_height">100dp</dimen>
+    <dimen name="margin_top_fragment">100dp</dimen>
+    <dimen name="margin_bottom_fragment">100dp</dimen>
+    <dimen name="not_selected_fragment_width">100dp</dimen>
+    <dimen name="menu_button_height">100dp</dimen>
+    <dimen name="menu_button_width">100dp</dimen>
+
+</resources>

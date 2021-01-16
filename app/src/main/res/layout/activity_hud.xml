@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:andorid="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data
+        andorid:layout_width="5dp"
+        andorid:layout_height="8dp">
+
+        <variable
+            name="player"
+            type="com.edomar.battleship.logic.IGameState" />
+
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context = ".view.HudActivity"
+        >
+
+        <!--Badge-->
+        <RelativeLayout
+            android:id="@+id/badge_and_name_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            >
+            <ImageView
+                android:id="@+id/badge"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/header_height"
+                android:background="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/player_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@{player.playerName}"/>
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/anchor_point"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/margin_top_fragment"
+            android:layout_marginBottom="@dimen/margin_bottom_fragment">
+        </FrameLayout>
+
+        <!--Buttons Menu-->
+        <LinearLayout
+            android:id="@+id/buttons_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            >
+
+            <RelativeLayout
+                android:id="@+id/left_button"
+                android:layout_weight="1"
+                android:layout_gravity="bottom|left"
+                android:layout_width="@dimen/menu_button_width"
+                android:layout_height="@dimen/menu_button_height"
+                android:background="@color/colorPrimaryDark"
+                android:onClick="showFragment">
+
+                <ImageView
+                    android:id="@+id/left_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/menu"/>
+
+                <TextView
+                    android:id="@+id/left_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/left_image"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/settings" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/central_button"
+                android:layout_weight="2"
+                android:layout_gravity="bottom|left"
+                android:layout_width="@dimen/menu_button_width"
+                android:layout_height="@dimen/menu_button_height"
+                android:background="@color/colorPrimary"
+                android:onClick="showFragment">
+
+                <ImageView
+                    android:id="@+id/central_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/helm"/>
+
+                <TextView
+                    android:id="@+id/central_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home"
+                    android:layout_below="@+id/central_image"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/right_button"
+                android:layout_weight="1"
+                android:layout_gravity="bottom|left"
+                android:layout_width="@dimen/menu_button_width"
+                android:layout_height="@dimen/menu_button_height"
+                android:background="@color/colorAccent"
+                android:onClick="showFragment">
+
+                <ImageView
+                    android:id="@+id/right_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/captain"/>
+
+                <TextView
+                    android:id="@+id/right_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fleet"
+                    android:layout_below="@+id/right_image"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+</layout>
+
+

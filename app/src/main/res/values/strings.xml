@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">BattleShip</string>
+    <string name="launch_error">Initialization data failed</string>
+    <string name="player_name">Player Name</string>
+    <string name="settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="fleet">Fleet</string>
+    <string name="single_player">Single Player</string>
+    <string name="config_about">About</string>
+
+</resources>
