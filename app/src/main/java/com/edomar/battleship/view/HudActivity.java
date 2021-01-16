@@ -55,6 +55,7 @@ public class HudActivity extends AppCompatActivity {
             case (R.id.left_button):
                 Log.d("Pressed button", "changeActivity: left");
                 nextFragment = new SettingsFragment();
+
                 break;
             case (R.id.central_button):
                 Log.d("Pressed button", "changeActivity: central");
