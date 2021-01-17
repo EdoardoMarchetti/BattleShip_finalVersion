@@ -1,6 +1,7 @@
 package com.edomar.battleship.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.AudioAttributes;
@@ -10,7 +11,10 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.edomar.battleship.R;
+
 import java.io.IOException;
+import java.security.Key;
 
 public class SoundEngine {
 
@@ -19,13 +23,19 @@ public class SoundEngine {
     private SoundPool mSP;
     public boolean isSoundEffectOn = false;
     private int mSoundSample_ID = -1;
+    SharedPreferences sp;
+    private Context context;
 
     /*
     Constructor
      */
     public SoundEngine(Context c){
+        context = c;
+        sp = c.getSharedPreferences(c.getString(R.string.configuration_preference_key), Context.MODE_PRIVATE);
+
         //initialize the SoundPool
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
             AudioAttributes audioAttributes =
                     new AudioAttributes.Builder()
                             .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -53,7 +63,7 @@ public class SoundEngine {
             e.printStackTrace();
         }
 
-        isSoundEffectOn = true;
+        isSoundEffectOn = sp.getBoolean(c.getString(R.string.animation_sound_key), true);
     }
 
 
@@ -64,8 +74,14 @@ public class SoundEngine {
         }
     }
 
-    public void setSoundEffectOn(boolean soundEffectOn) {
-        isSoundEffectOn = soundEffectOn;
-        Log.d(TAG, "setSoundEffectOn: modified");
+    //Enable or Disable sound effects
+    public void enableSoundEffect(){
+        this.isSoundEffectOn = true;
+
+    }
+
+    public void disableSoundEffect(){
+        this.isSoundEffectOn = false;
+
     }
 }

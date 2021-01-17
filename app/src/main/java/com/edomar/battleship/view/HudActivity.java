@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,17 +15,26 @@ import android.view.View;
 import com.edomar.battleship.R;
 import com.edomar.battleship.databinding.ActivityHudBinding;
 import com.edomar.battleship.logic.IGameState;
+import com.edomar.battleship.utils.Keys;
 import com.edomar.battleship.utils.SoundEngine;
 import com.edomar.battleship.view.menuFragments.MainMenuFragment;
 import com.edomar.battleship.view.menuFragments.SettingsFragment;
 
+import java.util.Map;
+
 
 public class HudActivity extends AppCompatActivity {
 
+
+
     public static final String TAG = HudActivity.class.getSimpleName();
+
+    public SharedPreferences sp;
 
     public IGameState gameState;
     public SoundEngine mSoundEngine;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +49,29 @@ public class HudActivity extends AppCompatActivity {
 
         mSoundEngine = new SoundEngine(this);
 
+
+
         final Intent srcIntent= getIntent();
         if(srcIntent != null){
             gameState = (IGameState) srcIntent.getParcelableExtra("player_name");
         }
         binding.setPlayer(gameState);
 
+
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
 
     public void showFragment(final View selectedMenu){
         final int viewID = selectedMenu.getId();
@@ -55,7 +81,6 @@ public class HudActivity extends AppCompatActivity {
             case (R.id.left_button):
                 Log.d("Pressed button", "changeActivity: left");
                 nextFragment = new SettingsFragment();
-
                 break;
             case (R.id.central_button):
                 Log.d("Pressed button", "changeActivity: central");

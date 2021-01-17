@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.edomar.battleship.view.HudActivity">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sound_switch"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:text="@string/backgroundMusic"
+            android:checked="true"
+            android:textSize="20sp"
+            />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sound_effects_switch"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/sound_switch"
+            android:layout_marginTop="20dp"
+            android:text="@string/sound_effects"
+            android:checked="true"
+            android:textSize="20sp"/>
+
+
+        <Spinner
+            android:id="@+id/language_spinner"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/sound_effects_switch"
+            android:layout_marginTop="20dp"
+
+            />
+
+        <Spinner
+            android:id="@+id/badge_spinner"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/language_spinner"
+            android:layout_marginTop="20dp"
+            />
+
+        <Button
+            android:id="@+id/about_button"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/badge_spinner"
+            android:layout_marginTop="20dp"
+
+            android:text="@string/about"
+            />
+
+
+    </RelativeLayout>
+
+</FrameLayout>

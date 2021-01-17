@@ -4,30 +4,41 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
 
 import com.edomar.battleship.R;
-import com.edomar.battleship.utils.SoundEngine;
 import com.edomar.battleship.view.HudActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
-import androidx.preference.PreferenceScreen;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.Fragment;
 
-public class SettingsFragment extends PreferenceFragmentCompat {
 
-    private static final String SHARED_PREFERENCES_NAME = "SettingsFragment";
+public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+
+
+
+    public static final String TAG = SettingsFragment.class.getSimpleName();
 
     private HudActivity mActivity;
-    
 
-    private interface Keys{
-        String BACKGROUND_MUSIC_SWITCH = "background_music";
-        String ANIMATION_EFFECT_SWITCH = "animation_effect";
-        String LANGUAGE_LIST = "language";
-        String BADGE_LIST = "badge";
-    }
+    /** SharedPreference**/
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
+
+
+    /**Sound effects switch*/
+    private SwitchCompat mSoundEffectsSwitch;
+    private boolean isSoundEffectsOn;
+
+    /**About button*/
+    private Button mAboutButton;
 
     public SettingsFragment() {
         //Required empty public constructor
@@ -39,6 +50,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         mActivity = (HudActivity) activity;
     }
 
+
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -46,21 +59,96 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        addPreferencesFromResource(R.xml.settings);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+    }
 
-        boolean backgroundMusicSwitch = prefs.getBoolean(Keys.BACKGROUND_MUSIC_SWITCH, true );
-        boolean animationEffectSwitch  = prefs.getBoolean(Keys.ANIMATION_EFFECT_SWITCH, true );
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+    }
 
-        //mActivity.mSoundEngine.setSoundEffectOn(animationEffectSwitch);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: ");
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
+        /** Initialize SharedPreference value **/
+        sp = this.getActivity().getSharedPreferences(getString(R.string.configuration_preference_key), Context.MODE_PRIVATE);
+        editor =  sp.edit();
+        //end initialization
 
+        return view;
+        
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        Log.d(TAG, "onActivityCreated: ");
+
+        /**Animation sounds configuration**/
+        mSoundEffectsSwitch = (SwitchCompat) getActivity().findViewById(R.id.sound_effects_switch);
+        mSoundEffectsSwitch.setOnCheckedChangeListener(this);
+        mSoundEffectsSwitch.setChecked(sp.getBoolean(mActivity.getString(R.string.animation_sound_key), true));
+        //end Animation sounds configuration
+
+        /** About button configuration **/
+        mAboutButton = (Button) getActivity().findViewById(R.id.about_button);
+        mAboutButton.setOnClickListener(this);
+        //end About button configuration
+
     }
+
+    /**Switches' method**/
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+        switch (compoundButton.getId()){
+            case R.id.sound_switch: //Background
+                /* For backgroundMusic
+                if(isChecked){
+                    Log.d(TAG, "onCheckedChanged: switch background " + true);
+                    mActivity.doBindService();
+                    Intent music = new Intent();
+                    music.setClass(getContext(), MusicService.class);
+                    mActivity.startService(music);
+                }else{
+                    Log.d(TAG, "onCheckedChanged: switch background " + false);
+                    mActivity.doUnbindService();
+                    Intent music = new Intent();
+                    music.setClass(getContext(), MusicService.class);
+                    mActivity.stopService(music);
+                }
+                break;
+                 */
+            case R.id.sound_effects_switch: //Animation
+                if(isChecked){
+                    Log.d(TAG, "onCheckedChanged: switch sound effects " + true);
+                    mActivity.mSoundEngine.enableSoundEffect();
+                    //Change SharedPreference value with animation_sound_key
+                    editor.putBoolean(mActivity.getString(R.string.animation_sound_key), true);
+                    editor.apply();
+
+                }else{
+                    Log.d(TAG, "onCheckedChanged: switch sound effects " + false);
+                    mActivity.mSoundEngine.disableSoundEffect();
+                    //Change SharedPreference value with animation_sound_key
+                    editor.putBoolean(mActivity.getString(R.string.animation_sound_key), false);
+                    editor.apply();
+                }
+                break;
+        }
+    }
+    //ens switches' method
+
+    /** About button method **/
+    @Override
+    public void onClick(View view) {
+        mActivity.mSoundEngine.playShoot();
+    }
+    //end about button method
 }
