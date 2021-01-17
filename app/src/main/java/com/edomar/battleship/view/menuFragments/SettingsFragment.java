@@ -9,11 +9,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 
 import com.edomar.battleship.R;
 import com.edomar.battleship.utils.MusicService;
+import com.edomar.battleship.utils.UserInteractionListener;
 import com.edomar.battleship.view.HudActivity;
 
 import androidx.annotation.NonNull;
@@ -22,13 +28,17 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 
-public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+public class SettingsFragment extends Fragment implements AdapterView.OnItemSelectedListener, //for spinners
+        CompoundButton.OnCheckedChangeListener, //for switch
+        View.OnClickListener, UserInteractionListener { //for button
 
 
 
     public static final String TAG = SettingsFragment.class.getSimpleName();
 
     private HudActivity mActivity;
+
+    private boolean isUserInteracting;
 
     /** SharedPreference**/
     private SharedPreferences sp;
@@ -40,9 +50,13 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     /**Sound effects switch*/
     private SwitchCompat mSoundEffectsSwitch;
 
+    /**Language Spinner **/
+    private Spinner mLanguageSpinner;
+    private ArrayAdapter<CharSequence> mLanguageSpinnerAdapter;
 
     /**About button*/
     private Button mAboutButton;
+
 
     public SettingsFragment() {
         //Required empty public constructor
@@ -86,7 +100,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         //end initialization
 
         return view;
-        
+
     }
 
     @Override
@@ -95,16 +109,26 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
         Log.d(TAG, "onActivityCreated: ");
 
+        ((HudActivity) getActivity()).setUserInteractionListener(this); //To understand if user is interacting with the fragment
+
         /**Background Music switch configuration **/
         mBackgroundMusicSwitch = (SwitchCompat) getActivity().findViewById(R.id.background_music_switch);
         mBackgroundMusicSwitch.setOnCheckedChangeListener(this);
         mBackgroundMusicSwitch.setChecked(sp.getBoolean(mActivity.getString(R.string.background_music_key), true));
+        //end Background music switch configuration
 
         /**Animation sounds switch configuration**/
         mSoundEffectsSwitch = (SwitchCompat) getActivity().findViewById(R.id.sound_effects_switch);
         mSoundEffectsSwitch.setOnCheckedChangeListener(this);
         mSoundEffectsSwitch.setChecked(sp.getBoolean(mActivity.getString(R.string.animation_sound_key), true));
         //end Animation sounds configuration
+
+        /**Language Spinner**/
+        mLanguageSpinner = (Spinner) getActivity().findViewById(R.id.language_spinner);
+        mLanguageSpinnerAdapter = ArrayAdapter.createFromResource(getContext(), R.array.languages, android.R.layout.simple_spinner_item);
+        mLanguageSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mLanguageSpinner.setAdapter(mLanguageSpinnerAdapter);
+        mLanguageSpinner.setOnItemSelectedListener(this);
 
         /** About button configuration **/
         mAboutButton = (Button) getActivity().findViewById(R.id.about_button);
@@ -170,4 +194,49 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         mActivity.mSoundEngine.playShoot();
     }
     //end about button method
+
+    /**Spinners' methods**/
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
+        Log.d(TAG, "onItemSelected: ");
+        switch (parent.getId()){
+            case R.id.language_spinner:
+                if(isUserInteracting) {
+                    Log.d(TAG, "onItemSelected: language");
+                    String languageSelected = parent.getSelectedItem().toString();
+                    Log.d(TAG, "onItemSelected: itemSelected= " + languageSelected);
+                    //setLocale(languageSelected);
+                    Log.d(TAG, "onItemSelected: changed");
+                    editor.putString(mActivity.getString(R.string.language_key), languageSelected);
+                    editor.apply();
+                }
+                break;
+            /*case R.id.badge_spinner:
+                if(isUserInteracting) {
+                    Log.d(TAG, "onItemSelected: badge");
+                    Log.d(TAG, "onItemSelected: selected= " + parent.getItemAtPosition(position).toString());
+                    RelativeLayout badge = (RelativeLayout) mActivity.findViewById(R.id.badge_and_name_view);
+                    ImageView imgBadge = (ImageView) badge.findViewById(R.id.badge);
+                    imgBadge.setImageResource(badgeFlags[parent.getSelectedItemPosition()]);
+
+
+                }
+                break;
+
+             */
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    @Override
+    public void onUserInteraction() {
+        isUserInteracting = true;
+    }
+    //end spinners' method
+
 }
+

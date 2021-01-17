@@ -26,22 +26,19 @@ import com.edomar.battleship.utils.UserInteractionListener;
 import com.edomar.battleship.view.menuFragments.MainMenuFragment;
 import com.edomar.battleship.view.menuFragments.SettingsFragment;
 
-import java.util.Map;
-
 
 public class HudActivity extends AppCompatActivity {
 
-
-
     public static final String TAG = HudActivity.class.getSimpleName();
-
-    public SharedPreferences sp;
 
     public IGameState gameState;
     public SoundEngine mSoundEngine;
     HomeWatcher mHomeWatcher;
-    private UserInteractionListener userInteractionListener;
 
+    /** SharedPreference**/
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
+    private UserInteractionListener userInteractionListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +50,11 @@ public class HudActivity extends AppCompatActivity {
                     .add(R.id.anchor_point, mainMenuFragment, MainMenuFragment.TAG)
                     .commit();
         }
-        
-        sp = getSharedPreferences(getString(R.string.configuration_preference_key), MODE_PRIVATE);
 
-        /** Sound **/
+        sp = getSharedPreferences(getString(R.string.configuration_preference_key), MODE_PRIVATE);
+        editor = sp.edit();
+
+        /**Sound config**/
         Log.d(String.valueOf(R.string.debugging), "onCreate: I'm trying to start background music");
         if(sp.getBoolean(getString(R.string.background_music_key), true)) {
             doBindService();
@@ -65,11 +63,11 @@ public class HudActivity extends AppCompatActivity {
             startService(music);
             Log.d(String.valueOf(R.string.debugging), "onCreate: back_ground_music enabled");
         }
-        
+
         mSoundEngine = new SoundEngine(this);
         //end sound config
 
-        /** HomeWatcher to stop music if home button is pressed **/
+        //homeWatcher to stop music if home button is pressed
         mHomeWatcher = new HomeWatcher(this);
         mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
             @Override
@@ -87,7 +85,6 @@ public class HudActivity extends AppCompatActivity {
             }
         });
         mHomeWatcher.startWatch();
-        
 
         final Intent srcIntent= getIntent();
         if(srcIntent != null){
@@ -95,9 +92,9 @@ public class HudActivity extends AppCompatActivity {
         }
         binding.setPlayer(gameState);
 
-
-
     }
+
+
 
     @Override
     protected void onResume() {
@@ -122,15 +119,11 @@ public class HudActivity extends AppCompatActivity {
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         boolean isScreenOn = false;
 
-        if(pm != null){
+        if (pm != null) {
             isScreenOn = pm.isScreenOn();
         }
 
-        if(!isScreenOn){
-            if(mServ != null){
-                mServ.pauseMusic();
-            }
-        }
+
     }
 
     @Override
@@ -146,18 +139,29 @@ public class HudActivity extends AppCompatActivity {
 
     }
 
-    public void showFragment(final View selectedMenu){
+    public void setUserInteractionListener(UserInteractionListener userInteractionListener) {
+        this.userInteractionListener = userInteractionListener;
+    }
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        if (userInteractionListener != null)
+            userInteractionListener.onUserInteraction();
+    }
+
+    public void showFragment ( final View selectedMenu){
         final int viewID = selectedMenu.getId();
         Fragment nextFragment;
 
-        switch (viewID){
+        switch (viewID) {
             case (R.id.left_button):
                 Log.d("Pressed button", "changeActivity: left");
                 nextFragment = new SettingsFragment();
                 break;
             case (R.id.central_button):
                 Log.d("Pressed button", "changeActivity: central");
-                nextFragment=new MainMenuFragment();
+                nextFragment = new MainMenuFragment();
                 break;
             /*case (R.id.right_button):
                 nextFragment = new FleetFragment();
@@ -172,20 +176,9 @@ public class HudActivity extends AppCompatActivity {
 
     }
 
-    public void setUserInteractionListener(UserInteractionListener userInteractionListener) {
-        this.userInteractionListener = userInteractionListener;
-    }
-
-    @Override
-    public void onUserInteraction() {
-        super.onUserInteraction();
-        if (userInteractionListener != null)
-            userInteractionListener.onUserInteraction();
-    }
-
-    /** ---------------------------
-    // METHODS FOR BACKGROUND MUSIC
-    --------------------------- **/
+    //--------------------------------------
+    //METHODS FOR BACKGROUND MUSIC
+    //--------------------------------------
     private boolean mIsBound = false;
     private MusicService mServ;
     private ServiceConnection Scon =new ServiceConnection(){
@@ -217,17 +210,17 @@ public class HudActivity extends AppCompatActivity {
 
     @Override
     public ComponentName startService(Intent service) {
-        //isMusicServiceOn = true;
+        editor.putBoolean(getString(R.string.background_music_key), true);
+        editor.apply();
         return super.startService(service);
     }
 
 
     @Override
     public boolean stopService(Intent name) {
-        //isMusicServiceOn = false;
+        editor.putBoolean(getString(R.string.background_music_key), false);
+        editor.apply();
         return super.stopService(name);
     }
-
-
 
 }

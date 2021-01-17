@@ -2,9 +2,7 @@ package com.edomar.battleship.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
@@ -15,8 +13,6 @@ import com.edomar.battleship.R;
 public class SplashActivity extends AppCompatActivity {
 
     private final int SPLASH_DISPLAY_LENGTH = 1000;
-
-    private SharedPreferences sp;
 
     private GameState mGameState;
 
@@ -49,11 +45,6 @@ public class SplashActivity extends AppCompatActivity {
         mGameState = GameState.Builder
                 .create(playerName)
                 .build();
-
-        /**Shared Preference initialization **/
-        sp = getSharedPreferences(getString(R.string.configuration_preference_key), Context.MODE_PRIVATE);
-
-
         return true;
     }
 

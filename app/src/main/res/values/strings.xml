@@ -9,6 +9,7 @@
     <string name="config_about">About</string>
 
 
+
     <string name="saveFleet">SAVE FLEET</string>
     <string name="Sound">Sound</string>
 
@@ -28,5 +29,7 @@
     <string name="animation_sound_key">animation sound</string>
     <string name="background_music_key">background_music_key</string>
     <string name="debugging">Correzioni</string>
+    <string name="language_key">language_key</string>
+
 
 </resources>
