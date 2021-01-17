@@ -2,6 +2,7 @@ package com.edomar.battleship.view.menuFragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 
 import com.edomar.battleship.R;
+import com.edomar.battleship.utils.MusicService;
 import com.edomar.battleship.view.HudActivity;
 
 import androidx.annotation.NonNull;
@@ -32,10 +34,12 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
+    /**Background music switch**/
+    private SwitchCompat mBackgroundMusicSwitch;
 
     /**Sound effects switch*/
     private SwitchCompat mSoundEffectsSwitch;
-    private boolean isSoundEffectsOn;
+
 
     /**About button*/
     private Button mAboutButton;
@@ -91,7 +95,12 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
         Log.d(TAG, "onActivityCreated: ");
 
-        /**Animation sounds configuration**/
+        /**Background Music switch configuration **/
+        mBackgroundMusicSwitch = (SwitchCompat) getActivity().findViewById(R.id.background_music_switch);
+        mBackgroundMusicSwitch.setOnCheckedChangeListener(this);
+        mBackgroundMusicSwitch.setChecked(sp.getBoolean(mActivity.getString(R.string.background_music_key), true));
+
+        /**Animation sounds switch configuration**/
         mSoundEffectsSwitch = (SwitchCompat) getActivity().findViewById(R.id.sound_effects_switch);
         mSoundEffectsSwitch.setOnCheckedChangeListener(this);
         mSoundEffectsSwitch.setChecked(sp.getBoolean(mActivity.getString(R.string.animation_sound_key), true));
@@ -108,23 +117,33 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
         switch (compoundButton.getId()){
-            case R.id.sound_switch: //Background
-                /* For backgroundMusic
+            case R.id.background_music_switch: //Background
+
                 if(isChecked){
-                    Log.d(TAG, "onCheckedChanged: switch background " + true);
+                    Log.d(String.valueOf(R.string.debugging), "onCheckedChanged: switch background " + true);
                     mActivity.doBindService();
                     Intent music = new Intent();
                     music.setClass(getContext(), MusicService.class);
                     mActivity.startService(music);
+                    editor.putBoolean(mActivity.getString(R.string.background_music_key),
+                            true);
+                    editor.apply();
+                    Log.d(String.valueOf(R.string.debugging), "onCheckedChanged: background_music value = "
+                            + sp.getBoolean(mActivity.getString(R.string.background_music_key), true));
                 }else{
-                    Log.d(TAG, "onCheckedChanged: switch background " + false);
+                    Log.d(String.valueOf(R.string.debugging), "onCheckedChanged: switch background " + false);
                     mActivity.doUnbindService();
                     Intent music = new Intent();
                     music.setClass(getContext(), MusicService.class);
                     mActivity.stopService(music);
+                    editor.putBoolean(mActivity.getString(R.string.background_music_key),
+                            false);
+                    editor.apply();
+                    Log.d(String.valueOf(R.string.debugging), "onCheckedChanged: background_music value = "
+                            + sp.getBoolean(mActivity.getString(R.string.background_music_key), true));
                 }
                 break;
-                 */
+
             case R.id.sound_effects_switch: //Animation
                 if(isChecked){
                     Log.d(TAG, "onCheckedChanged: switch sound effects " + true);

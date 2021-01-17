@@ -15,7 +15,7 @@
         >
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sound_switch"
+            android:id="@+id/background_music_switch"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
@@ -30,7 +30,7 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/sound_switch"
+            android:layout_below="@+id/background_music_switch"
             android:layout_marginTop="20dp"
             android:text="@string/sound_effects"
             android:checked="true"

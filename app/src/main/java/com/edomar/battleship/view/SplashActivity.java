@@ -52,9 +52,7 @@ public class SplashActivity extends AppCompatActivity {
 
         /**Shared Preference initialization **/
         sp = getSharedPreferences(getString(R.string.configuration_preference_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean(getString(R.string.animation_sound_key), true);
-        editor.apply();
+
 
         return true;
     }

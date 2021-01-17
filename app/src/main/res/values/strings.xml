@@ -26,5 +26,7 @@
     <string name="popup_text"  translatable="false">This is a sample</string>
     <string name="configuration_preference_key">configuration preference</string>
     <string name="animation_sound_key">animation sound</string>
+    <string name="background_music_key">background_music_key</string>
+    <string name="debugging">Correzioni</string>
 
 </resources>
