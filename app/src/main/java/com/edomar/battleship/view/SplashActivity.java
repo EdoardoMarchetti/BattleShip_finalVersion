@@ -3,23 +3,34 @@ package com.edomar.battleship.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.edomar.battleship.logic.GameState;
 import com.edomar.battleship.R;
 
+import java.util.Locale;
+
 public class SplashActivity extends AppCompatActivity {
+
+    private static final String SPLASH_ACTIVITY = SplashActivity.class.getSimpleName();
 
     private final int SPLASH_DISPLAY_LENGTH = 1000;
 
     private GameState mGameState;
 
+    private SharedPreferences sp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        sp = getSharedPreferences(getString(R.string.configuration_preference_key), MODE_PRIVATE);
 
         new Handler().postDelayed(new Runnable(){
             @Override
@@ -45,6 +56,29 @@ public class SplashActivity extends AppCompatActivity {
         mGameState = GameState.Builder
                 .create(playerName)
                 .build();
+
+        /** Language Config **/
+        Log.d(SPLASH_ACTIVITY, "setLocale: start");
+        String lang = sp.getString(getString(R.string.language_key), "English");
+        String languageToLoad = "";
+
+        switch (lang) {
+            case "English":
+                languageToLoad = "en";
+                break;
+            case "Italian":
+                languageToLoad = "it";
+                break;
+        }
+        Log.d(SPLASH_ACTIVITY, "setLocale: SELECTED LANGUAGE= "+ languageToLoad);
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        this.getBaseContext().getResources().updateConfiguration(config,
+                this.getBaseContext().getResources().getDisplayMetrics());
+        //end language configuration
+
         return true;
     }
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BattleShip</string>
+    <string name="launch_error">Inizializzazione dati fallita</string>
+    <string name="player_name">Player Name</string>
+    <string name="settings">Impostazioni</string>
+    <string name="home">Home</string>
+    <string name="fleet">Flotta</string>
+    <string name="single_player">Giocatore Singolo</string>
+
+
+    <string name="saveFleet">SALVA</string>
+    <!--<string name="Sound">Sound</string>-->
+
+    <string name="win">VITTORIA !!!</string>
+    <string name="russian">Russo</string>
+    <string name="classic">Classico</string>
+    <string name="standard">Standard</string>
+
+    <string name="winner">Giocatore 1 vince</string>
+
+
+    <!--Settings menu-->
+    <string name="backgroundMusic" >Musica</string>
+    <string name="sound_effects">Effetti sonori</string>
+    <string name="select_language">Seleziona Lingua</string>
+    <string name="choose_language">Cambia Lingua</string>
+    <string name="english">Inglese</string>
+    <string name="italian">Italiano</string>
+    <string name="select_flag">Seleziona Bandiera</string>
+    <string name="about">About</string>
+
+
+
+
+    <!-- Debugging strings -->
+    <string name="popup_text"  translatable="false">Questo è un esempio</string>
+    <string name="australia">Australia</string>
+
+
+</resources>

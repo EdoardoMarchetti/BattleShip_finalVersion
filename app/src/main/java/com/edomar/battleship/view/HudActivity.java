@@ -14,6 +14,8 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 
 import com.edomar.battleship.R;
@@ -39,6 +41,9 @@ public class HudActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
     private UserInteractionListener userInteractionListener;
+
+    /**Badge**/
+    public ImageView ImageViewBadge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +90,10 @@ public class HudActivity extends AppCompatActivity {
             }
         });
         mHomeWatcher.startWatch();
+
+        /**Badge Configuration**/
+        ImageViewBadge = findViewById(R.id.badge_image_view);
+        setFlagOfImageButtonFlag(sp.getString(getString(R.string.flag_key), "USA"));
 
         final Intent srcIntent= getIntent();
         if(srcIntent != null){
@@ -155,15 +164,15 @@ public class HudActivity extends AppCompatActivity {
         Fragment nextFragment;
 
         switch (viewID) {
-            case (R.id.left_button):
+            case (R.id.left_button): //Go to settings menu
                 Log.d("Pressed button", "changeActivity: left");
                 nextFragment = new SettingsFragment();
                 break;
-            case (R.id.central_button):
+            case (R.id.central_button): //Go to main menu
                 Log.d("Pressed button", "changeActivity: central");
                 nextFragment = new MainMenuFragment();
                 break;
-            /*case (R.id.right_button):
+            /*case (R.id.right_button): //Go to fleet menu
                 nextFragment = new FleetFragment();
                 Log.d("Pressed button", "changeActivity: right");
                 break;*/
@@ -176,9 +185,9 @@ public class HudActivity extends AppCompatActivity {
 
     }
 
-    //--------------------------------------
-    //METHODS FOR BACKGROUND MUSIC
-    //--------------------------------------
+    /**--------------------------------------
+        METHODS FOR BACKGROUND MUSIC
+    -------------------------------------**/
     private boolean mIsBound = false;
     private MusicService mServ;
     private ServiceConnection Scon =new ServiceConnection(){
@@ -210,17 +219,36 @@ public class HudActivity extends AppCompatActivity {
 
     @Override
     public ComponentName startService(Intent service) {
-        editor.putBoolean(getString(R.string.background_music_key), true);
-        editor.apply();
         return super.startService(service);
     }
 
 
     @Override
     public boolean stopService(Intent name) {
-        editor.putBoolean(getString(R.string.background_music_key), false);
-        editor.apply();
         return super.stopService(name);
+    }
+    //end METHODS FOR BACKGROUND MUSIC
+
+
+    /**--------------------------------------
+                  UTILITY METHODS
+     -------------------------------------**/
+    /**Badge Management**/
+    private void setFlagOfImageButtonFlag(String selectedFlag) {
+        switch (selectedFlag){
+            case "USA":
+                ImageViewBadge.setImageResource(R.drawable.flag_usa);
+                break;
+            case "Italy":
+                ImageViewBadge.setImageResource(R.drawable.flag_italy);
+                break;
+            case "Australia":
+                ImageViewBadge.setImageResource(R.drawable.flag_australia);
+                break;
+            case "Brazil":
+                ImageViewBadge.setImageResource(R.drawable.flag_brazil);
+                break;
+        }
     }
 
 }

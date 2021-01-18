@@ -78,12 +78,10 @@ public class SoundEngine {
 
 
     public void enableSoundEffect(){
-        editor.putBoolean(context.getString(R.string.animation_sound_key), true);
-        editor.apply();
+        this.isSoundEffectOn = true;
     }
 
     public void disableSoundEffect(){
-        editor.putBoolean(context.getString(R.string.animation_sound_key), true);
-        editor.apply();
+        this.isSoundEffectOn = false;
     }
 }
