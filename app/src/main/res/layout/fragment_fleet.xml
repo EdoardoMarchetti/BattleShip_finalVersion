@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.edomar.battleship.view.menuFragments.FleetFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <!-- Save button -->
+        <!--android:onClick="saveFleet"-->
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/grid"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/saveFleet"
+            android:background="@color/colorAccent"/>
+
+
+        <!-- Grid -->
+        <ImageView
+            android:id="@+id/grid"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/letters"
+            android:background="@color/colorAccent"
+            />
+
+        <ImageView
+            android:id="@+id/letters"
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"/>
+
+        <ImageView
+            android:id="@+id/numbers"
+            android:layout_width="30dp"
+            android:layout_height="300dp"
+            android:layout_toLeftOf="@+id/grid"
+            android:layout_below="@+id/letters"/>
+    </RelativeLayout>
+
+
+
+</FrameLayout>

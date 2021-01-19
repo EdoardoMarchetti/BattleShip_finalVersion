@@ -22,7 +22,6 @@ import android.widget.RadioGroup;
 
 import com.edomar.battleship.R;
 import com.edomar.battleship.utils.MusicService;
-import com.edomar.battleship.utils.UserInteractionListener;
 import com.edomar.battleship.view.HudActivity;
 import com.edomar.battleship.view.SplashActivity;
 
@@ -34,7 +33,7 @@ import androidx.fragment.app.Fragment;
 
 public class SettingsFragment extends Fragment implements  //for spinners
         CompoundButton.OnCheckedChangeListener, //for switch
-        View.OnClickListener, UserInteractionListener { //for button
+        View.OnClickListener { //for button
 
 
 
@@ -116,7 +115,7 @@ public class SettingsFragment extends Fragment implements  //for spinners
 
         Log.d(SETTING_FRAGMENT, "onActivityCreated: ");
 
-        ((HudActivity) getActivity()).setUserInteractionListener(this); //To understand if user is interacting with the fragment
+
 
         /**Background Music switch configuration **/
         mBackgroundMusicSwitch = (SwitchCompat) getActivity().findViewById(R.id.background_music_switch);
@@ -320,6 +319,7 @@ public class SettingsFragment extends Fragment implements  //for spinners
                         //mImageButtonLanguage.setImageResource(R.drawable.flag_usa);
                         break;
                     case "Italy":
+                    case "Italia":
                         italy_button.setChecked(true);
                         //mImageButtonLanguage.setImageResource(R.drawable.flag_italy);
                         break;
@@ -327,6 +327,7 @@ public class SettingsFragment extends Fragment implements  //for spinners
                         australia_button.setChecked(true);
                         break;
                     case "Brazil":
+                    case "Brasile":
                         brazil_button.setChecked(true);
                         break;
                 }
@@ -372,48 +373,6 @@ public class SettingsFragment extends Fragment implements  //for spinners
     }
     //end onClick buttons method
 
-    /**Spinners' methods**/
-    /*@Override
-    public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
-        Log.d(TAG, "onItemSelected: ");
-        switch (parent.getId()){
-            case R.id.language_spinner:
-                if(isUserInteracting) {
-                    Log.d(TAG, "onItemSelected: language");
-                    String languageSelected = parent.getSelectedItem().toString();
-                    Log.d(TAG, "onItemSelected: itemSelected= " + languageSelected);
-                    //setLocale(languageSelected);
-                    Log.d(TAG, "onItemSelected: changed");
-                    editor.putString(mActivity.getString(R.string.language_key), languageSelected);
-                    editor.apply();
-                }
-                break;
-            /*case R.id.badge_spinner:
-                if(isUserInteracting) {
-                    Log.d(TAG, "onItemSelected: badge");
-                    Log.d(TAG, "onItemSelected: selected= " + parent.getItemAtPosition(position).toString());
-                    RelativeLayout badge = (RelativeLayout) mActivity.findViewById(R.id.badge_and_name_view);
-                    ImageView imgBadge = (ImageView) badge.findViewById(R.id.badge);
-                    imgBadge.setImageResource(badgeFlags[parent.getSelectedItemPosition()]);
-
-
-                }
-                break;
-
-
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }*/
-
-    @Override
-    public void onUserInteraction() {
-        isUserInteracting = true;
-    }
-    //end spinners' method
 
     /**
      * UTILITY METHODS
@@ -433,11 +392,12 @@ public class SettingsFragment extends Fragment implements  //for spinners
     private  void setFlagOfImageButtonFlag(String selectedFlag) {
         ImageView Badge = (ImageView) mActivity.findViewById(R.id.badge_image_view);
         switch (selectedFlag){
-            case "USA":
+            case "USA" :
                 mImageButtonFlag.setImageResource(R.drawable.flag_usa);
                 Badge.setImageResource(R.drawable.flag_usa);
                 break;
             case "Italy":
+            case "Italia":
                 mImageButtonFlag.setImageResource(R.drawable.flag_italy);
                 Badge.setImageResource(R.drawable.flag_italy);
                 break;
@@ -446,6 +406,7 @@ public class SettingsFragment extends Fragment implements  //for spinners
                 Badge.setImageResource(R.drawable.flag_australia);
                 break;
             case "Brazil":
+            case "Brasile":
                 mImageButtonFlag.setImageResource(R.drawable.flag_brazil);
                 Badge.setImageResource(R.drawable.flag_brazil);
                 break;
@@ -463,6 +424,8 @@ public class SettingsFragment extends Fragment implements  //for spinners
         startActivity(refresh);
 
     }
+
+
 
 }
 

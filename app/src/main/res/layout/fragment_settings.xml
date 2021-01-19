@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.edomar.battleship.view.HudActivity">
+    tools:context=".view.menuFragments.MainMenuFragment">
 
 
 
@@ -61,7 +61,7 @@
                 android:src="@drawable/flag_usa"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
-                android:background="@color/white"
+                android:background="@android:color/transparent"
                 android:padding="10dp"
 
                 />
@@ -96,7 +96,7 @@
                 android:src="@drawable/flag_usa"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
-                android:background="@color/white"
+                android:background="@android:color/transparent"
                 android:padding="10dp"
 
                 />
@@ -111,6 +111,7 @@
             android:layout_below="@+id/badge_ll"
             android:layout_marginTop="20dp"
             android:text="@string/about"
+
             />
 
 

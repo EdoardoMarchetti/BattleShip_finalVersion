@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     
     <dimen name="header_height">100dp</dimen>
     <dimen name="margin_top_fragment">100dp</dimen>
@@ -12,5 +12,7 @@
     <dimen name="width_settings_component">300dp</dimen>
     <dimen name="height_settings_component">50dp</dimen>
     <dimen name="text_size">20dp</dimen>
+
+
 
 </resources>

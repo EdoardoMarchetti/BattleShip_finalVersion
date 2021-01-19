@@ -14,7 +14,6 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 
@@ -24,7 +23,7 @@ import com.edomar.battleship.logic.IGameState;
 import com.edomar.battleship.utils.HomeWatcher;
 import com.edomar.battleship.utils.MusicService;
 import com.edomar.battleship.utils.SoundEngine;
-import com.edomar.battleship.utils.UserInteractionListener;
+import com.edomar.battleship.view.menuFragments.FleetFragment;
 import com.edomar.battleship.view.menuFragments.MainMenuFragment;
 import com.edomar.battleship.view.menuFragments.SettingsFragment;
 
@@ -40,7 +39,6 @@ public class HudActivity extends AppCompatActivity {
     /** SharedPreference**/
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
-    private UserInteractionListener userInteractionListener;
 
     /**Badge**/
     public ImageView ImageViewBadge;
@@ -132,6 +130,11 @@ public class HudActivity extends AppCompatActivity {
             isScreenOn = pm.isScreenOn();
         }
 
+        if(!isScreenOn){
+            if(mServ != null){
+                mServ.pauseMusic();
+            }
+        }
 
     }
 
@@ -148,16 +151,7 @@ public class HudActivity extends AppCompatActivity {
 
     }
 
-    public void setUserInteractionListener(UserInteractionListener userInteractionListener) {
-        this.userInteractionListener = userInteractionListener;
-    }
 
-    @Override
-    public void onUserInteraction() {
-        super.onUserInteraction();
-        if (userInteractionListener != null)
-            userInteractionListener.onUserInteraction();
-    }
 
     public void showFragment ( final View selectedMenu){
         final int viewID = selectedMenu.getId();
@@ -172,10 +166,10 @@ public class HudActivity extends AppCompatActivity {
                 Log.d("Pressed button", "changeActivity: central");
                 nextFragment = new MainMenuFragment();
                 break;
-            /*case (R.id.right_button): //Go to fleet menu
+            case (R.id.right_button): //Go to fleet menu
                 nextFragment = new FleetFragment();
                 Log.d("Pressed button", "changeActivity: right");
-                break;*/
+                break;
             default:
                 throw new IllegalArgumentException("No Fragment for the given item");
         }
@@ -184,6 +178,8 @@ public class HudActivity extends AppCompatActivity {
                 .commit();
 
     }
+
+
 
     /**--------------------------------------
         METHODS FOR BACKGROUND MUSIC
