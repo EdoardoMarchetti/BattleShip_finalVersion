@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.edomar.battleship.R;
 import com.edomar.battleship.view.HudActivity;
+import com.edomar.battleship.view.SinglePlayerGameActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -68,21 +69,21 @@ public class MainMenuFragment extends Fragment {
     private void startGame(String selectedGameMode) {
         Log.d(TAG, "startGame: " + selectedGameMode);
         Intent intent;
-        /*switch (selectedGameMode) {
+        switch (selectedGameMode) {
             case "Single Player":
             case "Giocatore Singolo":
                 intent = new Intent(getContext(), SinglePlayerGameActivity.class);
                 break;
-            case "1vs1":
+             /*case "1vs1":
                 //intent = new Intent(getContext(), LocalMultiplayer.class);
                 break;
             case "Online":
                 //intent = new Intent(getContext(), OnlineMultiplayer.class);
-                break;
+                break;*/
             default:
                 throw new IllegalArgumentException("No GameMode for the given item");
         }
-        startActivity(intent);*/
+        startActivity(intent);
         }
 
 

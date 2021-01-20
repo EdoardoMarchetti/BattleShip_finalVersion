@@ -2,6 +2,7 @@ package com.edomar.battleship.view;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,11 +13,9 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.edomar.battleship.R;
-import com.edomar.battleship.view.menuFragments.FleetFragment;
 
 public class Renderer implements SurfaceHolder.Callback, Runnable {
 
@@ -33,12 +32,13 @@ public class Renderer implements SurfaceHolder.Callback, Runnable {
     /** To manage Coordinates' ImageViews**/
     private ImageView letters;
     private ImageView numbers;
-    private Point imageViewSize = new Point();
+    private Point lettersImageViewSize = new Point();
 
     /** To draw **/
     private Paint mPaint;
-    private Point size = new Point();
     private Canvas mCanvas;
+    private Point gridSize= new Point();
+    private Point blockSize= new Point();
 
     /** To manage the thread**/
     private boolean mRunning;
@@ -59,24 +59,15 @@ public class Renderer implements SurfaceHolder.Callback, Runnable {
         mGridSurfaceView.getHolder().setFormat(PixelFormat.TRANSPARENT);
         mGridSurfaceView.getHolder().addCallback(this);
 
+
+
         /**Coordinates ImageView init**/
         letters = (ImageView) mActivity.findViewById(R.id.letters);
         numbers = (ImageView) mActivity.findViewById(R.id.numbers);
-        Log.d(String.valueOf(R.string.debugging), "onPreDraw: prima di vto  ");
-        ViewTreeObserver vto = letters.getViewTreeObserver(); //This is necessary to get the dimension of letters (and then of numbers)
-        Log.d(String.valueOf(R.string.debugging), "onPreDraw: vto is null? "+ vto.equals(null));
-        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { //Problema nel disegnare un'altra griglia -> Non entra in PreDraw
-            public boolean onPreDraw() {
-                Log.d(String.valueOf(R.string.debugging), "onPreDraw: sto misurando");
-                letters.getViewTreeObserver().removeOnPreDrawListener(this);
 
-                imageViewSize.y = letters.getMeasuredHeight();
-                imageViewSize.x = letters.getMeasuredWidth();
 
-                return true;
-            }
-        });
-        Log.d(String.valueOf(R.string.debugging), "onPreDraw:  misure completate");
+
+
 
         /** Paint initialization**/
         mPaint = new Paint();
@@ -99,8 +90,6 @@ public class Renderer implements SurfaceHolder.Callback, Runnable {
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int width, int height) {
-        mGridSurfaceViewWidth = width;
-        mGridSurfaceViewHeight = height;
     }
 
     @Override
@@ -131,42 +120,44 @@ public class Renderer implements SurfaceHolder.Callback, Runnable {
     @Override
     public void run() {
 
-
-        /** Coordinates are drew only once **/
+        /** Coordinates are drew only once and never updated **/
+        lettersImageViewSize.y = letters.getLayoutParams().height;
+        lettersImageViewSize.x = letters.getLayoutParams().width;
         Handler threadHandler = new Handler(Looper.getMainLooper());
         threadHandler.post(new Runnable() {
             @Override
             public void run() {
-                boolean fatto = false;
-                int count = 0;
-                while(!fatto) {
-                    count++;
-                    Log.d("Handler", "run handler: ");
-                    Log.d(String.valueOf(R.string.debugging), "run: imageViewSize.x = " + imageViewSize.x + " imageViewSize.y= " + imageViewSize.y+"\ncicli= "+count);
+                Log.d("Handler", "run handler: ");
+                Log.d(String.valueOf(R.string.debugging), "run: imageViewSize.x = " + lettersImageViewSize.x + " imageViewSize.y= " + lettersImageViewSize.y);
 
-                    if(imageViewSize.x != 0 && imageViewSize.y != 0) {
-                        Bitmap lettersBitmap = Bitmap.createBitmap(imageViewSize.x, imageViewSize.y, Bitmap.Config.ARGB_8888);
-                        Bitmap numbersBitmap = Bitmap.createBitmap(imageViewSize.y, imageViewSize.x, Bitmap.Config.ARGB_8888);
-                        Grid.drawCoordinates(lettersBitmap, numbersBitmap, imageViewSize);
-                        letters.setImageBitmap(lettersBitmap);
-                        numbers.setImageBitmap(numbersBitmap);
-                        fatto = true;
-                    }
-                }
+                Bitmap lettersBitmap = Bitmap.createBitmap(lettersImageViewSize.x, lettersImageViewSize.y, Bitmap.Config.ARGB_8888);
+                Bitmap numbersBitmap = Bitmap.createBitmap(lettersImageViewSize.y, lettersImageViewSize.x, Bitmap.Config.ARGB_8888);
+                Grid.drawCoordinates(lettersBitmap, numbersBitmap, lettersImageViewSize);
+                letters.setImageBitmap(lettersBitmap);
+                numbers.setImageBitmap(numbersBitmap);
             }
         });
 
+        gridSize.x = mGridSurfaceView.getLayoutParams().width;
+        gridSize.y = mGridSurfaceView.getLayoutParams().height;
+        blockSize.x = gridSize.x/10;
+        blockSize.y = gridSize.y/10;
         while (mRunning) {
-            size.x = mGridSurfaceViewWidth;
-            size.y = mGridSurfaceViewHeight;
 
-            if (mSurfaceHolder.getSurface().isValid() && (size.x != 0 && size.y!=0) ){
+            if (mSurfaceHolder.getSurface().isValid() && (gridSize.x != 0 && gridSize.y!=0) ){
                 mCanvas = mGridSurfaceView.getHolder().lockCanvas();
 
                 /** draw grid**/
-                Grid.drawGrid(mCanvas, mPaint, size);
-                mGridSurfaceView.getHolder().unlockCanvasAndPost(mCanvas);
+                Grid.drawGrid(mCanvas, mPaint, gridSize);
 
+                /** draw object**/
+                Bitmap prova = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ship_battleship);
+                prova = Bitmap.createScaledBitmap(prova, blockSize.x, blockSize.y * 4, false);
+                mCanvas.drawBitmap(prova, blockSize.x, blockSize.y, mPaint);
+
+
+
+                mGridSurfaceView.getHolder().unlockCanvasAndPost(mCanvas);
             }
 
         }

@@ -1,79 +1,52 @@
-package com.edomar.battleship.view.menuFragments;
+package com.edomar.battleship.view.gameplayFragments;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.edomar.battleship.R;
-import com.edomar.battleship.view.HudActivity;
 import com.edomar.battleship.view.Renderer;
+import com.edomar.battleship.view.SinglePlayerGameActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+/** Questa è una versione solamente di test per veder se la griglia funziona sempre nello stesso modo**/
 
+public class ScenarioSelectionFragment extends Fragment implements View.OnClickListener {
 
-public class FleetFragment extends Fragment implements View.OnClickListener{
+    public static final String TAG = ScenarioSelectionFragment.class.getSimpleName();
 
-    public static final String TAG = FleetFragment.class.getSimpleName();
+    private SinglePlayerGameActivity mActivity;
 
-    private HudActivity mActivity;
-
-
-    /**Shared Preference**/
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
-
-
-    /**Save Button**/
-    private Button mButton;
-
+    private Button russianButton, classicalButton, standardButton;
     private Renderer mRenderer;
 
-
-    public FleetFragment() {
+    public ScenarioSelectionFragment() {
         //Required empty public constructor
     }
 
     @Override
     public void onAttach(@NonNull Activity activity) {
-        Log.d(TAG, "onAttach: ");
         super.onAttach(activity);
-        mActivity = (HudActivity) activity;
-
+        mActivity = (SinglePlayerGameActivity) activity;
     }
-
-
 
     @Override
     public void onDetach() {
-        Log.d(TAG, "onDetach: ");
         super.onDetach();
         mActivity= null;
-
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: ");
-        View view = inflater.inflate(R.layout.fragment_fleet, container, false);
-
-        /** Initialize SharedPreference value **/
-        sp = this.getActivity().getSharedPreferences(getString(R.string.configuration_preference_key), Context.MODE_PRIVATE);
-        editor =  sp.edit();
-        //end initialization
-
+        View view = inflater.inflate(R.layout.fragment_scenario_selection, container, false);
 
 
 
@@ -82,22 +55,10 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onActivityCreated: ");
         super.onActivityCreated(savedInstanceState);
-
-
-        /** Parte giusta**/
-        //Creo il renderer per disegnare nel fragment
-        // l'activy è necessaria perchè da lì recupero gli id degli oggetti
         mRenderer = new Renderer(mActivity); //create a renderer as callback class
         Log.d(String.valueOf(R.string.debugging), "onActivityCreated: renderer created");
-
-        //init pulsante
-        mButton = (Button) getActivity().findViewById(R.id.save_button);
-        mButton.setOnClickListener(this);
-
     }
-
 
 
     @Override
@@ -117,14 +78,8 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
         mRenderer.pause();
     }
 
-
-
-    /** Qui va il codice per salvare in memoria la flotta di defualt**/
     @Override
     public void onClick(View view) {
-        mActivity.mSoundEngine.playShoot();
+
     }
-
-
-
 }
