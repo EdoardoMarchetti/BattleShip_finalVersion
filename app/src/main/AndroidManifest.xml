@@ -13,8 +13,8 @@
             android:enabled="true"/>
         <activity android:name=".view.HudActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".view.SplashActivity"
             android:screenOrientation="portrait"

@@ -36,12 +36,16 @@ public class HudActivity extends AppCompatActivity {
     public SoundEngine mSoundEngine;
     HomeWatcher mHomeWatcher;
 
+
+
     /** SharedPreference**/
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
     /**Badge**/
     public ImageView ImageViewBadge;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,17 +127,9 @@ public class HudActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.d(String.valueOf(R.string.debugging), "onPause: ");
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        boolean isScreenOn = false;
 
-        if (pm != null) {
-            isScreenOn = pm.isScreenOn();
-        }
-
-        if(!isScreenOn){
-            if(mServ != null){
-                mServ.pauseMusic();
-            }
+        if(mServ != null){
+            mServ.pauseMusic();
         }
 
     }
@@ -141,7 +137,7 @@ public class HudActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        Log.d(String.valueOf(R.string.debugging), "onDestroy: ");
         //stop Music service
         doUnbindService();
         Intent music = new Intent();
@@ -236,12 +232,14 @@ public class HudActivity extends AppCompatActivity {
                 ImageViewBadge.setImageResource(R.drawable.flag_usa);
                 break;
             case "Italy":
+            case "Italia":
                 ImageViewBadge.setImageResource(R.drawable.flag_italy);
                 break;
             case "Australia":
                 ImageViewBadge.setImageResource(R.drawable.flag_australia);
                 break;
             case "Brazil":
+            case "Brasile":
                 ImageViewBadge.setImageResource(R.drawable.flag_brazil);
                 break;
         }

@@ -40,7 +40,7 @@ public class MainMenuFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mActivity= null;
+        mActivity = null;
     }
 
     @Nullable
@@ -52,7 +52,7 @@ public class MainMenuFragment extends Fragment {
         mTextViewGameMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String selectedGameMode =((TextView) view).getText().toString();
+                String selectedGameMode = ((TextView) view).getText().toString();
                 startGame(selectedGameMode);
             }
         });
@@ -65,15 +65,15 @@ public class MainMenuFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    private void startGame(String selectedGameMode){
-        Log.d(TAG, "startGame: "+ selectedGameMode);
+    private void startGame(String selectedGameMode) {
+        Log.d(TAG, "startGame: " + selectedGameMode);
         Intent intent;
-        /*switch (selectedGameMode){
+        /*switch (selectedGameMode) {
             case "Single Player":
             case "Giocatore Singolo":
                 intent = new Intent(getContext(), SinglePlayerGameActivity.class);
                 break;
-            /*case "1vs1":
+            case "1vs1":
                 //intent = new Intent(getContext(), LocalMultiplayer.class);
                 break;
             case "Online":
@@ -83,7 +83,7 @@ public class MainMenuFragment extends Fragment {
                 throw new IllegalArgumentException("No GameMode for the given item");
         }
         startActivity(intent);*/
-    }
+        }
 
 
 }
