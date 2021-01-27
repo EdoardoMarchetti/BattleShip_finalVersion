@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.edomar.battleship.BattleField;
 import com.edomar.battleship.R;
 import com.edomar.battleship.view.HudActivity;
 import com.edomar.battleship.view.Renderer;
@@ -38,7 +39,8 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
     /**Save Button**/
     private Button mButton;
 
-    private Renderer mRenderer;
+   /** BattleField Instance**/
+   private BattleField mBattleField;
 
 
     public FleetFragment() {
@@ -89,8 +91,13 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
         /** Parte giusta**/
         //Creo il renderer per disegnare nel fragment
         // l'activy è necessaria perchè da lì recupero gli id degli oggetti
-        mRenderer = new Renderer(mActivity); //create a renderer as callback class
+        //mRenderer = new Renderer(mActivity); //create a renderer as callback class
         Log.d(String.valueOf(R.string.debugging), "onActivityCreated: renderer created");
+
+        mBattleField = (BattleField) mActivity.findViewById(R.id.battle_field);
+        mBattleField.setZOrderOnTop(true);
+        mBattleField.init();
+
 
         //init pulsante
         mButton = (Button) getActivity().findViewById(R.id.save_button);
@@ -105,7 +112,8 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
         Log.d("Thread", "onResume: ");
         super.onResume();
         //inizia a disegnare
-        mRenderer.resume();
+        //mRenderer.resume();
+        mBattleField.startThread();
     }
 
 
@@ -114,7 +122,9 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
         Log.d("Thread", "onPause: ");
         super.onPause();
         //ferma il disegno
-        mRenderer.pause();
+        //mRenderer.pause();
+        mBattleField.stopThread();
+
     }
 
 

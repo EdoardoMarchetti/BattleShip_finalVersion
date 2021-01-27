@@ -3,11 +3,11 @@ package com.edomar.battleship.view;
 import android.os.Bundle;
 
 import com.edomar.battleship.R;
-import com.edomar.battleship.view.gameplayFragments.ScenarioSelectionFragment;
+//import com.edomar.battleship.view.gameplayFragments.ScenarioSelectionFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SinglePlayerGameActivity extends AppCompatActivity {
+/*public class SinglePlayerGameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,4 +22,4 @@ public class SinglePlayerGameActivity extends AppCompatActivity {
     }
 
 
-}
+}*/

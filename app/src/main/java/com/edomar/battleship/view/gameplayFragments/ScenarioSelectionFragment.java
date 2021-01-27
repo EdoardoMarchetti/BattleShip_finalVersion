@@ -10,7 +10,7 @@ import android.widget.Button;
 
 import com.edomar.battleship.R;
 import com.edomar.battleship.view.Renderer;
-import com.edomar.battleship.view.SinglePlayerGameActivity;
+//import com.edomar.battleship.view.SinglePlayerGameActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 
 /** Questa è una versione solamente di test per veder se la griglia funziona sempre nello stesso modo**/
 
-public class ScenarioSelectionFragment extends Fragment implements View.OnClickListener {
+/*public class ScenarioSelectionFragment extends Fragment implements View.OnClickListener {
 
     public static final String TAG = ScenarioSelectionFragment.class.getSimpleName();
 
@@ -82,4 +82,4 @@ public class ScenarioSelectionFragment extends Fragment implements View.OnClickL
     public void onClick(View view) {
 
     }
-}
+}*/
