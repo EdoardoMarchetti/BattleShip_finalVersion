@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import com.edomar.battleship.R;
 import com.edomar.battleship.logic.GameState;
 
+import androidx.annotation.LongDef;
+
 public class Renderer  {
 
     private static final String TAG = "Renderer";
@@ -33,6 +35,7 @@ public class Renderer  {
 
     public void draw(Grid grid) {
         Log.d(TAG, "draw: start draw method in renderer");
+        Log.d(TAG, "draw: mSurfaceHolder.getSurface().isValid() = "+ mSurfaceHolder.getSurface().isValid());
         if (mSurfaceHolder.getSurface().isValid()) {
             Log.d(TAG, "draw: in if block ");
             mCanvas = mSurfaceHolder.lockCanvas();

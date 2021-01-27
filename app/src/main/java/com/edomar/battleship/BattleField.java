@@ -28,6 +28,7 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
     public BattleField(Context context, AttributeSet attrs) {
         super(context, attrs);
         getHolder().addCallback(this);
+        Log.d(TAG, "BattleField: in the constructor");
     }
 
     public BattleField(Context context, AttributeSet attrs, int defStyleAttr) {
