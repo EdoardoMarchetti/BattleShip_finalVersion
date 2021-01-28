@@ -17,6 +17,7 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
 
     private Renderer mRenderer;
     private Grid mGrid;
+    private boolean mRunning;
 
 
     /** Costruttori **/
@@ -62,6 +63,7 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
     /** Start and stop Thread**/
     public void stopThread() {
         // New code here soon
+        mRunning = false;
         try {
             mThread.join();
         } catch (InterruptedException e) {
@@ -72,6 +74,7 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
 
     public void startThread() {
         // New code here soon
+        mRunning= true; //da cambiare con il gameState
         mThread = new Thread(this);
         mThread.start();
     }
@@ -80,6 +83,9 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
     @Override
     public void run() {
         Log.d(TAG, "run: in battlefield");
-        mRenderer.draw(mGrid);
+        while (mRunning){
+            mRenderer.draw(mGrid);
+        }
+
     }
 }

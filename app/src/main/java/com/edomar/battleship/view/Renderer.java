@@ -39,6 +39,7 @@ public class Renderer  {
         if (mSurfaceHolder.getSurface().isValid()) {
             Log.d(TAG, "draw: in if block ");
             mCanvas = mSurfaceHolder.lockCanvas();
+            mCanvas.drawColor(Color.WHITE);
 
 
             grid.drawGrid(mCanvas, mPaint);

@@ -27,6 +27,8 @@ public class Grid  {
         mBlockDimension = gridDimension / 10;
         strokeWidth = gridDimension / 175;
         textDimension = strokeWidth * 10;
+        Log.d(TAG, "Grid: gridDimension = "+mGridDimension);
+        Log.d(TAG, "Grid: mBlockDimension = "+mBlockDimension);
     }
 
     public void drawGrid (Canvas canvas, Paint paint){
@@ -34,7 +36,7 @@ public class Grid  {
         paint.setAntiAlias(true);
         paint.setDither(true);
         paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(5);
+        paint.setStrokeWidth(strokeWidth);
         //Horizontal lines
         for (int i = 0; i < 11; i++) {
             canvas.drawLine(0, mBlockDimension * i, mGridDimension , mBlockDimension * i, paint);
