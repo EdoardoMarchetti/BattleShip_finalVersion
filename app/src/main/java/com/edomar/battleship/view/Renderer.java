@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -48,7 +49,7 @@ public class Renderer  {
         }
     }
 
-    public void drawGridCoordinates(Point size, ImageView letters, ImageView numbers){
+    public void drawGridCoordinates(ImageView letters, ImageView numbers, Point size){
         //DRAW THE COORDINATES
         Bitmap lettersBitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_8888);
         Bitmap numbersBitmap = Bitmap.createBitmap(size.y, size.x, Bitmap.Config.ARGB_8888);

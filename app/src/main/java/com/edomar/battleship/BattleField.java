@@ -1,10 +1,16 @@
 package com.edomar.battleship;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.PointF;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.ImageView;
 
 import com.edomar.battleship.view.Grid;
 import com.edomar.battleship.view.Renderer;
@@ -19,6 +25,10 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
     private Grid mGrid;
     private boolean mRunning;
 
+    /**Variabili per gestire le coordinate**/
+    ImageView mLetters;
+    ImageView mNumbers;
+    Point mLettersDimen = new Point();
 
     /** Costruttori **/
     public BattleField(Context context) {
@@ -82,10 +92,29 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
     /**Run**/
     @Override
     public void run() {
-        Log.d(TAG, "run: in battlefield");
+
+        //Le coordinate sono fuori dal while perchè vengono disegnate solo una volta
+        //Il metodo threadHandler.post è necessario in quanto Battlefield deve operare
+        //su componenti di tipo ImageView che devono essere trattai su thread pricipale
+        Handler threadHandler = new Handler(Looper.getMainLooper());
+        threadHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                //Qua va il codice per disegnare le coordinate
+                mRenderer.drawGridCoordinates(mLetters, mNumbers, mLettersDimen );
+            }
+        });
         while (mRunning){
             mRenderer.draw(mGrid);
         }
 
+    }
+
+    /** set ImageView per le coordinate**/
+    public void setImageViewsForCoordinates(ImageView letters, ImageView numbers){
+        mLetters = letters;
+        mNumbers = numbers;
+        mLettersDimen.x = letters.getLayoutParams().width;
+        mLettersDimen.y = letters.getLayoutParams().height;
     }
 }

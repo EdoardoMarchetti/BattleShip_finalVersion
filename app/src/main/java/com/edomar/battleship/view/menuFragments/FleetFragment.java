@@ -87,21 +87,23 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
         Log.d(TAG, "onActivityCreated: ");
         super.onActivityCreated(savedInstanceState);
 
+        //ImageView delle coordinate
+        ImageView letters = (ImageView) mActivity.findViewById(R.id.letters);
+        ImageView numbers = (ImageView) mActivity.findViewById(R.id.numbers);
 
-        /** Parte giusta**/
-        //Creo il renderer per disegnare nel fragment
-        // l'activy è necessaria perchè da lì recupero gli id degli oggetti
-        //mRenderer = new Renderer(mActivity); //create a renderer as callback class
-        Log.d(String.valueOf(R.string.debugging), "onActivityCreated: renderer created");
-
+        //Creazione SurfaceView
         mBattleField = (BattleField) mActivity.findViewById(R.id.battle_field);
         mBattleField.setZOrderOnTop(true);
         mBattleField.init();
+        mBattleField.setImageViewsForCoordinates(letters, numbers);
 
 
         //init pulsante
         mButton = (Button) getActivity().findViewById(R.id.save_button);
         mButton.setOnClickListener(this);
+
+
+
 
     }
 
