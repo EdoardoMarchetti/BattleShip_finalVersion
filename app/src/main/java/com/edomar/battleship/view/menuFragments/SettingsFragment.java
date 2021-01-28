@@ -22,6 +22,7 @@ import android.widget.RadioGroup;
 
 import com.edomar.battleship.R;
 import com.edomar.battleship.utils.MusicService;
+import com.edomar.battleship.utils.Utils;
 import com.edomar.battleship.view.HudActivity;
 import com.edomar.battleship.view.SplashActivity;
 
@@ -62,6 +63,7 @@ public class SettingsFragment extends Fragment implements  //for spinners
 
     /**About button*/
     private Button mAboutButton;
+    private ImageView Badge;
 
 
     public SettingsFragment() {
@@ -115,7 +117,8 @@ public class SettingsFragment extends Fragment implements  //for spinners
 
         Log.d(SETTING_FRAGMENT, "onActivityCreated: ");
 
-
+        /** Badge **/
+        Badge = (ImageView) mActivity.findViewById(R.id.badge_image_view);
 
         /**Background Music switch configuration **/
         mBackgroundMusicSwitch = (SwitchCompat) getActivity().findViewById(R.id.background_music_switch);
@@ -131,13 +134,13 @@ public class SettingsFragment extends Fragment implements  //for spinners
 
         /**Language**/
         mImageButtonLanguage = (ImageButton) getActivity().findViewById(R.id.language_image_button);
-        setFlagOfImageButtonLanguage(sp.getString(mActivity.getString(R.string.language_key), "English"));
+        Utils.setFlagOfImageButtonLanguage(sp.getString(mActivity.getString(R.string.language_key), "English"), mImageButtonLanguage);
         mImageButtonLanguage.setOnClickListener(this);
         //end Language button config
 
         /**Flag**/
         mImageButtonFlag = (ImageButton) getActivity().findViewById(R.id.flag_image_button);
-        setFlagOfImageButtonFlag(sp.getString(mActivity.getString(R.string.flag_key), "USA"));
+        Utils.setFlagOfImageButtonFlag(sp.getString(mActivity.getString(R.string.flag_key), "USA"), Badge, mImageButtonFlag);
         mImageButtonFlag.setOnClickListener(this);
         //end Flag button config
 
@@ -156,29 +159,22 @@ public class SettingsFragment extends Fragment implements  //for spinners
         switch (compoundButton.getId()){
             case R.id.background_music_switch: //Background
 
+                Intent music = new Intent();
+                music.setClass(getContext(), MusicService.class);
+
                 if(isChecked){
-                    Log.d(String.valueOf(R.string.debugging), "onCheckedChanged: switch background " + true);
                     mActivity.doBindService();
-                    Intent music = new Intent();
-                    music.setClass(getContext(), MusicService.class);
                     mActivity.startService(music);
                     editor.putBoolean(mActivity.getString(R.string.background_music_key),
                             true);
-                    editor.apply();
-                    Log.d(String.valueOf(R.string.debugging), "onCheckedChanged: background_music value = "
-                            + sp.getBoolean(mActivity.getString(R.string.background_music_key), true));
                 }else{
-                    Log.d(String.valueOf(R.string.debugging), "onCheckedChanged: switch background " + false);
                     mActivity.doUnbindService();
-                    Intent music = new Intent();
-                    music.setClass(getContext(), MusicService.class);
                     mActivity.stopService(music);
                     editor.putBoolean(mActivity.getString(R.string.background_music_key),
                             false);
-                    editor.apply();
-                    Log.d(String.valueOf(R.string.debugging), "onCheckedChanged: background_music value = "
-                            + sp.getBoolean(mActivity.getString(R.string.background_music_key), true));
                 }
+                editor.apply();
+
                 break;
 
             case R.id.sound_effects_switch: //Animation
@@ -261,8 +257,9 @@ public class SettingsFragment extends Fragment implements  //for spinners
                                 selectedLanguage[0] = btn.getText().toString();
                                 editor.putString(mActivity.getString(R.string.language_key), selectedLanguage[0]);
                                 editor.apply();
-                                setFlagOfImageButtonLanguage(selectedLanguage[0]);
-                                restartForChanges();
+                                //setFlagOfImageButtonLanguage(selectedLanguage[0]);
+                                Utils.setFlagOfImageButtonLanguage(selectedLanguage[0], mImageButtonLanguage);
+                                restartForLanguageChanges();
                             }
                         }
 
@@ -345,7 +342,7 @@ public class SettingsFragment extends Fragment implements  //for spinners
                                 Log.d(SETTING_FRAGMENT, "onCheckedChanged: flag = " +selectedFlag[0]);
                                 editor.putString(mActivity.getString(R.string.flag_key), selectedFlag[0]);
                                 editor.apply();
-                                setFlagOfImageButtonFlag(selectedFlag[0]);
+                                Utils.setFlagOfImageButtonFlag(selectedFlag[0], Badge, mImageButtonFlag );
 
                             }
                         }
@@ -377,44 +374,9 @@ public class SettingsFragment extends Fragment implements  //for spinners
     /**
      * UTILITY METHODS
      */
-    //set the flag in according to SharedPreference and the choise
-    private void setFlagOfImageButtonLanguage(String selectedLanguage){
-        switch (selectedLanguage) {
-            case "English":
-                mImageButtonLanguage.setImageResource(R.drawable.flag_usa);
-                break;
-            case "Italian":
-                mImageButtonLanguage.setImageResource(R.drawable.flag_italy);
-                break;
-        }
-    }
-
-    private  void setFlagOfImageButtonFlag(String selectedFlag) {
-        ImageView Badge = (ImageView) mActivity.findViewById(R.id.badge_image_view);
-        switch (selectedFlag){
-            case "USA" :
-                mImageButtonFlag.setImageResource(R.drawable.flag_usa);
-                Badge.setImageResource(R.drawable.flag_usa);
-                break;
-            case "Italy":
-            case "Italia":
-                mImageButtonFlag.setImageResource(R.drawable.flag_italy);
-                Badge.setImageResource(R.drawable.flag_italy);
-                break;
-            case "Australia":
-                mImageButtonFlag.setImageResource(R.drawable.flag_australia);
-                Badge.setImageResource(R.drawable.flag_australia);
-                break;
-            case "Brazil":
-            case "Brasile":
-                mImageButtonFlag.setImageResource(R.drawable.flag_brazil);
-                Badge.setImageResource(R.drawable.flag_brazil);
-                break;
-        }
-    }
 
     //After the language selection the app will be restarted
-    public void restartForChanges(){
+    public void restartForLanguageChanges(){
 
         Intent refresh = new Intent(getContext(), SplashActivity.class);
         mActivity.overridePendingTransition(0, 0);

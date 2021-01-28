@@ -3,7 +3,6 @@ package com.edomar.battleship.view;
 import android.os.Bundle;
 
 import com.edomar.battleship.R;
-//import com.edomar.battleship.view.gameplayFragments.ScenarioSelectionFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 

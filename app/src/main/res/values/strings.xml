@@ -1,23 +1,17 @@
 <resources>
     <string name="app_name">BattleShip</string>
-    <string name="launch_error">Initialization data failed</string>
+
+    <!-- Hud -->
     <string name="player_name">Player Name</string>
     <string name="settings">Settings</string>
     <string name="home">Home</string>
     <string name="fleet">Fleet</string>
+
+    <!-- MainMenuFragment -->
     <string name="single_player">Single Player</string>
 
-
-
-
+    <!-- FleetFregment -->
     <string name="saveFleet">SAVE FLEET</string>
-
-
-    <string name="win">Win!!!</string>
-    <string name="russian">Russian</string>
-    <string name="classic">Classic</string>
-    <string name="standard">Standard</string>
-    <string name="winner">PLayer 1 win</string>
 
 
     <!--Settings menu-->
@@ -35,6 +29,18 @@
     <string name="brazil">Brazil</string>
     <string name="about">About</string>
 
+    <!-- ScenarioSelection Activity -->
+    <string name="russian">Russian</string>
+    <string name="classic">Classic</string>
+    <string name="standard">Standard</string>
+
+    <!-- PreMatch Fragment -->
+    <string name="start_match">Start</string>
+    <string name="time_to_set_fleet">Time Remaining</string>
+
+    <!-- Match Fragment -->
+    <string name="turn_of">TURN OF:</string>
+
     <!-- Shared Preference keys -->
     <string name="configuration_preference_key" translatable="false">configuration preference</string>
     <string name="background_music_key" translatable="false">background_music_key</string>
@@ -43,9 +49,14 @@
     <string name="flag_key" translatable="false">flag_key</string>
 
     <!-- Debugging strings -->
-    <string name="popup_text"  translatable="false">This is a sample</string>
+    <string name="launch_error">Initialization data failed</string>
+    <string name="popup_text" translatable="false">This is a sample</string>
     <string name="debugging" translatable="false">debugging</string>
 
+
+
+    <string name="winner">PLayer 1 win</string>
+    <string name="win">Win!!!</string>
 
 
 </resources>

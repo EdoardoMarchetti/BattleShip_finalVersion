@@ -20,40 +20,19 @@
         >
 
         <!--Badge-->
-        <LinearLayout
-            android:id="@+id/badge_and_name_view"
+        <include
+            layout="@layout/header"
+            android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_alignParentTop="true"
-            android:orientation="horizontal"
-            android:background="@android:color/transparent"
-            >
-            <TextView
-                android:id="@+id/player_name"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/header_height"
-                android:layout_weight="2"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:gravity="center"
-                android:text="@{player.playerName}"/>
-            <ImageView
-                android:id="@+id/badge_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/header_height"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/flag_usa"/>
-
-        </LinearLayout>
+            android:layout_height="100dp"/>
 
         <FrameLayout
             android:id="@+id/anchor_point"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:layout_marginTop="@dimen/margin_top_fragment"
-            android:layout_marginBottom="@dimen/margin_bottom_fragment">
+            android:layout_below="@+id/header"
+            android:layout_above="@+id/buttons_menu">
         </FrameLayout>
 
         <!--Buttons Menu-->

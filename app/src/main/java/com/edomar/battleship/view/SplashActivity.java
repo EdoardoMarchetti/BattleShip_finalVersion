@@ -32,11 +32,13 @@ public class SplashActivity extends AppCompatActivity {
 
         sp = getSharedPreferences(getString(R.string.configuration_preference_key), MODE_PRIVATE);
 
+
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
                 if(initData()){
                     /* Create an Intent that will start the Menu-Activity. */
+
                     Intent mainIntent = new Intent(SplashActivity.this , HudActivity.class);
                     mainIntent.putExtra("player_name", mGameState);
                     SplashActivity.this.startActivity(mainIntent);
@@ -64,9 +66,11 @@ public class SplashActivity extends AppCompatActivity {
 
         switch (lang) {
             case "English":
+            case "Inglese":
                 languageToLoad = "en";
                 break;
             case "Italian":
+            case "Italiano":
                 languageToLoad = "it";
                 break;
         }
@@ -78,6 +82,9 @@ public class SplashActivity extends AppCompatActivity {
         this.getBaseContext().getResources().updateConfiguration(config,
                 this.getBaseContext().getResources().getDisplayMetrics());
         //end language configuration
+
+        Locale current = getResources().getConfiguration().locale;
+        Toast.makeText(this, String.valueOf(current), Toast.LENGTH_LONG).show();
 
         return true;
     }

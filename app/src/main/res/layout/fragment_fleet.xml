@@ -28,8 +28,8 @@
         <!-- Grid -->
         <com.edomar.battleship.BattleField
             android:id="@+id/battle_field"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="@dimen/battlefield_size"
+            android:layout_height="@dimen/battlefield_size"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/letters"
             android:background="@color/white"
@@ -37,15 +37,15 @@
 
         <ImageView
             android:id="@+id/letters"
-            android:layout_width="300dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/battlefield_size"
+            android:layout_height="@dimen/block_size"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"/>
 
         <ImageView
             android:id="@+id/numbers"
-            android:layout_width="30dp"
-            android:layout_height="300dp"
+            android:layout_width="@dimen/block_size"
+            android:layout_height="@dimen/battlefield_size"
             android:layout_toLeftOf="@+id/battle_field"
             android:layout_below="@+id/letters"/>
     </RelativeLayout>

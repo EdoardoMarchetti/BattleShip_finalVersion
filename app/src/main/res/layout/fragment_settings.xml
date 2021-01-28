@@ -21,7 +21,7 @@
             android:layout_marginTop="60dp"
             android:text="@string/backgroundMusic"
             android:checked="true"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size"
              />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -33,7 +33,7 @@
             android:layout_marginTop="20dp"
             android:text="@string/sound_effects"
             android:checked="true"
-            android:textSize="20sp"/>
+            android:textSize="@dimen/text_size"/>
 
 
         <androidx.appcompat.widget.LinearLayoutCompat

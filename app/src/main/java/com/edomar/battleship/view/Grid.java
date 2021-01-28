@@ -55,7 +55,7 @@ public class Grid  {
         Canvas canvas = new Canvas(letters);
         Paint paint = new Paint();
         Point unit = new Point();
-        Log.d("Handler", "run: imageViewSize.x = "+ size.x + " imageViewSize.y= "+ size.y);
+
         unit.x = size.x/10;
         unit.y = size.y;
         paint.setColor(Color.BLACK);

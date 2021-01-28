@@ -15,6 +15,7 @@ import android.os.PowerManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import com.edomar.battleship.R;
@@ -23,9 +24,12 @@ import com.edomar.battleship.logic.IGameState;
 import com.edomar.battleship.utils.HomeWatcher;
 import com.edomar.battleship.utils.MusicService;
 import com.edomar.battleship.utils.SoundEngine;
+import com.edomar.battleship.utils.Utils;
 import com.edomar.battleship.view.menuFragments.FleetFragment;
 import com.edomar.battleship.view.menuFragments.MainMenuFragment;
 import com.edomar.battleship.view.menuFragments.SettingsFragment;
+
+import java.util.Locale;
 
 
 public class HudActivity extends AppCompatActivity {
@@ -35,6 +39,7 @@ public class HudActivity extends AppCompatActivity {
     public IGameState gameState;
     public SoundEngine mSoundEngine;
     HomeWatcher mHomeWatcher;
+
 
 
 
@@ -95,7 +100,8 @@ public class HudActivity extends AppCompatActivity {
 
         /**Badge Configuration**/
         ImageViewBadge = findViewById(R.id.badge_image_view);
-        setFlagOfImageButtonFlag(sp.getString(getString(R.string.flag_key), "USA"));
+        //setFlagOfImageButtonFlag(sp.getString(getString(R.string.flag_key), "USA"));
+        Utils.setFlagOfBadge(sp.getString(getString(R.string.flag_key), "USA"), ImageViewBadge);
 
         final Intent srcIntent= getIntent();
         if(srcIntent != null){
@@ -103,13 +109,15 @@ public class HudActivity extends AppCompatActivity {
         }
         binding.setPlayer(gameState);
 
+
+
     }
 
 
 
     @Override
     protected void onResume() {
-        Log.d(String.valueOf(R.string.debugging), "onResume: I'm trying to start background music  ");
+        Log.d("lifecycle", "onResume: I'm trying to start background music  ");
         //Start the background music only if background_music_key value is true
         if(sp.getBoolean(getString(R.string.background_music_key), true)) {
             doBindService();
@@ -118,18 +126,34 @@ public class HudActivity extends AppCompatActivity {
             startService(music);
             Log.d(String.valueOf(R.string.debugging), "onResume: back_ground_music enabled");
         }
-
+        Locale current = getResources().getConfiguration().locale;
+        Toast.makeText(this, String.valueOf(current), Toast.LENGTH_LONG).show();
         super.onResume();
 
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("lifecycle", "onStop: ");
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
-        Log.d(String.valueOf(R.string.debugging), "onPause: ");
+        Log.d("lifecycle", "onPause: ");
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = false;
 
-        if(mServ != null){
-            mServ.pauseMusic();
+        if(pm != null){
+            isScreenOn = pm.isScreenOn();
+        }
+
+
+        if(!isScreenOn){
+            if(mServ != null){
+                mServ.pauseMusic();
+            }
         }
 
     }
@@ -137,7 +161,7 @@ public class HudActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(String.valueOf(R.string.debugging), "onDestroy: ");
+        Log.d("lifecycle", "onDestroy: ");
         //stop Music service
         doUnbindService();
         Intent music = new Intent();

@@ -9,10 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.edomar.battleship.R;
 import com.edomar.battleship.view.HudActivity;
+import com.edomar.battleship.view.ScenarioSelectionActivity;
 //import com.edomar.battleship.view.SinglePlayerGameActivity;
+//import com.edomar.battleship.view.SinglePlayerGameActivity;
+
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -64,26 +69,30 @@ public class MainMenuFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Locale current = getResources().getConfiguration().locale;
+        Toast.makeText(getContext(), String.valueOf(current), Toast.LENGTH_LONG).show();
     }
 
     private void startGame(String selectedGameMode) {
         Log.d(TAG, "startGame: " + selectedGameMode);
         Intent intent;
-        /*switch (selectedGameMode) {
-            /*case "Single Player":
+        switch (selectedGameMode) {
+            case "Single Player":
             case "Giocatore Singolo":
-                intent = new Intent(getContext(), SinglePlayerGameActivity.class);
+                intent = new Intent(getContext(), ScenarioSelectionActivity.class);
+                Locale current = getResources().getConfiguration().locale;
+                intent.putExtra("locale", String.valueOf(current));
                 break;
              /*case "1vs1":
                 //intent = new Intent(getContext(), LocalMultiplayer.class);
                 break;
             case "Online":
                 //intent = new Intent(getContext(), OnlineMultiplayer.class);
-                break;
+                break;*/
             default:
                 throw new IllegalArgumentException("No GameMode for the given item");
         }
-        startActivity(intent);*/
+        startActivity(intent);
         }
 
 
