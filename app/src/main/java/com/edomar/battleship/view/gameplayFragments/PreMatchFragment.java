@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.edomar.battleship.BattleField;
 import com.edomar.battleship.view.GameActivity;
 import com.edomar.battleship.R;
+import com.edomar.battleship.view.menuFragments.MainMenuFragment;
 
 import java.util.concurrent.TimeUnit;
 
@@ -28,7 +29,7 @@ import androidx.fragment.app.Fragment;
 
 public class PreMatchFragment extends Fragment implements View.OnClickListener {
 
-    private static final String TAG = "PreMatchFragment";
+    public static final String TAG = PreMatchFragment.class.getSimpleName();
 
     private GameActivity mActivity;
 
@@ -54,6 +55,10 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
         //Required empty public constructor
     }
 
+    public static PreMatchFragment newInstance(){
+        return new PreMatchFragment();
+    }
+
     @Override
     public void onAttach(@NonNull Activity activity) {
         Log.d(TAG, "onAttach: ");
@@ -75,7 +80,7 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: ");
+        Log.d(GameActivity.PROVA, "onCreateView: PM ");
         View view = inflater.inflate(R.layout.fragment_fleet_configuration_pre_match, container, false);
 
         /** Initialize SharedPreference value **/
@@ -89,19 +94,19 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onActivityCreated: ");
+        Log.d(GameActivity.PROVA, "onActivityCreated: PM");
         super.onActivityCreated(savedInstanceState);
 
         //Timer
         timer = (TextView) mActivity.findViewById(R.id.timer);
         timerTextView = (TextView) mActivity.findViewById(R.id.timer_text);
         //textView.setText("Ciao");
-        long duration = TimeUnit.SECONDS.toMillis(60);
+        long duration = TimeUnit.SECONDS.toMillis(10);
         mCounterDownTimer = new CountDownTimer(duration, 1000) {
             @Override
             public void onTick(long l) {
 
-                Log.d(TAG, "onTick: timer = "+ TimeUnit.MILLISECONDS.toSeconds(l));
+                Log.d(GameActivity.PROVA, "onTick: timer = "+ TimeUnit.MILLISECONDS.toSeconds(l));
                 String sDuration = String.format(getResources().getConfiguration().locale,"%02d",
                         TimeUnit.MILLISECONDS.toSeconds(l));
                 if(TimeUnit.MILLISECONDS.toSeconds(l) < 20){
@@ -119,7 +124,9 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFinish() {
                 //Quando il tempo finisce passa al match
+                Log.d(GameActivity.PROVA, "onFinish: PM");
                 mActivity.startMatch();
+
             }
         }.start();
 

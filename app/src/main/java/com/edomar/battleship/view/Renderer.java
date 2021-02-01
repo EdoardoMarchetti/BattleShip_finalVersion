@@ -25,6 +25,7 @@ public class Renderer  {
 
     private static final String TAG = "Renderer";
 
+
     private Canvas mCanvas;
     private SurfaceHolder mSurfaceHolder;
     private Paint mPaint;
@@ -44,6 +45,7 @@ public class Renderer  {
 
 
             grid.drawGrid(mCanvas, mPaint);
+
 
             mSurfaceHolder.unlockCanvasAndPost(mCanvas);
         }

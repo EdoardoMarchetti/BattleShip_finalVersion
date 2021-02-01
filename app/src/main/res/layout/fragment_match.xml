@@ -1,86 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="@dimen/battlefield_size"
-        android:layout_height="@dimen/info_match_menu_height"
-        android:layout_above="@id/letters"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/distance">
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/timer_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/time_to_set_fleet"
-            android:gravity="center"
-            android:textSize="@dimen/text_size"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="@dimen/battlefield_size"
+            android:layout_height="@dimen/info_match_menu_height"
+            android:layout_above="@id/letters"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/distance">
+
+            <TextView
+                android:id="@+id/timer_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/time_to_set_fleet"
+                android:gravity="center"
+                android:textSize="@dimen/text_size"
+                />
+
+            <TextView
+                android:id="@+id/timer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textSize="@dimen/text_size"/>
+
+        </LinearLayout>
+
+
+        <com.edomar.battleship.BattleField
+            android:id="@+id/battle_field"
+            android:layout_width="@dimen/battlefield_size"
+            android:layout_height="@dimen/battlefield_size"
+            android:layout_centerInParent="true"
+            android:background="@android:color/transparent"
             />
 
-        <TextView
-            android:id="@+id/timer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:textSize="@dimen/text_size"/>
+        <ImageView
+            android:id="@+id/letters"
+            android:layout_width="@dimen/battlefield_size"
+            android:layout_height="@dimen/block_size"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/battle_field"/>
 
-    </LinearLayout>
-
-
-    <com.edomar.battleship.BattleField
-        android:id="@+id/battle_field"
-        android:layout_width="@dimen/battlefield_size"
-        android:layout_height="@dimen/battlefield_size"
-        android:layout_centerInParent="true"
-        android:background="@android:color/transparent"
-        />
-
-    <ImageView
-        android:id="@+id/letters"
-        android:layout_width="@dimen/battlefield_size"
-        android:layout_height="@dimen/block_size"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/battle_field"/>
-
-    <ImageView
-        android:id="@+id/numbers"
-        android:layout_width="@dimen/block_size"
-        android:layout_height="@dimen/battlefield_size"
-        android:layout_toStartOf="@+id/battle_field"
-        android:layout_below="@id/letters"
-        />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="@dimen/battlefield_size"
-        android:layout_height="@dimen/info_match_menu_height"
-        android:layout_below="@id/battle_field"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/distance">
-
-        <TextView
-            android:id="@+id/turn_of_label"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="@string/turn_of"
-            android:gravity="center"
-            android:textSize="@dimen/text_size"
+        <ImageView
+            android:id="@+id/numbers"
+            android:layout_width="@dimen/block_size"
+            android:layout_height="@dimen/battlefield_size"
+            android:layout_toStartOf="@+id/battle_field"
+            android:layout_below="@id/letters"
             />
 
-        <TextView
-            android:id="@+id/turn_of_player_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="@dimen/text_size"/>
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/turn_of_menu"
+            android:orientation="horizontal"
+            android:layout_width="@dimen/battlefield_size"
+            android:layout_height="@dimen/info_match_menu_height"
+            android:layout_below="@id/battle_field"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/distance">
+
+            <TextView
+                android:id="@+id/turn_of_label"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="@string/turn_of"
+                android:gravity="center"
+                android:textSize="@dimen/text_size"
+                />
+
+            <TextView
+                android:id="@+id/turn_of_player_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/text_size"/>
+
+        </LinearLayout>
 
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/turn_of_menu"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorAccent"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+</FrameLayout>

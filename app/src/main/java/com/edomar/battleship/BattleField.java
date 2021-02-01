@@ -2,15 +2,20 @@ package com.edomar.battleship;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.edomar.battleship.view.Grid;
 import com.edomar.battleship.view.Renderer;
@@ -42,6 +47,8 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
         Log.d(TAG, "BattleField: in the constructor");
     }
 
+
+
     public BattleField(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         getHolder().addCallback(this);
@@ -51,15 +58,17 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         Log.d(TAG, "surfaceCreated: now you can draw");
+        Log.d("BOHC", "surfaceCreated: ");
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-
+        Log.d("BOHC", "surfaceChanged: ");
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+        Log.d("BOHC", "surfaceDestroyed: ");
     }
 
 
@@ -101,6 +110,7 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
             @Override
             public void run() {
                 //Qua va il codice per disegnare le coordinate
+
                 mRenderer.drawGridCoordinates(mLetters, mNumbers, mLettersDimen );
             }
         });
@@ -116,5 +126,19 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
         mNumbers = numbers;
         mLettersDimen.x = letters.getLayoutParams().width;
         mLettersDimen.y = letters.getLayoutParams().height;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        Toast.makeText(getContext(), "toccata", Toast.LENGTH_LONG).show();
+        Log.d(TAG, "onTouchEvent: inside touchevent");
+
+
+
+
+
+
+        return super.onTouchEvent(event);
     }
 }
