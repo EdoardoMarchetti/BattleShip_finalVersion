@@ -37,10 +37,8 @@ public class HudActivity extends AppCompatActivity {
     public static final String TAG = HudActivity.class.getSimpleName();
 
     public IGameState gameState;
-    public SoundEngine mSoundEngine;
+    //public SoundEngine mSoundEngine;
     HomeWatcher mHomeWatcher;
-
-
 
 
     /** SharedPreference**/
@@ -76,7 +74,7 @@ public class HudActivity extends AppCompatActivity {
             Log.d(String.valueOf(R.string.debugging), "onCreate: back_ground_music enabled");
         }
 
-        mSoundEngine = new SoundEngine(this);
+        //mSoundEngine = SoundEngine.getInstance(this);
         //end sound config
 
         //homeWatcher to stop music if home button is pressed

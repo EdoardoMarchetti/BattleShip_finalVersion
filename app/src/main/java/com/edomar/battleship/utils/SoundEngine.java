@@ -19,9 +19,15 @@ public class SoundEngine {
 
     private static final String TAG = "Sound Engine";
 
-    private SoundPool mSP;
-    public boolean isSoundEffectOn = false;
-    private int mSoundSample_ID = -1;
+    /**Instance*/
+    private static SoundEngine sInstance;
+
+
+    private static SoundPool mSP;
+    public static boolean isSoundEffectOn = false;
+
+    /**Sound ids**/
+    private static int mSoundSample_ID = -1;
 
     SharedPreferences sp;
     SharedPreferences.Editor editor;
@@ -30,7 +36,7 @@ public class SoundEngine {
     /*
     Constructor
      */
-    public SoundEngine(Context c){
+    private SoundEngine(Context c){
         sp = c.getSharedPreferences(c.getString(R.string.configuration_preference_key), Context.MODE_PRIVATE);
         editor = sp.edit();
         context = c;
@@ -67,9 +73,15 @@ public class SoundEngine {
         isSoundEffectOn = sp.getBoolean(c.getString(R.string.animation_sound_key), true);
     }
 
+    public  static SoundEngine getInstance(Context c){
+        if(sInstance == null){
+            sInstance = new SoundEngine(c);
+        }
+        return sInstance;
+    }
 
-    public void playShoot(){
-        if(this.isSoundEffectOn) {
+    public static void playShoot(){
+        if(isSoundEffectOn) {
             mSP.play(mSoundSample_ID, 1, 1, 1, 0, 1);
             Log.d("Sound check", "playShoot: ");
         }
@@ -77,11 +89,11 @@ public class SoundEngine {
 
 
 
-    public void enableSoundEffect(){
-        this.isSoundEffectOn = true;
+    public static void enableSoundEffect(){
+        isSoundEffectOn = true;
     }
 
-    public void disableSoundEffect(){
-        this.isSoundEffectOn = false;
+    public static void disableSoundEffect(){
+        isSoundEffectOn = false;
     }
 }

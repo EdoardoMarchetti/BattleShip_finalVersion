@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.edomar.battleship.BattleField;
 import com.edomar.battleship.R;
+import com.edomar.battleship.utils.SoundEngine;
 import com.edomar.battleship.view.HudActivity;
 import com.edomar.battleship.view.Renderer;
 
@@ -134,7 +135,7 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
     /** Qui va il codice per salvare in memoria la flotta di defualt**/
     @Override
     public void onClick(View view) {
-        mActivity.mSoundEngine.playShoot();
+        SoundEngine.getInstance(getContext()).playShoot();
     }
 
 

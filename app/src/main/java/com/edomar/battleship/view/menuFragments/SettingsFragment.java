@@ -22,6 +22,7 @@ import android.widget.RadioGroup;
 
 import com.edomar.battleship.R;
 import com.edomar.battleship.utils.MusicService;
+import com.edomar.battleship.utils.SoundEngine;
 import com.edomar.battleship.utils.Utils;
 import com.edomar.battleship.view.HudActivity;
 import com.edomar.battleship.view.SplashActivity;
@@ -180,14 +181,14 @@ public class SettingsFragment extends Fragment implements  //for spinners
             case R.id.sound_effects_switch: //Animation
                 if(isChecked){
                     Log.d(SETTING_FRAGMENT, "onCheckedChanged: switch sound effects " + true);
-                    mActivity.mSoundEngine.enableSoundEffect();
+                    SoundEngine.getInstance(getContext()).enableSoundEffect();
                     //Change SharedPreference value with animation_sound_key
                     editor.putBoolean(mActivity.getString(R.string.animation_sound_key), true);
                     editor.apply();
 
                 }else{
                     Log.d(SETTING_FRAGMENT, "onCheckedChanged: switch sound effects " + false);
-                    mActivity.mSoundEngine.disableSoundEffect();
+                    SoundEngine.getInstance(getContext()).disableSoundEffect();
                     //Change SharedPreference value with animation_sound_key
                     editor.putBoolean(mActivity.getString(R.string.animation_sound_key), false);
                     editor.apply();
@@ -204,7 +205,7 @@ public class SettingsFragment extends Fragment implements  //for spinners
         switch (view.getId()){
 
             case R.id.about_button: //About
-                mActivity.mSoundEngine.playShoot();
+                SoundEngine.getInstance(getContext()).playShoot();
                 break;
 
 

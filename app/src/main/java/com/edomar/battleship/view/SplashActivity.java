@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.edomar.battleship.logic.GameState;
 import com.edomar.battleship.R;
+import com.edomar.battleship.utils.SoundEngine;
 
 import java.util.Locale;
 
@@ -54,10 +55,13 @@ public class SplashActivity extends AppCompatActivity {
 
     private boolean initData() {
         //TODO
+
+        //Questa parte non servirà
         String playerName = "Edoardo";
         mGameState = GameState.Builder
                 .create(playerName)
                 .build();
+
 
         /** Language Config **/
         Log.d(SPLASH_ACTIVITY, "setLocale: start");
