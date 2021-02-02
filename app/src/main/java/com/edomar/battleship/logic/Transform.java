@@ -8,7 +8,7 @@ public class Transform {
     /** Variables **/
     private RectF mCollider;
     private PointF mLocation;
-    private boolean isVertical = true;
+    private boolean isVertical = false;
     private float mObjectHeight; //ridimensionata rispetto alla dimensione dei blocchi
     private float mObjectWidth; //ridimensionata rispetto ai blocchi
 
@@ -33,7 +33,7 @@ public class Transform {
     }
 
     public float getBlockDimension(){
-        return sGridDimension;
+        return sBlockDimension;
     }
 
 

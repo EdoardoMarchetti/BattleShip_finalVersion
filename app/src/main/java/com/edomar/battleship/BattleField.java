@@ -17,8 +17,13 @@ import android.view.SurfaceView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.edomar.battleship.logic.GameObject;
+import com.edomar.battleship.logic.Level;
+import com.edomar.battleship.utils.BitmapStore;
 import com.edomar.battleship.view.Grid;
 import com.edomar.battleship.view.Renderer;
+
+import java.util.ArrayList;
 
 public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.Callback {
 
@@ -29,6 +34,8 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
     private Renderer mRenderer;
     private Grid mGrid;
     private boolean mRunning;
+    private Level mLevel;
+    private BitmapStore mBitmapStore;
 
     /**Variabili per gestire le coordinate**/
     ImageView mLetters;
@@ -75,8 +82,11 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
     /** Init Method**/
     public void init(){
         Log.d(TAG, "init: in init method");
+        mBitmapStore = BitmapStore.getInstance(getContext());
         mRenderer = new Renderer(this);
         mGrid = new Grid(this.getLayoutParams().width);
+        mLevel = new Level(getContext(), this.getLayoutParams().width, this);
+
     }
 
     /** Start and stop Thread**/
@@ -114,8 +124,14 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
                 mRenderer.drawGridCoordinates(mLetters, mNumbers, mLettersDimen );
             }
         });
+
+        deSpawnRespawn();//Il metodo deSpawnReSpawn dovrà essere invocato solo all'inizio della partita per posizionare le navi
+
         while (mRunning){
-            mRenderer.draw(mGrid);
+            long frameStartTime = System.currentTimeMillis();
+            ArrayList<GameObject> objects = mLevel.getGameObject();
+
+            mRenderer.draw(mGrid, objects);
         }
 
     }
@@ -136,9 +152,19 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
 
 
 
-
-
-
         return super.onTouchEvent(event);
+    }
+
+    public void deSpawnRespawn(){
+        ArrayList<GameObject> objects = mLevel.getGameObject();
+
+        for (GameObject o: objects) {
+            o.setInactive();
+        }
+
+        objects.get(Level.BATTLESHIP_INDEX) // Ricavo l'oggetto da far apparire
+                .spawn(objects.get(Level.BATTLESHIP_INDEX).getTransform()); //faccio apparire l'oggetto ricavando prima il suo transform
+
+
     }
 }

@@ -3,6 +3,7 @@ package com.edomar.battleship.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.PointF;
 
 import java.util.HashMap;
@@ -68,10 +69,14 @@ public class BitmapStore {
 
         if(needHorizontal){
             //create a horizontal image of bitmap
-            horizontalBitmap = Bitmap.createScaledBitmap(bitmap,
-                    (int) (objectSize.y),
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+            horizontalBitmap = Bitmap.createBitmap(verticalBitmap,
+                    0,0,
                     (int) (objectSize.x),
-                    false);
+                    (int) (objectSize.y),
+                    matrix,
+                    true);
 
             sHorizontalBitmapsMap.put(bitmapName, horizontalBitmap);
         }

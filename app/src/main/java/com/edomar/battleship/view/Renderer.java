@@ -17,7 +17,10 @@ import android.view.SurfaceView;
 import android.widget.ImageView;
 
 import com.edomar.battleship.R;
+import com.edomar.battleship.logic.GameObject;
 import com.edomar.battleship.logic.GameState;
+
+import java.util.ArrayList;
 
 import androidx.annotation.LongDef;
 
@@ -35,7 +38,7 @@ public class Renderer  {
         this.mPaint = new Paint();
     }
 
-    public void draw(Grid grid) {
+    public void draw(Grid grid, ArrayList<GameObject> objects) {
         Log.d(TAG, "draw: start draw method in renderer");
         Log.d(TAG, "draw: mSurfaceHolder.getSurface().isValid() = "+ mSurfaceHolder.getSurface().isValid());
         if (mSurfaceHolder.getSurface().isValid()) {
@@ -45,7 +48,9 @@ public class Renderer  {
 
 
             grid.drawGrid(mCanvas, mPaint);
-
+            for (GameObject object: objects) {
+                object.draw(mCanvas, mPaint);
+            }
 
             mSurfaceHolder.unlockCanvasAndPost(mCanvas);
         }

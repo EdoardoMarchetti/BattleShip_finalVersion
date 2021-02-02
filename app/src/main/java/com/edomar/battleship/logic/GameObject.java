@@ -69,11 +69,11 @@ public class GameObject { //Probabilmente dovrà diventare una view per effettua
     }
 
     /** Metodi che invocano i component **/
-    void draw(Canvas canvas, Paint paint){
+    public void draw(Canvas canvas, Paint paint){
         graphicsComponent.draw(canvas, paint, mTransform);
     }
 
-    void update(long fps, Transform playerTransform) { //Da modificare in base alle necessità
+    public void update(long fps, Transform playerTransform) { //Da modificare in base alle necessità
         if (!(movementComponent.move(fps,
                 mTransform, playerTransform))) {
             // Component returned false
@@ -81,7 +81,7 @@ public class GameObject { //Probabilmente dovrà diventare una view per effettua
         }
     }
 
-    boolean spawn(Transform playerTransform) { //Da modificare in base alle necessità
+    public boolean spawn(Transform playerTransform) { //Da modificare in base alle necessità
         // Only spawnComponent if not already active
         if (!isActive) {
             spawnComponent.spawn(playerTransform, mTransform);
