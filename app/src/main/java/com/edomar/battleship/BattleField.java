@@ -25,6 +25,7 @@ public class BattleField extends SurfaceView implements Runnable,
     private static final String TAG = "BattleField";
 
     private Thread mThread;
+    private long mFPS;
 
     private Renderer mRenderer;
     private Grid mGrid;
@@ -39,6 +40,7 @@ public class BattleField extends SurfaceView implements Runnable,
     ImageView mLetters;
     ImageView mNumbers;
     Point mLettersDimen = new Point();
+
 
     /** Costruttori **/
     public BattleField(Context context) {
@@ -135,8 +137,21 @@ public class BattleField extends SurfaceView implements Runnable,
         while (mRunning){
             long frameStartTime = System.currentTimeMillis();
             ArrayList<GameObject> objects = mLevel.getGameObject();
+            for (GameObject o: objects) {
+                if(o.getTransform().checkMovable()){
+                    o.update(mFPS, mGrid);
+                }
+            }
 
             mRenderer.draw(mGrid, objects);
+
+            // Measure the frames per second in the usual way
+            long timeThisFrame = System.currentTimeMillis()
+                    - frameStartTime;
+            if (timeThisFrame >= 1) {
+                final int MILLIS_IN_SECOND = 1000;
+                mFPS = MILLIS_IN_SECOND / timeThisFrame;
+            }
         }
 
     }

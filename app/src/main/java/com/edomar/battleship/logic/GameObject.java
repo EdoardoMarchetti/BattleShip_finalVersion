@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 
+import com.edomar.battleship.Grid;
 import com.edomar.battleship.logic.components.interfaces.GraphicsComponent;
 import com.edomar.battleship.logic.components.interfaces.InputComponent;
 import com.edomar.battleship.logic.components.interfaces.MovementComponent;
@@ -73,9 +74,9 @@ public class GameObject { //Probabilmente dovrà diventare una view per effettua
         graphicsComponent.draw(canvas, paint, mTransform);
     }
 
-    public void update(long fps, Transform playerTransform) { //Da modificare in base alle necessità
+    public void update(long fps, Grid grid) { //Da modificare in base alle necessità
         if (!(movementComponent.move(fps,
-                mTransform, playerTransform))) {
+                mTransform, grid))) {
             // Component returned false
             isActive = false;
         }

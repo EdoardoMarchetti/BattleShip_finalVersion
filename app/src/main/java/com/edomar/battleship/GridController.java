@@ -30,8 +30,8 @@ public class GridController implements InputObserver{
         int x = (int) event.getX(i);
         int y = (int) event.getY(i);
 
-        int row = (int) (y / grid.mBlockDimension);
-        int column = (int) (x / grid.mBlockDimension);
+        int row = (int) (y / grid.getBlockDimension());
+        int column = (int) (x / grid.getBlockDimension());
         String[][] gridConfiguration = grid.getGridConfiguration();
         Log.d(TAG, "handleInput: row = "+ row+ " column= "+column);
 

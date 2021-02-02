@@ -15,7 +15,7 @@ public class ShipSpawnComponent implements SpawnComponent {
 
     @Override
     public void spawn(Transform playerTransform, Transform t, int posizioneInGriglia) {
-        t.setLocation(t.getBlockDimension() * posizioneInGriglia,0);
+        t.setLocation(0,t.getBlockDimension() * 8);
         Log.d(TAG, "spawn: blockDimension = " +t.getBlockDimension());
         Log.d(TAG, "spawn: horizontal= "+t.getLocation().x+" vertical= "+t.getLocation().y);
     }

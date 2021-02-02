@@ -17,8 +17,8 @@ import com.edomar.battleship.R;
 public class Grid  {
     private static final String TAG = "Grid";
 
-    public float mGridDimension;
-    public float mBlockDimension;
+    private float mGridDimension;
+    private float mBlockDimension;
     private int strokeWidth;
     private String[][] mGridConfiguration;
 
@@ -115,10 +115,20 @@ public class Grid  {
 
     }
 
+    /** Getters **/
     public String[][] getGridConfiguration() {
         return mGridConfiguration;
     }
 
+    public float getGridDimension(){
+        return mGridDimension;
+    }
+
+    public float getBlockDimension() {
+        return mBlockDimension;
+    }
+
+    /** Setters **/
     public void setHit(int row, int column, boolean shipHit){
         if(shipHit){
             mGridConfiguration[row][column] = "O";

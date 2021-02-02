@@ -65,7 +65,7 @@ public class GameObjectFactory { //pagina 559 e 657
 
                 case "ShipInputComponent":
                     //TODO
-                    object.setInput(new ShipInputComponent());
+                    object.setInput(new ShipInputComponent(mBattlefieldReference));
                     break;
 
                 case "ShipMovementComponent":

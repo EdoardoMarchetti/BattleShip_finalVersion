@@ -2,15 +2,19 @@ package com.edomar.battleship.logic;
 
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.util.Log;
 
 public class Transform {
+
+    private static final String TAG = "Transform";
 
     /** Variables **/
     private RectF mCollider;
     private PointF mLocation;
-    private boolean isVertical = true;
+    private boolean mIsVertical = false;
     private float mObjectHeight; //ridimensionata rispetto alla dimensione dei blocchi
     private float mObjectWidth; //ridimensionata rispetto ai blocchi
+    private boolean mIsMovable= false;
 
     /** Variabili di utilità **/
     private static float sGridDimension;
@@ -38,7 +42,7 @@ public class Transform {
 
 
     public boolean isVertical() {
-        return isVertical;
+        return mIsVertical;
     }
 
 
@@ -63,10 +67,22 @@ public class Transform {
         return mCollider;
     }
 
+    public boolean checkMovable(){
+        return mIsMovable;
+    }
+
     /** Setters **/
 
+    public void setMovable(){
+        mIsMovable = true;
+    }
+
+    public void setImmovable(){
+        mIsMovable = false;
+    }
+
     public void rotate(){
-        isVertical = !isVertical;
+        mIsVertical = !mIsVertical;
     }
 
     public void setLocation(float horizontal, float vertical){
@@ -77,9 +93,26 @@ public class Transform {
 
 
     public void updateCollider(){
-        mCollider.top = mLocation.y;
-        mCollider.left = mLocation.x;
-        mCollider.bottom = mLocation.y + mObjectHeight;
-        mCollider.right = mLocation.x + mObjectWidth;
+        if(mIsVertical){
+            mCollider.top = mLocation.y;
+            mCollider.left = mLocation.x;
+            mCollider.bottom = mLocation.y + mObjectHeight;
+            mCollider.right = mLocation.x + mObjectWidth;
+        }else{
+            mCollider.top = mLocation.y;
+            mCollider.left = mLocation.x;
+            mCollider.bottom = mLocation.y + mObjectWidth;
+            mCollider.right = mLocation.x + mObjectHeight;
+        }
+
+
+
+
+        Log.d(TAG, "updateCollider: vertical \n" +
+                "mCollider.top = "+mCollider.top / sBlockDimension+
+                "\nmCollider.left = "+mCollider.left / sBlockDimension+
+                "\nmCollider.bottom = "+mCollider.bottom / sBlockDimension+
+                "\nmCollider.right = "+mCollider.right / sBlockDimension);
+
     }
 }
