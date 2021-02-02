@@ -159,7 +159,7 @@ public class BattleField extends SurfaceView implements Runnable,
             io.handleInput(event, mGrid, mLevel);
         }
 
-        return super.onTouchEvent(event);
+        return true;
     }
 
     public void deSpawnRespawn(){

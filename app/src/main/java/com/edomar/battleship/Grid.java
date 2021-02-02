@@ -63,11 +63,11 @@ public class Grid  {
         //Draw hit cell
         for(int i = 0; i<10; i++){
             for(int j = 0; j<10; j++){
-                if(mGridConfiguration[i][j] == "X"){
+                if(mGridConfiguration[j][i] == "X"){
                     canvas.drawLine(mBlockDimension*i, mBlockDimension*j, mBlockDimension*(i+1), mBlockDimension*(j+1), paint);
                     canvas.drawLine(mBlockDimension*i, mBlockDimension*(j+1), mBlockDimension*(i+1), mBlockDimension*j, paint);
-                }else if(mGridConfiguration[i][j] == "O"){
-                    canvas.drawCircle(mBlockDimension*(i+ 1/2), mBlockDimension*(j+ 1/2), mBlockDimension/3, paint);
+                }else if(mGridConfiguration[j][i] == "O"){ // questa parte poi dovraà essere portata fuori da drawGrid poichè i pallini devono andare sopra e le navi
+                    canvas.drawCircle((float) (mBlockDimension*(i+ 0.5)), (float) (mBlockDimension*(j+ 0.5)), mBlockDimension/2, paint);
                 }
             }
         }
@@ -122,8 +122,10 @@ public class Grid  {
     public void setHit(int row, int column, boolean shipHit){
         if(shipHit){
             mGridConfiguration[row][column] = "O";
+            Log.d("setHit", "setHit: nave in = "+row+","+column);
         }else{
             mGridConfiguration[row][column] = "X";
+            Log.d("setHit", "setHit: acqua in = "+row+","+column);
         }
     }
 }
