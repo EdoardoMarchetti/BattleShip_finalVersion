@@ -7,13 +7,12 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 
 import com.edomar.battleship.logic.Transform;
+import com.edomar.battleship.logic.components.interfaces.GraphicsComponent;
 import com.edomar.battleship.logic.specifications.ObjectSpec;
 import com.edomar.battleship.utils.BitmapStore;
 import com.edomar.battleship.view.Grid;
 
-import androidx.constraintlayout.widget.ConstraintSet;
-
-public class ShipGraphicsComponent implements InterfaceGraphicsComponent {
+public class ShipGraphicsComponent implements GraphicsComponent {
 
     private String mBitmapName;
 
@@ -25,7 +24,7 @@ public class ShipGraphicsComponent implements InterfaceGraphicsComponent {
     }
 
     @Override
-    public void draw(Canvas canvas, Paint paint, Transform t, Grid grid) {
+    public void draw(Canvas canvas, Paint paint, Transform t) {
         Bitmap bitmap;
 
         if(t.isVertical()){

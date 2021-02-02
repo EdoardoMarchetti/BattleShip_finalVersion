@@ -1,4 +1,4 @@
-package com.edomar.battleship.logic.components;
+package com.edomar.battleship.logic.components.interfaces;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,9 +11,11 @@ import com.edomar.battleship.view.Grid;
 
 import androidx.constraintlayout.widget.ConstraintSet;
 
-public interface InterfaceGraphicsComponent { //pagina 519 e 627
+public interface GraphicsComponent { //pagina 519 e 627
 
+    /** Usato in GameObjectFactory**/
     void initialize (Context c , ObjectSpec spec, PointF objectSize); //objectSize è già in proporzionato in funzione della dimensione dei blocchi
 
-    void draw (Canvas canvas, Paint paint, Transform t, Grid grid); //grid forse non serve
+    /** Invocato dal gameObject e non dal renderer **/
+    void draw (Canvas canvas, Paint paint, Transform t); //grid forse non serve
 }
