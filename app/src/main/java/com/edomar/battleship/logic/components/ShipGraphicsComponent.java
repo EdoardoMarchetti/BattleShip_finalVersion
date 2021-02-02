@@ -10,7 +10,6 @@ import com.edomar.battleship.logic.Transform;
 import com.edomar.battleship.logic.components.interfaces.GraphicsComponent;
 import com.edomar.battleship.logic.specifications.ObjectSpec;
 import com.edomar.battleship.utils.BitmapStore;
-import com.edomar.battleship.view.Grid;
 
 public class ShipGraphicsComponent implements GraphicsComponent {
 

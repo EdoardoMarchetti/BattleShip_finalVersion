@@ -6,5 +6,6 @@ public interface SpawnComponent {
 
     /** Chiamato direttamente dal GameObject**/
     void spawn(Transform playerTransform,
-               Transform t); //aggiunto senza personalizzarlo
+               Transform t,
+               int posizioneInGriglia); //aggiunto senza personalizzarlo
 }

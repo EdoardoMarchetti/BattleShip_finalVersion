@@ -7,9 +7,6 @@ import android.graphics.PointF;
 
 import com.edomar.battleship.logic.Transform;
 import com.edomar.battleship.logic.specifications.ObjectSpec;
-import com.edomar.battleship.view.Grid;
-
-import androidx.constraintlayout.widget.ConstraintSet;
 
 public interface GraphicsComponent { //pagina 519 e 627
 

@@ -1,28 +1,18 @@
-package com.edomar.battleship.view;
+package com.edomar.battleship;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.Point;
-import android.graphics.PointF;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.ImageView;
 
-import com.edomar.battleship.R;
 import com.edomar.battleship.logic.GameObject;
-import com.edomar.battleship.logic.GameState;
 
 import java.util.ArrayList;
-
-import androidx.annotation.LongDef;
 
 public class Renderer  {
 

@@ -1,12 +1,7 @@
 package com.edomar.battleship;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.PointF;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -20,12 +15,12 @@ import android.widget.Toast;
 import com.edomar.battleship.logic.GameObject;
 import com.edomar.battleship.logic.Level;
 import com.edomar.battleship.utils.BitmapStore;
-import com.edomar.battleship.view.Grid;
-import com.edomar.battleship.view.Renderer;
 
 import java.util.ArrayList;
 
-public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.Callback {
+public class BattleField extends SurfaceView implements Runnable,
+        SurfaceHolder.Callback,
+        BattleFieldBroadcaster{
 
     private static final String TAG = "BattleField";
 
@@ -34,8 +29,11 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
     private Renderer mRenderer;
     private Grid mGrid;
     private boolean mRunning;
-    private Level mLevel;
     private BitmapStore mBitmapStore;
+    private Level mLevel;
+    private ArrayList<InputObserver> inputObservers = new ArrayList<>();
+    private GridController mGridController;
+
 
     /**Variabili per gestire le coordinate**/
     ImageView mLetters;
@@ -86,7 +84,14 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
         mRenderer = new Renderer(this);
         mGrid = new Grid(this.getLayoutParams().width);
         mLevel = new Level(getContext(), this.getLayoutParams().width, this);
+        mGridController = new GridController(this);
 
+    }
+
+    /** Adding observers **/
+    @Override
+    public void addObserver(InputObserver o) {
+        inputObservers.add(o);
     }
 
     /** Start and stop Thread**/
@@ -150,20 +155,27 @@ public class BattleField extends SurfaceView implements Runnable,SurfaceHolder.C
         Toast.makeText(getContext(), "toccata", Toast.LENGTH_LONG).show();
         Log.d(TAG, "onTouchEvent: inside touchevent");
 
-
+        for (InputObserver io : inputObservers) {
+            io.handleInput(event, mGrid, mLevel);
+        }
 
         return super.onTouchEvent(event);
     }
 
     public void deSpawnRespawn(){
-        ArrayList<GameObject> objects = mLevel.getGameObject();
+       ArrayList<GameObject> objects = mLevel.getGameObject();
 
         for (GameObject o: objects) {
             o.setInactive();
         }
 
-        objects.get(Level.BATTLESHIP_INDEX) // Ricavo l'oggetto da far apparire
-                .spawn(objects.get(Level.BATTLESHIP_INDEX).getTransform()); //faccio apparire l'oggetto ricavando prima il suo transform
+        /*objects.get(Level.BATTLESHIP_INDEX) // Ricavo l'oggetto da far apparire
+                .spawn(objects.get(Level.BATTLESHIP_INDEX).getTransform()); //faccio apparire l'oggetto ricavando prima il suo transform*/
+
+        for(int i = 0; i<Level.mNumShipsInLevel; i++){
+            objects.get(i)
+                    .spawn(objects.get(i).getTransform(), i);
+        }
 
 
     }

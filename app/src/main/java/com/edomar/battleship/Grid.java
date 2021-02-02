@@ -1,4 +1,4 @@
-package com.edomar.battleship.view;
+package com.edomar.battleship;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -20,12 +20,24 @@ public class Grid  {
     public float mGridDimension;
     public float mBlockDimension;
     private int strokeWidth;
+    private String[][] mGridConfiguration;
+
     private static int textDimension;
+
 
     public Grid(float gridDimension) {
         mGridDimension = gridDimension;
         mBlockDimension = gridDimension / 10;
         strokeWidth = (int) gridDimension / 175;
+
+        mGridConfiguration = new String[10][10];
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                mGridConfiguration[i][j] ="0";
+            }
+        }
+
+
         textDimension = strokeWidth * 10;
         Log.d(TAG, "Grid: gridDimension = "+mGridDimension);
         Log.d(TAG, "Grid: mBlockDimension = "+mBlockDimension);
@@ -37,13 +49,27 @@ public class Grid  {
         paint.setDither(true);
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(strokeWidth);
+
         //Horizontal lines
         for (int i = 0; i < 11; i++) {
             canvas.drawLine(0, mBlockDimension * i, mGridDimension , mBlockDimension * i, paint);
         }
+
         //Vertical lines
         for (int i = 0; i < 11; i++) {
             canvas.drawLine(mBlockDimension * i, 0, mBlockDimension * i, mGridDimension, paint);
+        }
+
+        //Draw hit cell
+        for(int i = 0; i<10; i++){
+            for(int j = 0; j<10; j++){
+                if(mGridConfiguration[i][j] == "X"){
+                    canvas.drawLine(mBlockDimension*i, mBlockDimension*j, mBlockDimension*(i+1), mBlockDimension*(j+1), paint);
+                    canvas.drawLine(mBlockDimension*i, mBlockDimension*(j+1), mBlockDimension*(i+1), mBlockDimension*j, paint);
+                }else if(mGridConfiguration[i][j] == "O"){
+                    canvas.drawCircle(mBlockDimension*(i+ 1/2), mBlockDimension*(j+ 1/2), mBlockDimension/3, paint);
+                }
+            }
         }
     }
 
@@ -87,5 +113,17 @@ public class Grid  {
         }
 
 
+    }
+
+    public String[][] getGridConfiguration() {
+        return mGridConfiguration;
+    }
+
+    public void setHit(int row, int column, boolean shipHit){
+        if(shipHit){
+            mGridConfiguration[row][column] = "O";
+        }else{
+            mGridConfiguration[row][column] = "X";
+        }
     }
 }

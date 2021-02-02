@@ -3,9 +3,7 @@ package com.edomar.battleship.view.menuFragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +15,6 @@ import com.edomar.battleship.BattleField;
 import com.edomar.battleship.R;
 import com.edomar.battleship.utils.SoundEngine;
 import com.edomar.battleship.view.HudActivity;
-import com.edomar.battleship.view.Renderer;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

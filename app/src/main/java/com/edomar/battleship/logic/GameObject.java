@@ -81,10 +81,10 @@ public class GameObject { //Probabilmente dovrà diventare una view per effettua
         }
     }
 
-    public boolean spawn(Transform playerTransform) { //Da modificare in base alle necessità
+    public boolean spawn(Transform playerTransform, int posizioneInGriglia) { //Da modificare in base alle necessità
         // Only spawnComponent if not already active
         if (!isActive) {
-            spawnComponent.spawn(playerTransform, mTransform);
+            spawnComponent.spawn(playerTransform, mTransform, posizioneInGriglia);
             isActive = true;
             return true;
         }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.edomar.battleship.BattleField;
 import com.edomar.battleship.logic.specifications.BattleshipSpec;
+import com.edomar.battleship.logic.specifications.CarrierSpec;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ public class Level {
     public static final int BATTLESHIP_INDEX = 0 ;
     // This will hold all the instances of GameObject
     private ArrayList<GameObject> objects;
+    public static final int mNumShipsInLevel = 1;
 
     public Level(Context c, float gridSize, BattleField bf){
         this.objects = new ArrayList<>();
@@ -26,6 +28,7 @@ public class Level {
 
         //Create some ships
         objects.add(BATTLESHIP_INDEX, factory.create(new BattleshipSpec()));
+
 
         return objects;
     }
