@@ -29,7 +29,7 @@ public class GameObject { //Probabilmente dovrà diventare una view per effettua
 
     public void setGraphics(GraphicsComponent g, Context c,
                             ObjectSpec spec, PointF objectSize){
-
+        //Set the graphics component and initialize it
         graphicsComponent = g;
         g.initialize(c, spec, objectSize);
     }
