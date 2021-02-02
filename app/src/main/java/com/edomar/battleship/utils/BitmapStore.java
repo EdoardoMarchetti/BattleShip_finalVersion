@@ -43,8 +43,7 @@ public class BitmapStore {
 
     public static void addBitmap(Context c,
                                  String bitmapName,
-                                 PointF blocksOccupied,
-                                 float blockDimens,
+                                 PointF objectSize,
                                  boolean needHorizontal){
 
         Bitmap bitmap;
@@ -61,8 +60,8 @@ public class BitmapStore {
                 decodeResource(c.getResources(), resID);
 
         verticalBitmap = Bitmap.createScaledBitmap(bitmap,
-                (int) (blocksOccupied.x *blockDimens),
-                (int) (blocksOccupied.y * blockDimens),
+                (int) (objectSize.x),
+                (int) (objectSize.y),
                 false);
 
         sVerticalBitmapsMap.put(bitmapName, verticalBitmap);
@@ -70,8 +69,8 @@ public class BitmapStore {
         if(needHorizontal){
             //create a horizontal image of bitmap
             horizontalBitmap = Bitmap.createScaledBitmap(bitmap,
-                    (int) (blocksOccupied.y * blockDimens),
-                    (int) (blocksOccupied.x * blockDimens),
+                    (int) (objectSize.y),
+                    (int) (objectSize.x),
                     false);
 
             sHorizontalBitmapsMap.put(bitmapName, horizontalBitmap);

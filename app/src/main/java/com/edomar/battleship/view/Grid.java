@@ -17,15 +17,15 @@ import com.edomar.battleship.R;
 public class Grid  {
     private static final String TAG = "Grid";
 
-    private int mGridDimension;
-    private int mBlockDimension;
+    public float mGridDimension;
+    public float mBlockDimension;
     private int strokeWidth;
     private static int textDimension;
 
-    public Grid(int gridDimension) {
+    public Grid(float gridDimension) {
         mGridDimension = gridDimension;
         mBlockDimension = gridDimension / 10;
-        strokeWidth = gridDimension / 175;
+        strokeWidth = (int) gridDimension / 175;
         textDimension = strokeWidth * 10;
         Log.d(TAG, "Grid: gridDimension = "+mGridDimension);
         Log.d(TAG, "Grid: mBlockDimension = "+mBlockDimension);
