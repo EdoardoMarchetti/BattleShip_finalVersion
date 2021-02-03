@@ -105,6 +105,7 @@ public class ShipInputComponent implements InputComponent, InputObserver {
 
                         if(mTransform.checkMovable() && mTransform.checkRotatable()){
                             mTransform.rotate();
+                            rotate();
                             Log.d(TAG, "handleInput: nave ruotata");
                         }
 
@@ -123,41 +124,49 @@ public class ShipInputComponent implements InputComponent, InputObserver {
         
     }
 
+
+
     private void drag(float eventX, float eventY) {
         //First check if the ship is outside the BattleField
+
         float differenceX = eventX - mCurrentX ;
         float differenceY = eventY - mCurrentY ;
 
         PointF oldLocation = mTransform.getLocation();
-        RectF shipCollider = mTransform.getCollider();
+        PointF newLocation = new PointF(oldLocation.x + differenceX, oldLocation.y + differenceY);
 
-        if(shipCollider.right+differenceX >= mTransform.getGridDimension() && eventX >= 0){
-            if(mTransform.isVertical()){
-                mTransform.setLocation(mTransform.getGridDimension()-mTransform.getObjectWidth(),oldLocation.y+ differenceY);
-            }else {
-                mTransform.setLocation(mTransform.getGridDimension() - mTransform.getObjectHeight(), oldLocation.y + differenceY);
-            }
-
-
-
-        }else if(shipCollider.bottom+differenceY >= mTransform.getGridDimension() && eventY >= 0){
-            if(mTransform.isVertical()){
-                mTransform.setLocation(oldLocation.x + differenceX, mTransform.getGridDimension() - mTransform.getObjectHeight());
-            }else {
-                mTransform.setLocation(oldLocation.x+ differenceX,mTransform.getGridDimension()-mTransform.getObjectWidth());
-
-            }
-
-
-        }else if(shipCollider.left+differenceX <= 0 && eventX <= 0){
-            mTransform.setLocation(0,oldLocation.y+differenceY);
-
-        }else if(shipCollider.top+differenceY <= 0 && eventY <= 0){
-            mTransform.setLocation(oldLocation.x + differenceX,0);
-
-        }else{
-            mTransform.setLocation(oldLocation.x + differenceX,oldLocation.y + differenceY);
+        //Left
+        if(newLocation.x <= 0){
+            newLocation.x = 0;
+        }
+        //Top
+        if(newLocation.y <= 0){
+            newLocation.y = 0;
+        }
+        //Right
+        if(newLocation.x + mTransform.getObjectWidth() >= mTransform.getGridDimension()){
+            newLocation.x = mTransform.getGridDimension() - mTransform.getObjectWidth();
+        }
+        //Bottom
+        if(newLocation.y + mTransform.getObjectHeight() >= mTransform.getGridDimension()){
+            newLocation.y = mTransform.getGridDimension() - mTransform.getObjectHeight();
         }
 
+        mTransform.setLocation(newLocation.x, newLocation.y);
+
+    }
+
+    private void rotate() {
+        PointF newLocation = new PointF(mTransform.getLocation().x, mTransform.getLocation().y);
+
+        if(newLocation.x + mTransform.getObjectWidth() >= mTransform.getGridDimension()){
+            newLocation.x = mTransform.getGridDimension() - mTransform.getObjectWidth();
+        }
+
+        if(newLocation.y + mTransform.getObjectHeight() >= mTransform.getGridDimension()){
+            newLocation.y = mTransform.getGridDimension() - mTransform.getObjectHeight();
+        }
+
+        mTransform.setLocation(newLocation.x, newLocation.y);
     }
 }

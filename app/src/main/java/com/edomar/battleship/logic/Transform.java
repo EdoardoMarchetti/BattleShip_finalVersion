@@ -11,7 +11,7 @@ public class Transform {
     /** Variables **/
     private RectF mCollider;
     private PointF mLocation;
-    private boolean mIsVertical = false;
+    private boolean mIsVertical = true;
     private float mObjectHeight; //ridimensionata rispetto alla dimensione dei blocchi
     private float mObjectWidth; //ridimensionata rispetto ai blocchi
     private boolean mIsMovable= false;
@@ -90,6 +90,7 @@ public class Transform {
 
     public void rotate(){
         mIsVertical = !mIsVertical;
+        invertDimension();
         mRotated = true;
     }
 
@@ -109,26 +110,35 @@ public class Transform {
         mRotatable = false;
     }
 
+    public void setStartLocation(float horizontal, float vertical, boolean isV){
+        mLocation = new PointF(horizontal, vertical);
+        mIsVertical = isV;
+        if(!mIsVertical){
+            invertDimension();
+        }
+        updateCollider();
+    }
+
+    private void invertDimension() {
+        float support = mObjectWidth;
+        mObjectWidth = mObjectHeight;
+        mObjectHeight = support;
+    }
+
+
     public void setLocation(float horizontal, float vertical){
         mLocation = new PointF(horizontal, vertical);
         updateCollider();
+        Log.d(TAG, "setLocation: ");
     }
 
 
 
     public void updateCollider(){
-        if(mIsVertical){
-            mCollider.top = mLocation.y;
-            mCollider.left = mLocation.x;
-            mCollider.bottom = mLocation.y + mObjectHeight;
-            mCollider.right = mLocation.x + mObjectWidth;
-        }else{
-            mCollider.top = mLocation.y;
-            mCollider.left = mLocation.x;
-            mCollider.bottom = mLocation.y + mObjectWidth;
-            mCollider.right = mLocation.x + mObjectHeight;
-        }
-
+        mCollider.top = mLocation.y;
+        mCollider.left = mLocation.x;
+        mCollider.bottom = mLocation.y + mObjectHeight;
+        mCollider.right = mLocation.x + mObjectWidth;
 
 
 
