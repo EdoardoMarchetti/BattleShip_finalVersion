@@ -8,8 +8,8 @@ import android.graphics.PointF;
 import com.edomar.battleship.Grid;
 import com.edomar.battleship.logic.components.interfaces.GraphicsComponent;
 import com.edomar.battleship.logic.components.interfaces.InputComponent;
-import com.edomar.battleship.logic.components.interfaces.MovementComponent;
 import com.edomar.battleship.logic.components.interfaces.SpawnComponent;
+import com.edomar.battleship.logic.components.interfaces.UpdateComponent;
 import com.edomar.battleship.logic.specifications.ObjectSpec;
 
 public class GameObject { //Probabilmente dovrà diventare una view per effettuare il drag&drop
@@ -19,7 +19,7 @@ public class GameObject { //Probabilmente dovrà diventare una view per effettua
     private String mTag;
 
     private GraphicsComponent graphicsComponent;
-    private MovementComponent movementComponent;
+    private UpdateComponent updateComponent;
     private SpawnComponent spawnComponent;
 
     /** Setters**/
@@ -35,8 +35,8 @@ public class GameObject { //Probabilmente dovrà diventare una view per effettua
         g.initialize(c, spec, objectSize);
     }
 
-    public void setMovement(MovementComponent m){
-        movementComponent = m;
+    public void setUpdate(UpdateComponent u){
+        updateComponent = u;
     }
 
     public void setInput(InputComponent s){
@@ -75,7 +75,7 @@ public class GameObject { //Probabilmente dovrà diventare una view per effettua
     }
 
     public void update(long fps, Grid grid) { //Da modificare in base alle necessità
-        if (!(movementComponent.move(fps,
+        if (!(updateComponent.update(fps,
                 mTransform, grid))) {
             // Component returned false
             isActive = false;

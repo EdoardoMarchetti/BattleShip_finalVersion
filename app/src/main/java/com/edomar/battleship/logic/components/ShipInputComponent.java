@@ -58,7 +58,7 @@ public class ShipInputComponent implements InputComponent, InputObserver {
             int i = event.getActionIndex();
             int x = (int) event.getX(i);
             int y = (int) event.getY(i);
-            SCROLL_THRESHOLD = grid.getBlockDimension()/2;
+            SCROLL_THRESHOLD = 10;
 
 
             int row = (int) (y / grid.getBlockDimension());
@@ -82,7 +82,7 @@ public class ShipInputComponent implements InputComponent, InputObserver {
                     }else{
                         mTransform.setImmovable();
                     }
-
+                    isOnClick = true;
                     break;
 
                 case MotionEvent.ACTION_MOVE:
@@ -95,12 +95,12 @@ public class ShipInputComponent implements InputComponent, InputObserver {
                         mCurrentX = event.getX();
                         mCurrentY = event.getY();
                     }
-
+                    isOnClick = false;
                     break;
 
                 case MotionEvent.ACTION_UP:
 
-                    if(!(Math.abs(mDownX - event.getX()) > SCROLL_THRESHOLD || Math.abs(mDownY - event.getY()) > SCROLL_THRESHOLD)){ //rotate or active
+                    if(isOnClick){ //rotate or active
                         Log.d(TAG, "simple touch");
 
                         if(mTransform.checkMovable() && mTransform.checkRotatable()){
@@ -111,7 +111,7 @@ public class ShipInputComponent implements InputComponent, InputObserver {
 
                     }else{
                         //Drop the ship
-                        //TODO -- drop()
+                        drop(event.getX(), event.getY());
                     }
 
                     mTransform.setRotatable();
@@ -166,6 +166,32 @@ public class ShipInputComponent implements InputComponent, InputObserver {
         if(newLocation.y + mTransform.getObjectHeight() >= mTransform.getGridDimension()){
             newLocation.y = mTransform.getGridDimension() - mTransform.getObjectHeight();
         }
+
+        mTransform.setLocation(newLocation.x, newLocation.y);
+    }
+
+    private void drop(float eventX, float eventY) {
+        PointF oldLocation = mTransform.getLocation();
+        PointF newLocation = new PointF();
+
+        float differenceX = eventX - mCurrentX ;
+        float differenceY = eventY - mCurrentY ;
+
+        double x =  (oldLocation.x / mTransform.getBlockDimension());
+        double y =  (oldLocation.y / mTransform.getBlockDimension());
+
+        Log.d(TAG, "drop: new coo \n"+
+                "x= "+x+
+                ", y= "+y);
+
+        if(Math.round(x) >= 10 || Math.round(y) >= 10){
+            newLocation.x = mTransform.getBlockDimension() * (int) x;
+            newLocation.y = mTransform.getBlockDimension() * (int) y;
+        }else{
+            newLocation.x = mTransform.getBlockDimension() * Math.round(x);
+            newLocation.y = mTransform.getBlockDimension() * Math.round(y);
+        }
+
 
         mTransform.setLocation(newLocation.x, newLocation.y);
     }

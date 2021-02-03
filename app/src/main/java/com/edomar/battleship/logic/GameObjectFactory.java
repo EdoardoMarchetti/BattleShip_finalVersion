@@ -7,8 +7,8 @@ import android.graphics.PointF;
 import com.edomar.battleship.BattleField;
 import com.edomar.battleship.logic.components.ShipGraphicsComponent;
 import com.edomar.battleship.logic.components.ShipInputComponent;
-import com.edomar.battleship.logic.components.ShipMovementComponent;
 import com.edomar.battleship.logic.components.ShipSpawnComponent;
+import com.edomar.battleship.logic.components.ShipUpdateComponent;
 import com.edomar.battleship.logic.specifications.ObjectSpec;
 
 public class GameObjectFactory { //pagina 559 e 657
@@ -68,9 +68,9 @@ public class GameObjectFactory { //pagina 559 e 657
                     object.setInput(new ShipInputComponent(mBattlefieldReference));
                     break;
 
-                case "ShipMovementComponent":
+                case "ShipUpdateComponent":
                     //TODO
-                    object.setMovement(new ShipMovementComponent());
+                    object.setUpdate(new ShipUpdateComponent());
                     break;
             }
         }

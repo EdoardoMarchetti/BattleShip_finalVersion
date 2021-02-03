@@ -10,7 +10,7 @@ public class BattleshipSpec extends ObjectSpec {
     private static final  String[] components = new String[]{"ShipGraphicsComponent",
             "ShipSpawnComponent",
             "ShipInputComponent",
-            "ShipMovementComponent"};
+            "ShipUpdateComponent"};
 
     public BattleshipSpec() {
         super(tag, bitmapName, blocksOccupied, components);

@@ -5,14 +5,14 @@ import android.util.Log;
 
 import com.edomar.battleship.Grid;
 import com.edomar.battleship.logic.Transform;
-import com.edomar.battleship.logic.components.interfaces.MovementComponent;
+import com.edomar.battleship.logic.components.interfaces.UpdateComponent;
 
-public class ShipMovementComponent implements MovementComponent {
+public class ShipUpdateComponent implements UpdateComponent {
 
     private static final String TAG = "ShipMovementComponent";
 
     @Override
-    public boolean move(long fps, Transform t, Grid grid) {
+    public boolean update(long fps, Transform t, Grid grid) {
 
         //Qui si va a posizionare la nave sulla griglia
         return true;
