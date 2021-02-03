@@ -15,11 +15,13 @@ public class Transform {
     private float mObjectHeight; //ridimensionata rispetto alla dimensione dei blocchi
     private float mObjectWidth; //ridimensionata rispetto ai blocchi
     private boolean mIsMovable= false;
+    private boolean mRotatable = false;
     private boolean mRotated = false;
 
     /** Variabili di utilità **/
     private static float sGridDimension;
     private static float sBlockDimension;
+
 
 
     public Transform (float objectWidth, float objectHeight, PointF startLocation, float gridDimension){
@@ -72,8 +74,8 @@ public class Transform {
         return mIsMovable;
     }
 
-    public boolean isRotatable(){
-        return mRotated;
+    public boolean checkRotatable(){
+        return mRotatable;
     }
 
     /** Setters **/
@@ -91,8 +93,20 @@ public class Transform {
         mRotated = true;
     }
 
-    public void notRotatable(){
+    public boolean isRotated() {
+        return mRotated;
+    }
+
+    public void isNotRotated(){
         mRotated = false;
+    }
+
+    public void setRotatable(){
+        mRotatable = true;
+    }
+
+    public void setNotRotatable(){
+        mRotatable = false;
     }
 
     public void setLocation(float horizontal, float vertical){
@@ -125,4 +139,6 @@ public class Transform {
                 "\nmCollider.right = "+mCollider.right / sBlockDimension);
 
     }
+
+
 }

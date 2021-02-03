@@ -15,7 +15,7 @@ public class ShipMovementComponent implements MovementComponent {
     public boolean move(long fps, Transform t, Grid grid) {
 
         //Check if is rotatable and then rotate
-        if (t.isRotatable()) {
+        if (t.isRotated()) {
             if (t.getObjectHeight() + t.getLocation().x > grid.getGridDimension()) {
                 float difference = (t.getObjectHeight() + t.getLocation().x) - grid.getGridDimension();
                 int differenceInBlocks = (int) (difference / grid.getBlockDimension());
@@ -34,7 +34,7 @@ public class ShipMovementComponent implements MovementComponent {
             }
 
             t.updateCollider();
-            t.notRotatable();
+            t.isNotRotated();
 
             //Setta la nuova posizione sulla griglia
 

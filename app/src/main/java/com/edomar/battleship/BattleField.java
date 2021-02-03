@@ -144,7 +144,6 @@ public class BattleField extends SurfaceView implements Runnable,
             for (GameObject o: objects) {
                 //Log.d("ShipInputComponent", "run: ship number= "+count);
                 if(o.getTransform().checkMovable()){
-                    Log.d("ShipInputComponent", "run: ship Movable");
                     o.update(mFPS, mGrid);
                 }
                 count++;
