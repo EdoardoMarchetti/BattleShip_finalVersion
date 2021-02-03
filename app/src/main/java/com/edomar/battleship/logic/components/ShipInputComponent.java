@@ -48,22 +48,17 @@ public class ShipInputComponent implements InputComponent, InputObserver {
         
         boolean preMatch = true;
 
-
+        SCROLL_THRESHOLD = mTransform.getBlockDimension() / 10;
         
         if(!preMatch){
             //Do nothing
             mTransform.setImmovable();
         }else{
             //Prima ottengo le coordinate dell'eveto
-            int i = event.getActionIndex();
-            int x = (int) event.getX(i);
-            int y = (int) event.getY(i);
-            SCROLL_THRESHOLD = 10;
 
 
-            int row = (int) (y / grid.getBlockDimension());
-            int column = (int) (x / grid.getBlockDimension());
-            String[][] gridConfiguration = grid.getGridConfiguration();
+
+
             RectF shipCollider = mTransform.getCollider();
 
             int eventType = event.getAction() & MotionEvent.ACTION_MASK;
@@ -95,7 +90,11 @@ public class ShipInputComponent implements InputComponent, InputObserver {
                         mCurrentX = event.getX();
                         mCurrentY = event.getY();
                     }
-                    isOnClick = false;
+
+                    if(Math.abs(mDownX-mCurrentX) > SCROLL_THRESHOLD || Math.abs(mDownY-mCurrentY ) > SCROLL_THRESHOLD){
+                        isOnClick = false;
+                    }
+
                     break;
 
                 case MotionEvent.ACTION_UP:
@@ -157,15 +156,33 @@ public class ShipInputComponent implements InputComponent, InputObserver {
     }
 
     private void rotate() {
-        PointF newLocation = new PointF(mTransform.getLocation().x, mTransform.getLocation().y);
+        PointF newLocation = new PointF( );
+        double x = mTransform.getLocation().x;
+        double y = mTransform.getLocation().y;
 
-        if(newLocation.x + mTransform.getObjectWidth() >= mTransform.getGridDimension()){
-            newLocation.x = mTransform.getGridDimension() - mTransform.getObjectWidth();
+
+        if(x + mTransform.getObjectWidth() >= mTransform.getGridDimension()){
+            x = mTransform.getGridDimension() - mTransform.getObjectWidth();
         }
 
-        if(newLocation.y + mTransform.getObjectHeight() >= mTransform.getGridDimension()){
-            newLocation.y = mTransform.getGridDimension() - mTransform.getObjectHeight();
+        if(y + mTransform.getObjectHeight() >= mTransform.getGridDimension()){
+            y = mTransform.getGridDimension() - mTransform.getObjectHeight();
         }
+
+        x = x / mTransform.getBlockDimension();
+        y = y / mTransform.getBlockDimension();
+
+        if(Math.round(x) >= 10 || Math.round(y) >= 10){
+            newLocation.x = mTransform.getBlockDimension() * (int) x;
+            newLocation.y = mTransform.getBlockDimension() * (int) y;
+        }else{
+            newLocation.x = mTransform.getBlockDimension() * Math.round(x);
+            newLocation.y = mTransform.getBlockDimension() * Math.round(y);
+        }
+
+        Log.d(TAG, "rotate: newLocation.x = "+newLocation.x+ " newLocation.y = "+ newLocation.y);
+
+
 
         mTransform.setLocation(newLocation.x, newLocation.y);
     }
@@ -174,8 +191,6 @@ public class ShipInputComponent implements InputComponent, InputObserver {
         PointF oldLocation = mTransform.getLocation();
         PointF newLocation = new PointF();
 
-        float differenceX = eventX - mCurrentX ;
-        float differenceY = eventY - mCurrentY ;
 
         double x =  (oldLocation.x / mTransform.getBlockDimension());
         double y =  (oldLocation.y / mTransform.getBlockDimension());
