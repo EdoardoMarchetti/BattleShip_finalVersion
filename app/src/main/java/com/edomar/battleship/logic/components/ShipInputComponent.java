@@ -61,21 +61,11 @@ public class ShipInputComponent implements InputComponent, InputObserver {
             if(eventType == MotionEvent.ACTION_UP ||
                     eventType == MotionEvent.ACTION_POINTER_UP){
                 Log.d(TAG, "handleInput: eventType corretto");
-                
-                //Attivo la nave se l'evento è avvenuto nel suo collider
-                if(shipCollider.contains(x,y)){
-                    mTransform.setMovable();
-                    Log.d(TAG, "handleInput: nave attivata");
-                }else{
-                    mTransform.setImmovable();
-                    Log.d(TAG, "handleInput: nave disattivata");
-                }
-                
+                Log.d(TAG, "handleInput: ship movable = "+mTransform.checkMovable());
                 if(mTransform.checkMovable() && shipCollider.contains(x,y)){
                     mTransform.rotate();
                     Log.d(TAG, "handleInput: nave ruotata");
                     //Controllo se dopo la rotazione la nave deve essere spostata (questa parte potrebbe andare nel movement Component)
-
                     /*if(mTransform.getObjectHeight() + mTransform.getLocation().x > grid.getGridDimension()){
                         float difference = (mTransform.getObjectHeight() + mTransform.getLocation().x) - grid.getGridDimension();
                         int differenceInBlocks = (int) (difference / grid.getBlockDimension());
@@ -94,7 +84,16 @@ public class ShipInputComponent implements InputComponent, InputObserver {
                     }
 
 
-                    mTransform.updateCollider();*/
+                    //mTransform.updateCollider();*/
+                }
+
+                //Attivo la nave se l'evento è avvenuto nel suo collider
+                if(shipCollider.contains(x,y)){
+                    mTransform.setMovable();
+                    Log.d(TAG, "handleInput: nave attivata");
+                }else{
+                    mTransform.setImmovable();
+                    Log.d(TAG, "handleInput: nave disattivata");
                 }
                 
             }

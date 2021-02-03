@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.edomar.battleship.logic.GameObject;
 import com.edomar.battleship.logic.Level;
+import com.edomar.battleship.logic.components.ShipInputComponent;
 import com.edomar.battleship.utils.BitmapStore;
 
 import java.util.ArrayList;
@@ -137,12 +138,19 @@ public class BattleField extends SurfaceView implements Runnable,
         while (mRunning){
             long frameStartTime = System.currentTimeMillis();
             ArrayList<GameObject> objects = mLevel.getGameObject();
+
+            /** Update the objects **/
+            int count=0;
             for (GameObject o: objects) {
+                //Log.d("ShipInputComponent", "run: ship number= "+count);
                 if(o.getTransform().checkMovable()){
+                    Log.d("ShipInputComponent", "run: ship Movable");
                     o.update(mFPS, mGrid);
                 }
+                count++;
             }
 
+            /** Draw objects **/
             mRenderer.draw(mGrid, objects);
 
             // Measure the frames per second in the usual way

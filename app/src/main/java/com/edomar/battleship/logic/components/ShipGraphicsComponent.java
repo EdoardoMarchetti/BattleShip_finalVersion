@@ -3,8 +3,10 @@ package com.edomar.battleship.logic.components;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.RectF;
 
 import com.edomar.battleship.logic.Transform;
 import com.edomar.battleship.logic.components.interfaces.GraphicsComponent;
@@ -24,6 +26,19 @@ public class ShipGraphicsComponent implements GraphicsComponent {
 
     @Override
     public void draw(Canvas canvas, Paint paint, Transform t) {
+
+        Paint paintState = paint;
+
+        //Draw the collider if is movable
+        if(t.checkMovable()){
+            RectF shipCollider = t.getCollider();
+            paint.setColor(Color.GREEN);
+            canvas.drawRect(shipCollider, paint);
+        }
+
+        paint = paintState;
+
+        //Draw the ship
         Bitmap bitmap;
 
         if(t.isVertical()){
@@ -36,5 +51,7 @@ public class ShipGraphicsComponent implements GraphicsComponent {
                 t.getLocation().x,
                 t.getLocation().y,
                 paint);
+
+
     }
 }

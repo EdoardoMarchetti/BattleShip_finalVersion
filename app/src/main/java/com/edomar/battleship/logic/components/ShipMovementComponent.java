@@ -14,25 +14,31 @@ public class ShipMovementComponent implements MovementComponent {
     @Override
     public boolean move(long fps, Transform t, Grid grid) {
 
-        //After rotation
-        if(t.getObjectHeight() + t.getLocation().x > grid.getGridDimension()){
-            float difference = (t.getObjectHeight() + t.getLocation().x) - grid.getGridDimension();
-            int differenceInBlocks = (int) (difference / grid.getBlockDimension());
-            Log.d(TAG, "handleInput: differenceInBlocks = "+differenceInBlocks);
-            PointF oldLocation = t.getLocation();
-            t.setLocation(oldLocation.x - (grid.getBlockDimension() * differenceInBlocks)
-                    ,oldLocation.y);
+        //Check if is rotatable and then rotate
+        if (t.isRotatable()) {
+            if (t.getObjectHeight() + t.getLocation().x > grid.getGridDimension()) {
+                float difference = (t.getObjectHeight() + t.getLocation().x) - grid.getGridDimension();
+                int differenceInBlocks = (int) (difference / grid.getBlockDimension());
+                Log.d(TAG, "handleInput: differenceInBlocks = " + differenceInBlocks);
+                PointF oldLocation = t.getLocation();
+                t.setLocation(oldLocation.x - (grid.getBlockDimension() * differenceInBlocks)
+                        , oldLocation.y);
 
-        }else if(t.getObjectHeight() + t.getLocation().y > grid.getGridDimension()){
-            float difference = (t.getObjectHeight() + t.getLocation().y ) - grid.getGridDimension();
-            int differenceInBlocks = (int) (difference / grid.getBlockDimension());
-            Log.d(TAG, "handleInput: differenceInBlocks = "+differenceInBlocks);
-            PointF oldLocation = t.getLocation();
-            t.setLocation(oldLocation.x
-                    ,oldLocation.y - (grid.getBlockDimension() * differenceInBlocks) );
+            } else if (t.getObjectHeight() + t.getLocation().y > grid.getGridDimension()) {
+                float difference = (t.getObjectHeight() + t.getLocation().y) - grid.getGridDimension();
+                int differenceInBlocks = (int) (difference / grid.getBlockDimension());
+                Log.d(TAG, "handleInput: differenceInBlocks = " + differenceInBlocks);
+                PointF oldLocation = t.getLocation();
+                t.setLocation(oldLocation.x
+                        , oldLocation.y - (grid.getBlockDimension() * differenceInBlocks));
+            }
+
+            t.updateCollider();
+            t.notRotatable();
+
+            //Setta la nuova posizione sulla griglia
+
         }
-
-        t.updateCollider();
         return true;
     }
 }

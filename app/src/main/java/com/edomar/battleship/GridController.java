@@ -26,51 +26,58 @@ public class GridController implements InputObserver{
         //                                              -> definire se si è colpito una nave o meno
         //                                              -> indicare nella model della griglia il colpo effettuato
 
-        int i = event.getActionIndex();
-        int x = (int) event.getX(i);
-        int y = (int) event.getY(i);
+        boolean preMatch = true;
+        if(!preMatch){
 
-        int row = (int) (y / grid.getBlockDimension());
-        int column = (int) (x / grid.getBlockDimension());
-        String[][] gridConfiguration = grid.getGridConfiguration();
-        Log.d(TAG, "handleInput: row = "+ row+ " column= "+column);
+            int i = event.getActionIndex();
+            int x = (int) event.getX(i);
+            int y = (int) event.getY(i);
 
-        int eventType = event.getAction() & MotionEvent.ACTION_MASK;
-        Log.d(TAG, "handleInput: envenType= "+eventType);
+            int row = (int) (y / grid.getBlockDimension());
+            int column = (int) (x / grid.getBlockDimension());
+            String[][] gridConfiguration = grid.getGridConfiguration();
+            Log.d(TAG, "handleInput: row = "+ row+ " column= "+column);
 
-        if(eventType == MotionEvent.ACTION_UP ||
-                eventType == MotionEvent.ACTION_POINTER_UP){
-            Log.d(TAG, "handleInput: envenType corretto");
-            //Verifica se il tocco è avvenuto in coordinate ammesse e se il colpo era già stato fatto
-            if(row >= 0 && row<10 && column >=0 && column<10) {
-                //Se si è nell'if il colpo non è stato ancora eseguito
-                Log.d(TAG, "handleInput: colpo valido");
-                
-                ArrayList<GameObject> objects = level.getGameObject();
-                boolean hit = false;
-                int j = 0;
-                //Verifica se è stata colpita la nave
-                while (!hit && j < level.mNumShipsInLevel ) {
-                    RectF objectCollider = objects.get(j) //nave
-                            .getTransform()               //transform
-                            .getCollider();               //collider
+            int eventType = event.getAction() & MotionEvent.ACTION_MASK;
+            Log.d(TAG, "handleInput: envenType= "+eventType);
 
-                    if (objectCollider.contains(x, y)) {
-                        //nave colpita
-                        hit = true;
-                        Log.d(TAG, "handleInput: nave colpita");
-                        //diminuisci vite della nave
-                        //segna sulla griglia il bersaglio colpito
+            if(eventType == MotionEvent.ACTION_UP ||
+                    eventType == MotionEvent.ACTION_POINTER_UP) {
+                Log.d(TAG, "handleInput: envenType corretto");
+                //Verifica se il tocco è avvenuto in coordinate ammesse e se il colpo era già stato fatto
+                if (row >= 0 && row < 10 && column >= 0 && column < 10) {
+                    //Se si è nell'if il colpo non è stato ancora eseguito
+                    Log.d(TAG, "handleInput: colpo valido");
+
+                    ArrayList<GameObject> objects = level.getGameObject();
+                    boolean hit = false;
+                    int j = 0;
+                    //Verifica se è stata colpita la nave
+                    while (!hit && j < level.mNumShipsInLevel) {
+                        RectF objectCollider = objects.get(j) //nave
+                                .getTransform()               //transform
+                                .getCollider();               //collider
+
+                        if (objectCollider.contains(x, y)) {
+                            //nave colpita
+                            hit = true;
+                            Log.d(TAG, "handleInput: nave colpita");
+                            //diminuisci vite della nave
+                            //segna sulla griglia il bersaglio colpito
+                        }
+
+                        j++;
+
                     }
 
-                    j++;
-
+                    //se al termine del ciclo for hit=false nessuna nave è stata colpita e quindi sulla griglia verrà disegnata una X
+                    grid.setHit(row, column, hit);
+                    Log.d(TAG, "handleInput: colpo aggiornato");
                 }
-
-                //se al termine del ciclo for hit=false nessuna nave è stata colpita e quindi sulla griglia verrà disegnata una X
-                grid.setHit(row, column, hit);
-                Log.d(TAG, "handleInput: colpo aggiornato");
             }
+
+        }else{
+            //Do nothing
         }
     }
 }

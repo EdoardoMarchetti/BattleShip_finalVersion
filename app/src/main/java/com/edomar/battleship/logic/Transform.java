@@ -15,6 +15,7 @@ public class Transform {
     private float mObjectHeight; //ridimensionata rispetto alla dimensione dei blocchi
     private float mObjectWidth; //ridimensionata rispetto ai blocchi
     private boolean mIsMovable= false;
+    private boolean mRotated = false;
 
     /** Variabili di utilità **/
     private static float sGridDimension;
@@ -71,6 +72,10 @@ public class Transform {
         return mIsMovable;
     }
 
+    public boolean isRotatable(){
+        return mRotated;
+    }
+
     /** Setters **/
 
     public void setMovable(){
@@ -83,6 +88,11 @@ public class Transform {
 
     public void rotate(){
         mIsVertical = !mIsVertical;
+        mRotated = true;
+    }
+
+    public void notRotatable(){
+        mRotated = false;
     }
 
     public void setLocation(float horizontal, float vertical){
