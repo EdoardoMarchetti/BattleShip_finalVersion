@@ -28,6 +28,8 @@ public class BattleField extends SurfaceView implements Runnable,
     private Thread mThread;
     private long mFPS;
 
+
+    /** Instances **/
     private Renderer mRenderer;
     private Grid mGrid;
     private boolean mRunning;
@@ -191,8 +193,6 @@ public class BattleField extends SurfaceView implements Runnable,
             o.setInactive();
         }
 
-        /*objects.get(Level.BATTLESHIP_INDEX) // Ricavo l'oggetto da far apparire
-                .spawn(objects.get(Level.BATTLESHIP_INDEX).getTransform()); //faccio apparire l'oggetto ricavando prima il suo transform*/
 
         for(int i = 0; i<Level.mNumShipsInLevel; i++){
             objects.get(i)

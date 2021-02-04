@@ -18,7 +18,7 @@ public class ShipSpawnComponent implements SpawnComponent {
 
         boolean isVertical = true;
         //t.setStartLocation(0,t.getBlockDimension() * 8, isVertical); //prova orizzontale
-        t.setStartLocation(t.getBlockDimension() * 8,0, isVertical); //prova verticale
+        t.setStartLocation(t.getBlockDimension() * posizioneInGriglia,0, isVertical); //prova verticale
         Log.d(TAG, "spawn: blockDimension = " +t.getBlockDimension());
         Log.d(TAG, "spawn: horizontal= "+t.getLocation().x+" vertical= "+t.getLocation().y);
     }

@@ -2,17 +2,17 @@ package com.edomar.battleship.logic.specifications;
 
 import android.graphics.PointF;
 
-public class CarrierSpec extends ObjectSpec {
+public class RescueSpec extends ObjectSpec {
 
     private static final String tag = "Ship";
-    private static final String bitmapName = "ship_carrier";
-    private static final PointF blocksOccupied= new PointF(1,4);
+    private static final String bitmapName = "ship_rescue";
+    private static final PointF blocksOccupied= new PointF(1,3);
     private static final  String[] components = new String[]{"ShipGraphicsComponent",
             "ShipSpawnComponent",
             "ShipInputComponent",
             "ShipUpdateComponent"};
 
-    public CarrierSpec() {
+    public RescueSpec() {
         super(tag, bitmapName, blocksOccupied, components);
     }
 }

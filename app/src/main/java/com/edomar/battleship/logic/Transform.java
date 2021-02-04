@@ -8,7 +8,9 @@ public class Transform {
 
     private static final String TAG = "Transform";
 
-    /** Variables **/
+    public boolean stopOther = false;
+
+    /** Private Variables **/
     private RectF mCollider;
     private PointF mLocation;
     private boolean mIsVertical = true;
@@ -17,6 +19,7 @@ public class Transform {
     private boolean mIsMovable= false;
     private boolean mRotatable = false;
     private boolean mRotated = false;
+
 
     /** Variabili di utilità **/
     private static float sGridDimension;

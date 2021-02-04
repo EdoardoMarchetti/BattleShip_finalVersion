@@ -12,7 +12,7 @@ import com.edomar.battleship.logic.Level;
 import com.edomar.battleship.logic.Transform;
 import com.edomar.battleship.logic.components.interfaces.InputComponent;
 
-/** Per il D&D tenere a mente ACTION_MOVE **/
+/** Per migliorare il D&D bisognerebbe avere anche mFPS da Battlefield**/
 
 public class ShipInputComponent implements InputComponent, InputObserver {
 
@@ -49,37 +49,33 @@ public class ShipInputComponent implements InputComponent, InputObserver {
         boolean preMatch = true;
 
         SCROLL_THRESHOLD = mTransform.getBlockDimension() / 10;
-        
-        if(!preMatch){
-            //Do nothing
-            mTransform.setImmovable();
-        }else{
-            //Prima ottengo le coordinate dell'eveto
+
+        RectF shipCollider = mTransform.getCollider();
+
+        int eventType = event.getAction() & MotionEvent.ACTION_MASK;
+
+        if(eventType == MotionEvent.ACTION_DOWN){
+            mDownX = event.getX();
+            mDownY = event.getY();
+            mCurrentX = mDownX;
+            mCurrentY = mDownY;
+
+            if(shipCollider.contains(mDownX,mDownY) && level.transformInMovement == null) {
+                mTransform.setMovable();
+                Log.d(TAG, "handleInput: nave attivata");
+                level.transformInMovement = mTransform;
+                isOnClick = true;
+            }else{
+                mTransform.setImmovable();
+
+            }
+
+        }
 
 
-
-
-            RectF shipCollider = mTransform.getCollider();
-
-            int eventType = event.getAction() & MotionEvent.ACTION_MASK;
-
+        if(level.transformInMovement == mTransform){
+            Log.d(TAG, "handleInput: i'm movable");
             switch (eventType){
-                case MotionEvent.ACTION_DOWN:
-
-                    mDownX = event.getX();
-                    mDownY = event.getY();
-                    mCurrentX = mDownX;
-                    mCurrentY = mDownY;
-
-                    if(shipCollider.contains(mDownX,mDownY)) {
-                        mTransform.setMovable();
-                        Log.d(TAG, "handleInput: nave attivata");
-                    }else{
-                        mTransform.setImmovable();
-                    }
-                    isOnClick = true;
-                    break;
-
                 case MotionEvent.ACTION_MOVE:
 
                     if(mTransform.checkMovable()){
@@ -114,6 +110,8 @@ public class ShipInputComponent implements InputComponent, InputObserver {
                     }
 
                     mTransform.setRotatable();
+                    level.transformInMovement = null;
+
                     break;
 
             }
@@ -182,8 +180,6 @@ public class ShipInputComponent implements InputComponent, InputObserver {
 
         Log.d(TAG, "rotate: newLocation.x = "+newLocation.x+ " newLocation.y = "+ newLocation.y);
 
-
-
         mTransform.setLocation(newLocation.x, newLocation.y);
     }
 
@@ -206,7 +202,6 @@ public class ShipInputComponent implements InputComponent, InputObserver {
             newLocation.x = mTransform.getBlockDimension() * Math.round(x);
             newLocation.y = mTransform.getBlockDimension() * Math.round(y);
         }
-
 
         mTransform.setLocation(newLocation.x, newLocation.y);
     }
