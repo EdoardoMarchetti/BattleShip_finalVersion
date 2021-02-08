@@ -54,7 +54,7 @@ public class ShipInputComponent implements InputComponent, InputObserver {
 
         int eventType = event.getAction() & MotionEvent.ACTION_MASK;
 
-        if(eventType == MotionEvent.ACTION_DOWN){
+        if(eventType == MotionEvent.ACTION_DOWN && preMatch){
             mDownX = event.getX();
             mDownY = event.getY();
             mCurrentX = mDownX;

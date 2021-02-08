@@ -9,12 +9,14 @@ import com.edomar.battleship.logic.Level;
 
 import java.util.ArrayList;
 
-public class GridController implements InputObserver{
+public class GridInputController implements InputObserver{
 
     private static final String TAG = "GridController";
+    private AmmoSpawner mAS;
 
-    public GridController(BattleField b){
+    public GridInputController(BattleField b){
         b.addObserver(this);
+        mAS = b;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class GridController implements InputObserver{
         //                                              -> definire se si è colpito una nave o meno
         //                                              -> indicare nella model della griglia il colpo effettuato
 
-        boolean preMatch = true;
+        boolean preMatch = false;
         if(!preMatch){
 
             int i = event.getActionIndex();
@@ -44,15 +46,17 @@ public class GridController implements InputObserver{
             if(eventType == MotionEvent.ACTION_UP ||
                     eventType == MotionEvent.ACTION_POINTER_UP) {
                 Log.d(TAG, "handleInput: envenType corretto");
+
                 //Verifica se il tocco è avvenuto in coordinate ammesse e se il colpo era già stato fatto
                 if (row >= 0 && row < 10 && column >= 0 && column < 10) {
+
                     //Se si è nell'if il colpo non è stato ancora eseguito
                     Log.d(TAG, "handleInput: colpo valido");
 
                     ArrayList<GameObject> objects = level.getGameObject();
                     boolean hit = false;
                     int j = 0;
-                    //Verifica se è stata colpita la nave
+                    //Verifica se è stata colpita una nave
                     while (!hit && j < level.mNumShipsInLevel) {
                         RectF objectCollider = objects.get(j) //nave
                                 .getTransform()               //transform
@@ -73,6 +77,9 @@ public class GridController implements InputObserver{
                     //se al termine del ciclo for hit=false nessuna nave è stata colpita e quindi sulla griglia verrà disegnata una X
                     grid.setHit(row, column, hit);
                     Log.d(TAG, "handleInput: colpo aggiornato");
+
+                    //fai partire l'animazione del razzo
+                    mAS.spawnAmmo(row, column); //a spawn ammo devono essere passate le coordinate colpite per posizionare il missile
                 }
             }
 

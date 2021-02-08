@@ -21,7 +21,8 @@ import java.util.ArrayList;
 
 public class BattleField extends SurfaceView implements Runnable,
         SurfaceHolder.Callback,
-        BattleFieldBroadcaster{
+        BattleFieldBroadcaster,
+        AmmoSpawner{
 
     private static final String TAG = "BattleField";
 
@@ -36,7 +37,7 @@ public class BattleField extends SurfaceView implements Runnable,
     private BitmapStore mBitmapStore;
     private Level mLevel;
     private ArrayList<InputObserver> inputObservers = new ArrayList<>();
-    private GridController mGridController;
+    private GridInputController mGridController;
 
 
     /**Variabili per gestire le coordinate**/
@@ -89,7 +90,7 @@ public class BattleField extends SurfaceView implements Runnable,
         mRenderer = new Renderer(this);
         mGrid = new Grid(this.getLayoutParams().width);
         mLevel = new Level(getContext(), this.getLayoutParams().width, this);
-        mGridController = new GridController(this);
+        mGridController = new GridInputController(this);
 
     }
 
@@ -200,5 +201,10 @@ public class BattleField extends SurfaceView implements Runnable,
         }
 
 
+    }
+
+    @Override
+    public boolean spawnAmmo(int row, int column) {
+        return false;
     }
 }
