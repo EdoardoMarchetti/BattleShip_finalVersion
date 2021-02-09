@@ -37,12 +37,17 @@ public class Renderer  {
             mCanvas = mSurfaceHolder.lockCanvas();
             mCanvas.drawColor(Color.WHITE);
 
-
+            /**Grid**/
             grid.drawGrid(mCanvas, mPaint);
+
+            /** Objects **/
             for (GameObject object: objects) {
-                object.draw(mCanvas, mPaint);
+                if(object.checkActive()) {
+                    object.draw(mCanvas, mPaint);
+                }
             }
 
+            /**Particles**/
             if(ps.mIsRunning){
                 ps.draw(mCanvas, mPaint);
             }

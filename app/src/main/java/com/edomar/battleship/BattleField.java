@@ -99,7 +99,7 @@ public class BattleField extends SurfaceView implements Runnable,
         mLevel = new Level(getContext(), this.getLayoutParams().width, this);
         mGridController = new GridInputController(this);
         mParticleSystem = new ParticleSystem();
-        mParticleSystem.init(100);
+        mParticleSystem.init(250);
     }
 
     /** Adding observers **/
@@ -192,7 +192,7 @@ public class BattleField extends SurfaceView implements Runnable,
             io.handleInput(event, mGrid, mLevel);
         }
 
-        mParticleSystem.emitParticles( new PointF(event.getX(), event.getY()));
+        //mParticleSystem.emitParticles( new PointF(event.getX(), event.getY()));
 
         return true;
     }

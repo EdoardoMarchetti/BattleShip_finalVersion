@@ -17,6 +17,7 @@ public class ParticleSystem {
     ArrayList<Particle> mParticles;
     Random random = new Random();
     public boolean mIsRunning = false;
+    public boolean mShipHit = false;
 
     public void init (int numParticles){
 
@@ -62,13 +63,13 @@ public class ParticleSystem {
 
         for (Particle p : mParticles
              ) {
-            boolean shipHit = false;
+
             int red=0;
             int green=0;
             int blue = 0;
 
 
-            if(shipHit) {
+            if(mShipHit) {
                 red = 255;
                 green = random.nextInt(215) + 1;
             }else{
@@ -77,7 +78,6 @@ public class ParticleSystem {
                 blue = random.nextInt((256-230)+1)+230;
 
             }
-
 
 
 

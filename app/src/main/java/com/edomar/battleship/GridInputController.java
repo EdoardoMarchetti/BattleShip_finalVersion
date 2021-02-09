@@ -48,7 +48,7 @@ public class GridInputController implements InputObserver{
                 Log.d(TAG, "handleInput: envenType corretto");
 
                 //Verifica se il tocco è avvenuto in coordinate ammesse e se il colpo era già stato fatto
-                if (row >= 0 && row < 10 && column >= 0 && column < 10) {
+                if (row >= 0 && row < 10 && column >= 0 && column < 10 && gridConfiguration[row][column] =="0") {
 
                     //Se si è nell'if il colpo non è stato ancora eseguito
                     Log.d(TAG, "handleInput: colpo valido");
