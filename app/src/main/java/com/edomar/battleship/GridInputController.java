@@ -28,7 +28,7 @@ public class GridInputController implements InputObserver{
         //                                              -> definire se si è colpito una nave o meno
         //                                              -> indicare nella model della griglia il colpo effettuato
 
-        boolean preMatch = true;
+        boolean preMatch = false;
         if(!preMatch){
 
             int i = event.getActionIndex();

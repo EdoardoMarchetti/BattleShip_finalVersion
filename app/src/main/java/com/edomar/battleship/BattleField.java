@@ -2,6 +2,7 @@ package com.edomar.battleship;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 
 import com.edomar.battleship.logic.GameObject;
 import com.edomar.battleship.logic.Level;
+import com.edomar.battleship.logic.ParticleSystem;
+import com.edomar.battleship.logic.PhysicsEngine;
 import com.edomar.battleship.logic.components.ShipInputComponent;
 import com.edomar.battleship.utils.BitmapStore;
 
@@ -32,12 +35,15 @@ public class BattleField extends SurfaceView implements Runnable,
 
     /** Instances **/
     private Renderer mRenderer;
+    private PhysicsEngine mPhysicsEngine;
+    private ParticleSystem mParticleSystem;
     private Grid mGrid;
     private boolean mRunning;
     private BitmapStore mBitmapStore;
     private Level mLevel;
     private ArrayList<InputObserver> inputObservers = new ArrayList<>();
     private GridInputController mGridController;
+
 
 
     /**Variabili per gestire le coordinate**/
@@ -88,10 +94,12 @@ public class BattleField extends SurfaceView implements Runnable,
         Log.d(TAG, "init: in init method");
         mBitmapStore = BitmapStore.getInstance(getContext());
         mRenderer = new Renderer(this);
+        mPhysicsEngine = new PhysicsEngine();
         mGrid = new Grid(this.getLayoutParams().width);
         mLevel = new Level(getContext(), this.getLayoutParams().width, this);
         mGridController = new GridInputController(this);
-
+        mParticleSystem = new ParticleSystem();
+        mParticleSystem.init(100);
     }
 
     /** Adding observers **/
@@ -131,7 +139,6 @@ public class BattleField extends SurfaceView implements Runnable,
             @Override
             public void run() {
                 //Qua va il codice per disegnare le coordinate
-
                 mRenderer.drawGridCoordinates(mLetters, mNumbers, mLettersDimen );
             }
         });
@@ -143,18 +150,18 @@ public class BattleField extends SurfaceView implements Runnable,
             ArrayList<GameObject> objects = mLevel.getGameObject();
 
             /** Update the objects **/
-            int count = 0 ;
-            for (GameObject o: objects) {
-                //Log.d("ShipInputComponent", "run: object number= "+count);
+
+            mPhysicsEngine.update(mFPS, mParticleSystem, objects, mGrid);
+
+            /*for (GameObject o: objects) {
                 if(o.checkActive()){
-                    Log.d("ShipInputComponent", "run: object number= "+count);
                     o.update(mFPS, mGrid);
                 }
-                count++;
-            }
+            }*/
+
 
             /** Draw objects **/
-            mRenderer.draw(mGrid, objects);
+            mRenderer.draw(mGrid, objects, mParticleSystem);
 
             // Measure the frames per second in the usual way
             long timeThisFrame = System.currentTimeMillis()
@@ -184,6 +191,8 @@ public class BattleField extends SurfaceView implements Runnable,
         for (InputObserver io : inputObservers) {
             io.handleInput(event, mGrid, mLevel);
         }
+
+        mParticleSystem.emitParticles( new PointF(event.getX(), event.getY()));
 
         return true;
     }
