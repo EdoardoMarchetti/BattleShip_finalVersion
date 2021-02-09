@@ -47,7 +47,7 @@ public class ShipInputComponent implements InputComponent, InputObserver {
         //                                              -> ruota / D&D
         //                                              -> indicare nella model della griglia la nuova posizione della nave
         
-        boolean preMatch = false;
+        boolean preMatch = true;
 
         SCROLL_THRESHOLD = mTransform.getBlockDimension() / 10;
 

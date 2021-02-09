@@ -133,6 +133,14 @@ public class Grid  {
     public Point getLastHit(){ return  mLastHit;}
 
     /** Setters **/
+    public void clearGrid(){
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                mGridConfiguration[i][j] ="0";
+            }
+        }
+    }
+
     public void setHit(int row, int column, boolean shipHit){
         if(shipHit){
             mGridConfiguration[row][column] = "O";
@@ -143,5 +151,17 @@ public class Grid  {
         }
         mLastHit.x = row;
         mLastHit.y = column;
+    }
+
+    public void positionShip(int startRow, int startColumn, int blockOccupied, boolean isVertical, String gridTag ){
+        if(isVertical){
+            for (int i = startRow; i < (startRow+blockOccupied) ; i++) {
+                mGridConfiguration[i][startColumn] = gridTag;
+            }
+        }else{
+            for (int j = startColumn; j < (startColumn+blockOccupied) ; j++) {
+                mGridConfiguration[startRow][j] = gridTag;
+            }
+        }
     }
 }

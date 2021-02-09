@@ -7,13 +7,15 @@ import android.graphics.PointF;
 public class ObjectSpec {
 
     private String mTag;
+    private String mGridTag;
     private String mBitmapName;
     private float mSpeed;
     private PointF mBlocksOccupied;
     private String[] mComponents;
 
-    public ObjectSpec(String tag, String bitmapName, float speed, PointF blocksOccupied, String[] components) {
+    public ObjectSpec(String tag, String gTag, String bitmapName, float speed, PointF blocksOccupied, String[] components) {
         this.mTag = tag;
+        this.mGridTag = gTag;
         this.mBitmapName = bitmapName;
         this.mSpeed = speed;
         this.mBlocksOccupied = blocksOccupied;
@@ -22,6 +24,10 @@ public class ObjectSpec {
 
     public String getTag() {
         return mTag;
+    }
+
+    public String getGridTag() {
+        return mGridTag;
     }
 
     public String getBitmapName() {

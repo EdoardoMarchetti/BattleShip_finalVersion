@@ -21,6 +21,7 @@ public class GameObject {
     private Transform mTransform;
     private  boolean isActive = false; //forse da inserire nel transform
     private String mTag;
+    private String mGridTag;
 
     private GraphicsComponent graphicsComponent;
     private UpdateComponent updateComponent;
@@ -51,6 +52,10 @@ public class GameObject {
         mTag = tag;
     }
 
+    public void setGridTag(String gridTag){
+        mGridTag = gridTag;
+    }
+
     public void setTransform(Transform t){
         mTransform = t;
     }
@@ -71,6 +76,10 @@ public class GameObject {
 
     public String getTag() {
         return mTag;
+    }
+
+    public String getGridTag() {
+        return mGridTag;
     }
 
     /** Metodi che invocano i component **/

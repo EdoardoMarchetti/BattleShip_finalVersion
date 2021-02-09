@@ -5,6 +5,7 @@ import android.graphics.PointF;
 public class PatrolSpec extends ObjectSpec {
 
     private static final String tag = "Ship";
+    private static final String gridTag = "P";
     private static final String bitmapName = "ship_patrol";
     private static final float speed = 0;
     private static final PointF blocksOccupied= new PointF(1,2);
@@ -14,6 +15,6 @@ public class PatrolSpec extends ObjectSpec {
             "ShipUpdateComponent"};
 
     public PatrolSpec() {
-        super(tag, bitmapName, speed,blocksOccupied, components);
+        super(tag, gridTag, bitmapName, speed,blocksOccupied, components);
     }
 }

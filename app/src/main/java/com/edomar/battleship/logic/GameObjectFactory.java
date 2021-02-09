@@ -51,6 +51,7 @@ public class GameObjectFactory { //pagina 559 e 657
 
         switch(object.getTag()){
             case "Ship":
+                object.setGridTag(spec.getGridTag());
                 object.setTransform(new ShipTransform(objectSize.x, objectSize.y, location, mGridSize));
                 break;
             case "Ammo":

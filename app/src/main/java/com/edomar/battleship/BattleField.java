@@ -2,7 +2,6 @@ package com.edomar.battleship;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.graphics.PointF;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -17,7 +16,6 @@ import com.edomar.battleship.logic.GameObject;
 import com.edomar.battleship.logic.Level;
 import com.edomar.battleship.logic.ParticleSystem;
 import com.edomar.battleship.logic.PhysicsEngine;
-import com.edomar.battleship.logic.components.ShipInputComponent;
 import com.edomar.battleship.utils.BitmapStore;
 
 import java.util.ArrayList;
@@ -232,4 +230,49 @@ public class BattleField extends SurfaceView implements Runnable,
 
         return true;
     }
+
+    public String[][] saveDefaultFleet() {
+        Log.d("Saving", "saveDefaultFleet: ");
+        ArrayList<GameObject> objects = mLevel.getGameObject();
+        mGrid.clearGrid();
+
+        for (int i = 0; i < Level.mNumShipsInLevel; i++) {
+            int startRow = (int) (objects.get(i)
+                                .getTransform()
+                                .getLocation().y / mGrid.getBlockDimension());
+
+            int startColumn = (int) (objects.get(i)
+                                    .getTransform()
+                                    .getLocation().x / mGrid.getBlockDimension());
+
+            float shipWidth = objects.get(i)
+                    .getTransform()
+                    .getObjectWidth();
+
+            float shipHeight = objects.get(i)
+                    .getTransform()
+                    .getObjectHeight();
+
+            boolean shipIsVertical;
+            int blockOccupied;
+
+            if(shipWidth >= shipHeight){
+                shipIsVertical = false;
+                blockOccupied = (int) (shipWidth / mGrid.getBlockDimension());
+            }else{
+                shipIsVertical = true;
+                blockOccupied = (int) (shipHeight / mGrid.getBlockDimension());
+            }
+
+            String gridTag = objects.get(i)
+                    .getGridTag();
+
+            mGrid.positionShip(startRow, startColumn, blockOccupied, shipIsVertical, gridTag );
+        }
+
+        return mGrid.getGridConfiguration();
+
+    }
+
+
 }

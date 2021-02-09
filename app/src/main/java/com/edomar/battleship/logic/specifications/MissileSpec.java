@@ -5,6 +5,7 @@ import android.graphics.PointF;
 public class MissileSpec extends ObjectSpec{
 
     private static final String tag = "Ammo";
+    private static final String gridTag = "";
     private static final String bitmapName = "missile_one";
     private static final float speed = .65f;
     private static final PointF blocksOccupied= new PointF(1,1);
@@ -15,7 +16,7 @@ public class MissileSpec extends ObjectSpec{
 
 
     public MissileSpec() {
-        super(tag, bitmapName, speed, blocksOccupied, components);
+        super(tag, gridTag,bitmapName, speed, blocksOccupied, components);
     }
 
 
