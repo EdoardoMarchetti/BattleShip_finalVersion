@@ -17,12 +17,14 @@ import com.edomar.battleship.R;
 public class Grid  {
     private static final String TAG = "Grid";
 
-    private float mGridDimension;
-    private float mBlockDimension;
-    private int strokeWidth;
-    private String[][] mGridConfiguration;
+    private final float mGridDimension;
+    private final float mBlockDimension;
+    private final int strokeWidth;
+    private final String[][] mGridConfiguration;
 
     private static int textDimension;
+
+    private Point mLastHit= new Point();
 
 
     public Grid(float gridDimension) {
@@ -128,6 +130,8 @@ public class Grid  {
         return mBlockDimension;
     }
 
+    public Point getLastHit(){ return  mLastHit;}
+
     /** Setters **/
     public void setHit(int row, int column, boolean shipHit){
         if(shipHit){
@@ -137,5 +141,7 @@ public class Grid  {
             mGridConfiguration[row][column] = "X";
             Log.d("setHit", "setHit: acqua in = "+row+","+column);
         }
+        mLastHit.x = row;
+        mLastHit.y = column;
     }
 }

@@ -143,10 +143,11 @@ public class BattleField extends SurfaceView implements Runnable,
             ArrayList<GameObject> objects = mLevel.getGameObject();
 
             /** Update the objects **/
-            int count=0;
+            int count = 0 ;
             for (GameObject o: objects) {
-                //Log.d("ShipInputComponent", "run: ship number= "+count);
-                if(o.getTransform().checkMovable()){
+                //Log.d("ShipInputComponent", "run: object number= "+count);
+                if(o.checkActive()){
+                    Log.d("ShipInputComponent", "run: object number= "+count);
                     o.update(mFPS, mGrid);
                 }
                 count++;
@@ -195,9 +196,14 @@ public class BattleField extends SurfaceView implements Runnable,
         }
 
 
-        for(int i = 0; i<Level.mNumShipsInLevel; i++){
+        /*for(int i = 0; i<Level.mNumShipsInLevel; i++){
             objects.get(i)
                     .spawn(objects.get(i).getTransform(), i);
+        }*/
+
+        for(int column = 0; column<Level.mNumShipsInLevel; column++) {
+            objects.get(column)
+                    .spawn(0, column);
         }
 
 
@@ -205,6 +211,16 @@ public class BattleField extends SurfaceView implements Runnable,
 
     @Override
     public boolean spawnAmmo(int row, int column) {
-        return false;
+
+        ArrayList<GameObject> objects = mLevel.getGameObject();
+
+        Log.d("SpawnMissile", "spawnAmmo: in BattleField");
+        objects.get(Level.MISSILE)
+                .spawn(row, column);
+        Log.d("SpawnMissile", "spawnAmmo: after spawn");
+
+
+
+        return true;
     }
 }

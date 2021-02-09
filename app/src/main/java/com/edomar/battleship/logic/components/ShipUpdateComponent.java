@@ -1,10 +1,7 @@
 package com.edomar.battleship.logic.components;
 
-import android.graphics.PointF;
-import android.util.Log;
-
 import com.edomar.battleship.Grid;
-import com.edomar.battleship.logic.Transform;
+import com.edomar.battleship.logic.transform.Transform;
 import com.edomar.battleship.logic.components.interfaces.UpdateComponent;
 
 public class ShipUpdateComponent implements UpdateComponent {

@@ -1,6 +1,6 @@
 package com.edomar.battleship.logic.components.interfaces;
 
-import com.edomar.battleship.logic.Transform;
+import com.edomar.battleship.logic.transform.Transform;
 
 public interface InputComponent {
 

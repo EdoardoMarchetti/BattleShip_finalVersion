@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.util.Log;
 
 import com.edomar.battleship.Grid;
 import com.edomar.battleship.logic.components.interfaces.GraphicsComponent;
@@ -11,8 +12,11 @@ import com.edomar.battleship.logic.components.interfaces.InputComponent;
 import com.edomar.battleship.logic.components.interfaces.SpawnComponent;
 import com.edomar.battleship.logic.components.interfaces.UpdateComponent;
 import com.edomar.battleship.logic.specifications.ObjectSpec;
+import com.edomar.battleship.logic.transform.Transform;
 
-public class GameObject { //Probabilmente dovrà diventare una view per effettuare il drag&drop
+public class GameObject {
+
+    private static final String TAG = "GameObject";
 
     private Transform mTransform;
     private  boolean isActive = false; //forse da inserire nel transform
@@ -35,7 +39,7 @@ public class GameObject { //Probabilmente dovrà diventare una view per effettua
         g.initialize(c, spec, objectSize);
     }
 
-    public void setUpdate(UpdateComponent u){
+    public void setUpdater(UpdateComponent u){
         updateComponent = u;
     }
 
@@ -82,10 +86,11 @@ public class GameObject { //Probabilmente dovrà diventare una view per effettua
         }
     }
 
-    public boolean spawn(Transform playerTransform, int posizioneInGriglia) { //Da modificare in base alle necessità
+    public boolean spawn(int row, int column) { //Da modificare in base alle necessità
         // Only spawnComponent if not already active
         if (!isActive) {
-            spawnComponent.spawn(playerTransform, mTransform, posizioneInGriglia);
+            Log.d("SpawnMissile", "spawn: in gameObject");
+            spawnComponent.spawn(mTransform, row, column);
             isActive = true;
             return true;
         }

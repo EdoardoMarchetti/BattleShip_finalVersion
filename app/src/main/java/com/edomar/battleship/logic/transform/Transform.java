@@ -1,24 +1,25 @@
-package com.edomar.battleship.logic;
+package com.edomar.battleship.logic.transform;
 
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.Log;
 
-public class Transform {
+public class Transform { //Pagina 528 e 708
 
     private static final String TAG = "Transform";
 
-    public boolean stopOther = false;
+    //public boolean stopOther = false;
 
     /** Private Variables **/
     private RectF mCollider;
-    private PointF mLocation;
-    private boolean mIsVertical = true;
+    protected PointF mLocation;
     private float mObjectHeight; //ridimensionata rispetto alla dimensione dei blocchi
     private float mObjectWidth; //ridimensionata rispetto ai blocchi
-    private boolean mIsMovable= false;
-    private boolean mRotatable = false;
-    private boolean mRotated = false;
+
+    /*private boolean mIsVertical = true; //solo alla nave
+    private boolean mIsMovable= false; //solo alla nave
+    private boolean mRotatable = false; //solo alla nave
+    private boolean mRotated = false; //solo alla nave*/
 
 
     /** Variabili di utilità **/
@@ -47,9 +48,9 @@ public class Transform {
     }
 
 
-    public boolean isVertical() {
+    /*public boolean isVertical() {
         return mIsVertical;
-    }
+    }*/
 
 
     public float getObjectHeight(){
@@ -73,17 +74,17 @@ public class Transform {
         return mCollider;
     }
 
-    public boolean checkMovable(){
+    /*public boolean checkMovable(){
         return mIsMovable;
-    }
+    }*/
 
-    public boolean checkRotatable(){
+    /*public boolean checkRotatable(){
         return mRotatable;
-    }
+    }*/
 
     /** Setters **/
 
-    public void setMovable(){
+    /*public void setMovable(){
         mIsMovable = true;
     }
 
@@ -111,18 +112,18 @@ public class Transform {
 
     public void setNotRotatable(){
         mRotatable = false;
-    }
+    }*/
 
-    public void setStartLocation(float horizontal, float vertical, boolean isV){
+    /*public void setStartLocation(float horizontal, float vertical, boolean isV){
         mLocation = new PointF(horizontal, vertical);
         mIsVertical = isV;
         if(!mIsVertical){
             invertDimension();
         }
         updateCollider();
-    }
+    }*/
 
-    private void invertDimension() {
+    protected void invertDimension() {
         float support = mObjectWidth;
         mObjectWidth = mObjectHeight;
         mObjectHeight = support;

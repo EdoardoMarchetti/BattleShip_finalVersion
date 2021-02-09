@@ -28,7 +28,7 @@ public class GridInputController implements InputObserver{
         //                                              -> definire se si è colpito una nave o meno
         //                                              -> indicare nella model della griglia il colpo effettuato
 
-        boolean preMatch = false;
+        boolean preMatch = true;
         if(!preMatch){
 
             int i = event.getActionIndex();
@@ -78,8 +78,10 @@ public class GridInputController implements InputObserver{
                     grid.setHit(row, column, hit);
                     Log.d(TAG, "handleInput: colpo aggiornato");
 
+                    Log.d("SpawnMissile", "handleInput: start spawn Missile");
                     //fai partire l'animazione del razzo
                     mAS.spawnAmmo(row, column); //a spawn ammo devono essere passate le coordinate colpite per posizionare il missile
+
                 }
             }
 

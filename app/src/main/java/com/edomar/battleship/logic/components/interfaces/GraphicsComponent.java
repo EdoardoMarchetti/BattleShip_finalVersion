@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 
-import com.edomar.battleship.logic.Transform;
+import com.edomar.battleship.logic.transform.Transform;
 import com.edomar.battleship.logic.specifications.ObjectSpec;
 
 public interface GraphicsComponent { //pagina 519 e 627

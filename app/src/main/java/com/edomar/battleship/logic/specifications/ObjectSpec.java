@@ -8,12 +8,14 @@ public class ObjectSpec {
 
     private String mTag;
     private String mBitmapName;
+    private float mSpeed;
     private PointF mBlocksOccupied;
     private String[] mComponents;
 
-    public ObjectSpec(String tag, String bitmapName, PointF blocksOccupied, String[] components) {
+    public ObjectSpec(String tag, String bitmapName, float speed, PointF blocksOccupied, String[] components) {
         this.mTag = tag;
         this.mBitmapName = bitmapName;
+        this.mSpeed = speed;
         this.mBlocksOccupied = blocksOccupied;
         this.mComponents = components;
     }
@@ -24,6 +26,10 @@ public class ObjectSpec {
 
     public String getBitmapName() {
         return mBitmapName;
+    }
+
+    public float getSpeed(){
+        return mSpeed;
     }
 
     public PointF getBlocksOccupied() {

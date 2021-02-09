@@ -6,18 +6,17 @@ public class MissileSpec extends ObjectSpec{
 
     private static final String tag = "Ammo";
     private static final String bitmapName = "missile_one";
+    private static final float speed = .65f;
     private static final PointF blocksOccupied= new PointF(1,1);
     private static final  String[] components = new String[]{"AmmoGraphicsComponent",
             "AmmoSpawnComponent",
             "AmmoUpdateComponent"};
 
-    private static final float speed = .65f;
+
 
     public MissileSpec() {
-        super(tag, bitmapName, blocksOccupied, components);
+        super(tag, bitmapName, speed, blocksOccupied, components);
     }
 
-    public float getSpeed(){
-        return speed;
-    }
+
 }

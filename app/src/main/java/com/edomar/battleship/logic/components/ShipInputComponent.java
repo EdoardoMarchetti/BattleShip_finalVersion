@@ -9,7 +9,8 @@ import com.edomar.battleship.BattleField;
 import com.edomar.battleship.Grid;
 import com.edomar.battleship.InputObserver;
 import com.edomar.battleship.logic.Level;
-import com.edomar.battleship.logic.Transform;
+import com.edomar.battleship.logic.transform.ShipTransform;
+import com.edomar.battleship.logic.transform.Transform;
 import com.edomar.battleship.logic.components.interfaces.InputComponent;
 
 /** Per migliorare il D&D bisognerebbe avere anche mFPS da Battlefield**/
@@ -18,7 +19,7 @@ public class ShipInputComponent implements InputComponent, InputObserver {
 
     private static final String TAG = "ShipInputComponent";
    
-    private Transform mTransform;
+    private ShipTransform mTransform;
 
     float mDownX;
     float mDownY;
@@ -34,7 +35,7 @@ public class ShipInputComponent implements InputComponent, InputObserver {
    
     @Override
     public void setTransform(Transform t) {
-        mTransform = t;
+        mTransform = (ShipTransform) t;
     }
 
     @Override

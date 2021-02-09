@@ -1,11 +1,13 @@
 package com.edomar.battleship.logic.components.interfaces;
 
-import com.edomar.battleship.logic.Transform;
+import android.graphics.Point;
+
+import com.edomar.battleship.logic.transform.Transform;
 
 public interface SpawnComponent {
 
     /** Chiamato direttamente dal GameObject**/
-    void spawn(Transform playerTransform,
-               Transform t,
-               int posizioneInGriglia); //aggiunto senza personalizzarlo
+    void spawn(Transform t,
+               int row,
+               int column); //aggiunto senza personalizzarlo
 }

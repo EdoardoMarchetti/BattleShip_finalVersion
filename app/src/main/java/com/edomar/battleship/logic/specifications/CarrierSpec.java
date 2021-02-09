@@ -6,6 +6,7 @@ public class CarrierSpec extends ObjectSpec {
 
     private static final String tag = "Ship";
     private static final String bitmapName = "ship_carrier";
+    private static final float speed = 0;
     private static final PointF blocksOccupied= new PointF(1,4);
     private static final  String[] components = new String[]{"ShipGraphicsComponent",
             "ShipSpawnComponent",
@@ -13,6 +14,6 @@ public class CarrierSpec extends ObjectSpec {
             "ShipUpdateComponent"};
 
     public CarrierSpec() {
-        super(tag, bitmapName, blocksOccupied, components);
+            super(tag, bitmapName, speed,blocksOccupied, components);
     }
 }
