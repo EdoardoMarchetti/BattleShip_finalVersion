@@ -29,7 +29,10 @@ public class GridInputController implements InputObserver{
         //                                              -> indicare nella model della griglia il colpo effettuato
 
         boolean preMatch = false;
-        if(!preMatch){
+
+
+        if(!preMatch && !level.getGameObject().get(Level.MISSILE).checkActive()){
+
 
             int i = event.getActionIndex();
             int x = (int) event.getX(i);

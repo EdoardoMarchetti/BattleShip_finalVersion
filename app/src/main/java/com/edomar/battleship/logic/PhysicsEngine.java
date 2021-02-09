@@ -4,6 +4,7 @@ package com.edomar.battleship.logic;
 import android.graphics.PointF;
 import android.util.Log;
 import com.edomar.battleship.Grid;
+import com.edomar.battleship.utils.SoundEngine;
 
 import java.util.ArrayList;
 
@@ -61,6 +62,14 @@ public class PhysicsEngine {
                             (float)(grid.getBlockDimension()*(column+0.5)),
                             (float) (grid.getBlockDimension()*(row+0.5)))
             );
+            if(ps.mShipHit){
+                SoundEngine.playExplosion();
+                Log.d("Esplosione", "hitCoordinates: playExplosion");
+            }else{
+                SoundEngine.playSplash();
+                Log.d("Esplosione", "hitCoordinates: playSplash");
+            }
+
         }
 
 

@@ -9,7 +9,6 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.edomar.battleship.R;
 
@@ -28,6 +27,8 @@ public class SoundEngine {
 
     /**Sound ids**/
     private static int mSoundSample_ID = -1;
+    private static int mExplosion_ID = -1;
+    private static int mSplash_ID = -1;
 
     SharedPreferences sp;
     SharedPreferences.Editor editor;
@@ -61,9 +62,16 @@ public class SoundEngine {
         try{
             AssetManager assetManager = c.getAssets();
             AssetFileDescriptor descriptor;
+
             // Prepare the sounds in memory
             descriptor = assetManager.openFd("shoot.ogg");
             mSoundSample_ID = mSP.load(descriptor, 0);
+
+            descriptor = assetManager.openFd("explosion.ogg");
+            mExplosion_ID = mSP.load(descriptor, 0);
+
+            descriptor = assetManager.openFd("splash.ogg");
+            mSplash_ID = mSP.load(descriptor, 0);
             Log.d("Sound check", "SoundEngine: sample loaded, sample_id="+mSoundSample_ID);
 
         } catch (IOException e) {
@@ -87,6 +95,19 @@ public class SoundEngine {
         }
     }
 
+    public static void playExplosion(){
+        if(isSoundEffectOn){
+            mSP.play(mExplosion_ID, 1,1,1,0,1);
+            Log.d("Sound check", "playExplosion: ");
+        }
+    }
+
+    public static void playSplash() {
+        if(isSoundEffectOn){
+            mSP.play(mSplash_ID, 1,1,1,0,1);
+            Log.d("Sound check", "playExplosion: ");
+        }
+    }
 
 
     public static void enableSoundEffect(){
@@ -96,4 +117,6 @@ public class SoundEngine {
     public static void disableSoundEffect(){
         isSoundEffectOn = false;
     }
+
+
 }

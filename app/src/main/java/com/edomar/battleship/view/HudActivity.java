@@ -101,11 +101,7 @@ public class HudActivity extends AppCompatActivity {
         //setFlagOfImageButtonFlag(sp.getString(getString(R.string.flag_key), "USA"));
         Utils.setFlagOfBadge(sp.getString(getString(R.string.flag_key), "USA"), ImageViewBadge);
 
-        final Intent srcIntent= getIntent();
-        if(srcIntent != null){
-            gameState = (IGameState) srcIntent.getParcelableExtra("player_name");
-        }
-        binding.setPlayer(gameState);
+
 
 
 

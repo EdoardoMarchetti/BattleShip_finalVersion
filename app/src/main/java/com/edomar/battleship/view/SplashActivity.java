@@ -2,6 +2,7 @@ package com.edomar.battleship.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -37,9 +38,8 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
-                if(initData()){
+                if(initData(getBaseContext())){
                     /* Create an Intent that will start the Menu-Activity. */
-
                     Intent mainIntent = new Intent(SplashActivity.this , HudActivity.class);
                     mainIntent.putExtra("player_name", mGameState);
                     SplashActivity.this.startActivity(mainIntent);
@@ -53,15 +53,12 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    private boolean initData() {
+    private boolean initData(Context c) {
         //TODO
 
-        //Questa parte non servirà
-        String playerName = "Edoardo";
-        mGameState = GameState.Builder
-                .create(playerName)
-                .build();
 
+        /**init Sound Engine**/
+        SoundEngine.getInstance(c);
 
         /** Language Config **/
         Log.d(SPLASH_ACTIVITY, "setLocale: start");
