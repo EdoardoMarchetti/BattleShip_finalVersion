@@ -17,6 +17,7 @@ import com.edomar.battleship.logic.Level;
 import com.edomar.battleship.logic.ParticleSystem;
 import com.edomar.battleship.logic.PhysicsEngine;
 import com.edomar.battleship.utils.BitmapStore;
+import com.edomar.battleship.view.gameplayFragments.MatchFragment;
 
 import java.util.ArrayList;
 
@@ -49,6 +50,10 @@ public class BattleField extends SurfaceView implements Runnable,
     ImageView mNumbers;
     Point mLettersDimen = new Point();
 
+    /**Prova**/
+    int mN = 0;
+    String nome = "";
+
 
     /** Costruttori **/
     public BattleField(Context context) {
@@ -73,23 +78,24 @@ public class BattleField extends SurfaceView implements Runnable,
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         Log.d(TAG, "surfaceCreated: now you can draw");
-        Log.d("BOHC", "surfaceCreated: ");
+        Log.d("BOHC", "surfaceCreated: "+mN);
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-        Log.d("BOHC", "surfaceChanged: ");
+        Log.d("BOHC", "surfaceChanged: "+mN);
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-        Log.d("BOHC", "surfaceDestroyed: ");
+        Log.d("BOHC", "surfaceDestroyed: "+mN);
     }
 
 
     /** Init Method**/
     public void init(){
-        Log.d(TAG, "init: in init method");
+        Log.d("InitMethod", "init: in init method for fragment number = "+ mN);
+        Log.d("InitMethod", "init: in init method for fragment name = "+ nome);
         mBitmapStore = BitmapStore.getInstance(getContext());
         mRenderer = new Renderer(this);
         mPhysicsEngine = new PhysicsEngine();
@@ -128,7 +134,7 @@ public class BattleField extends SurfaceView implements Runnable,
     /**Run**/
     @Override
     public void run() {
-
+        Log.d("InitMethodInRun", "init: in init method for fragment number = "+ mN);
         //Le coordinate sono fuori dal while perchè vengono disegnate solo una volta
         //Il metodo threadHandler.post è necessario in quanto Battlefield deve operare
         //su componenti di tipo ImageView che devono essere trattai su thread pricipale
@@ -275,4 +281,11 @@ public class BattleField extends SurfaceView implements Runnable,
     }
 
 
+    public void setNumber (int num){
+        mN = num;
+    }
+
+    public void setName (String name){
+        nome = name;
+    }
 }

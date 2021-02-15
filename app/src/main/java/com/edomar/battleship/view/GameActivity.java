@@ -18,24 +18,21 @@ import com.edomar.battleship.view.gameplayFragments.PreMatchFragment;
 public class GameActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
     private static final String TAG = "VerificaGameActivity";
+    public static final String PRE_MATCH_FRAGMENT = "PreMatchFrag";
     public static final String FIRST_MATCH_FRAGMENT_TAG = "FirstFrag";
     public static final String SECOND_MATCH_FRAGMENT_TAG = "SecondFrag";
-    public static final String PROVA = "PROVA";
+
 
 
     /** Fragment Manager **/
     private FragmentManager mFM;
     private FragmentTransaction mFT;
 
-    /** ViewPager **/
-    //private CustomFragmentStateAdapter mCustomFragmentStateAdapter;
-    private ViewPager mViewPager;
-
-
 
     /** Match Fragments **/
     private MatchFragment mMatchFragment1;
     private MatchFragment mMatchFragment2;
+
 
 
 
@@ -48,10 +45,9 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
         if(savedInstanceState == null){
             PreMatchFragment preMatchFragment = new PreMatchFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, preMatchFragment, PROVA)
+                    .add(R.id.container, preMatchFragment, PRE_MATCH_FRAGMENT)
                     .commit();
         }
-
 
 
         mFM = getSupportFragmentManager();
@@ -66,38 +62,18 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
 
     }
 
-    /** Metodo per ViewPager **/
-    /*private void setUpViewPager(ViewPager vp){
-        mCustomFragmentStateAdapter.addFragment(PreMatchFragment.newInstance());
-        mCustomFragmentStateAdapter.addFragment(BlankFragment.newInstance("giocatore1", 1));
-        ((BlankFragment)mCustomFragmentStateAdapter.getItem(1)).invisible();
-        vp.setAdapter(mCustomFragmentStateAdapter);
-    }
 
-    public void setViewPager(int fragmentNumber){
-        mViewPager.setCurrentItem(fragmentNumber);
-    }*/
 
     /**Questo metodo è invocato in due casi:
      *      -a fine timer
      *      -una volta premuto il pulsante start nel PreMatchFragment
      */
     public void startMatch() {
-        Log.d(PROVA, "startMatch: i'm going in MatchFragment");
-        /*((BlankFragment)mCustomFragmentStateAdapter.getItem(1)).visible();
-        mViewPager.setCurrentItem(1);*/
-
+        Log.d(TAG, "startMatch: i'm going in MatchFragment");
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, mMatchFragment1, FIRST_MATCH_FRAGMENT_TAG)
                 .commit();
-
-        /*getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, mMatchFragment2)
-                .hide(mMatchFragment2)
-                .setMaxLifecycle(mMatchFragment2, Lifecycle.State.STARTED)
-                .commit();*/
-
 
 
     }
@@ -108,84 +84,92 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
      *      -passano 30 secondi (tempo max di un turno)**/
     public void changeFragment(Fragment fragment){
 
-        Log.d(TAG, "changeFragment: ");
+        Log.d("Alternanza", "changeFragment: ");
         if (mMatchFragment1.equals(fragment)) {
-
-
-            /*getSupportFragmentManager().beginTransaction()
-                    .hide(mMatchFragment1)
-                    .setMaxLifecycle(mMatchFragment1, Lifecycle.State.STARTED)
-                    .setMaxLifecycle(mMatchFragment2, Lifecycle.State.RESUMED)
-                    .show(mMatchFragment2)
-                    .commit();*/
-
-            /*if(mFM.findFragmentByTag(FIRST_MATCH_FRAGMENT_TAG) != null){
+            Log.d("Alternanza", "changeFragment: from 1 to 2 ");
+            //nascondi e mostra in momenti diversi
+            if(mFM.findFragmentByTag(FIRST_MATCH_FRAGMENT_TAG) != null){
                 //hide f1
-                FragmentTransaction ft = mFM.beginTransaction();
+                /*FragmentTransaction ft = mFM.beginTransaction();
                 ft.hide(mFM.findFragmentByTag(FIRST_MATCH_FRAGMENT_TAG));
                 ft.setMaxLifecycle(mMatchFragment1, Lifecycle.State.STARTED);
-                ft.commit();
+                ft.commit();*/
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .hide(mMatchFragment1)
+                        .setMaxLifecycle(mMatchFragment1, Lifecycle.State.STARTED)
+                        .commit();
+                Log.d("Alternanza", "changeFragment: hide 1 ");
 
             }
 
             if(mFM.findFragmentByTag(SECOND_MATCH_FRAGMENT_TAG) != null){
                 //show f2
-                mFM.beginTransaction().setMaxLifecycle(mMatchFragment2, Lifecycle.State.RESUMED)
+                /*mFM.beginTransaction()
+                        .setMaxLifecycle(mMatchFragment2, Lifecycle.State.RESUMED)
+                        .show(mMatchFragment2)
+                        .commit();*/
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setMaxLifecycle(mMatchFragment2, Lifecycle.State.RESUMED)
                         .show(mMatchFragment2)
                         .commit();
-
-
+                Log.d("Alternanza", "changeFragment: show 2");
             }else{
                 //add f2
-                mFM.beginTransaction().add(R.id.container, mMatchFragment2, SECOND_MATCH_FRAGMENT_TAG )
+                /*mFM.beginTransaction()
+                        .add(R.id.container, mMatchFragment2, SECOND_MATCH_FRAGMENT_TAG)
+                        .commit();*/
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.container, mMatchFragment2, SECOND_MATCH_FRAGMENT_TAG)
                         .commit();
-
-
-            }*/
-
-            getSupportFragmentManager().beginTransaction()
-                    .remove(mMatchFragment1)
-                    .add(R.id.container, mMatchFragment2, SECOND_MATCH_FRAGMENT_TAG)
-                    .commit();
+                Log.d("Alternanza", "changeFragment: add 2");
+            }
 
 
         }
 
         else if (mMatchFragment2.equals(fragment)) {
 
-            Log.d("SoloMatchFragment", "changeFragment: from 2 to 1");
+            Log.d("Alternanza", "changeFragment: from 2 to 1");
 
-            /*getSupportFragmentManager().beginTransaction()
-                    .hide(mMatchFragment2)
-                    .setMaxLifecycle(mMatchFragment2, Lifecycle.State.STARTED)
-                    .setMaxLifecycle(mMatchFragment1, Lifecycle.State.RESUMED)
-                    .show(mMatchFragment1)
-                    .commit();*/
-
-            /*if(mFM.findFragmentByTag(SECOND_MATCH_FRAGMENT_TAG) != null){
-                mFM.beginTransaction().hide(mMatchFragment2)
-                        .setMaxLifecycle(mMatchFragment2, Lifecycle.State.STARTED).commit();
+            //nascondi e mostra in momenti diversi
+            if(mFM.findFragmentByTag(SECOND_MATCH_FRAGMENT_TAG) != null){
+                /*mFM.beginTransaction().hide(mMatchFragment2)
+                        .setMaxLifecycle(mMatchFragment2, Lifecycle.State.STARTED)
+                        .commitNow();*/
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .hide(mMatchFragment2)
+                        .setMaxLifecycle(mMatchFragment2, Lifecycle.State.STARTED)
+                        .commit();
+                Log.d("Alternanza", "changeFragment: hide 2 ");
             }
 
             if(mFM.findFragmentByTag(FIRST_MATCH_FRAGMENT_TAG) != null){
                 //show f1
-                mFM.beginTransaction().setMaxLifecycle(mMatchFragment1, Lifecycle.State.RESUMED)
+                /*mFM.beginTransaction().setMaxLifecycle(mMatchFragment1, Lifecycle.State.RESUMED)
+                        .show(mMatchFragment1)
+                        .commitNow();*/
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setMaxLifecycle(mMatchFragment1, Lifecycle.State.RESUMED)
                         .show(mMatchFragment1)
                         .commit();
+                Log.d("Alternanza", "changeFragment: show 1");
             }else{
-                mFM.beginTransaction().add(R.id.container, mMatchFragment1, FIRST_MATCH_FRAGMENT_TAG).commit();
-            }*/
-
-            getSupportFragmentManager().beginTransaction()
-                    .remove(mMatchFragment2)
-                    .add(R.id.container, mMatchFragment1, FIRST_MATCH_FRAGMENT_TAG)
-                    .commit();
-
+                //mFM.beginTransaction().add(R.id.container, mMatchFragment1, FIRST_MATCH_FRAGMENT_TAG).commitNow();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.container, mMatchFragment1, FIRST_MATCH_FRAGMENT_TAG)
+                        .commit();
+                Log.d("Alternanza", "changeFragment: add 1");
+            }
 
         }
 
     }
-
 
 
 
@@ -193,4 +177,7 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
     public void onFragmentInteraction(Fragment fragment) {
         changeFragment(fragment);
     }
+
+
+
 }

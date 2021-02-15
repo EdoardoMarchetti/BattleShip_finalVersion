@@ -80,7 +80,7 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(GameActivity.PROVA, "onCreateView: PM ");
+
         View view = inflater.inflate(R.layout.fragment_fleet_configuration_pre_match, container, false);
 
         /** Initialize SharedPreference value **/
@@ -94,7 +94,7 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.d(GameActivity.PROVA, "onActivityCreated: PM");
+
         super.onActivityCreated(savedInstanceState);
 
         //Timer
@@ -106,7 +106,7 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onTick(long l) {
 
-                Log.d(GameActivity.PROVA, "onTick: timer = "+ TimeUnit.MILLISECONDS.toSeconds(l));
+
                 String sDuration = String.format(getResources().getConfiguration().locale,"%02d",
                         TimeUnit.MILLISECONDS.toSeconds(l));
                 if(TimeUnit.MILLISECONDS.toSeconds(l) < 20){
@@ -124,7 +124,7 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFinish() {
                 //Quando il tempo finisce passa al match
-                Log.d(GameActivity.PROVA, "onFinish: PM");
+
                 mActivity.startMatch();
 
             }

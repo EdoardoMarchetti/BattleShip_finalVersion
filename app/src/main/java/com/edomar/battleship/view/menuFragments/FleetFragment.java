@@ -132,7 +132,7 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
         SoundEngine.getInstance(getContext()).playShoot();
         String[][] grid = mBattleField.saveDefaultFleet();
         //Test
-        /*Log.d("Saving", "onClick: " +
+        Log.d("Saving", "onClick: " +
                 "\n1A= "+grid[0][0]+"\t1B="+grid[0][1]+"\t1C= "+grid[0][2]+"\t1D="+grid[0][3]+"\t1E= "+grid[0][4]+"\t1F="+grid[0][5]+"\t1G= "+grid[0][6]+"\t1H="+grid[0][7]+"\t1I= "+grid[0][8]+"\t1J="+grid[0][9]+
                 "\n2A= "+grid[1][0]+"\t2B="+grid[1][1]+"\t2C= "+grid[1][2]+"\t2D="+grid[1][3]+"\t2E= "+grid[1][4]+"\t2F="+grid[1][5]+"\t2G= "+grid[1][6]+"\t2H="+grid[1][7]+"\t2I= "+grid[1][8]+"\t2J="+grid[1][9]+
                 "\n3A= "+grid[2][0]+"\t3B="+grid[2][1]+"\t3C= "+grid[2][2]+"\t3D="+grid[2][3]+"\t3E= "+grid[2][4]+"\t3F="+grid[2][5]+"\t3G= "+grid[2][6]+"\t3H="+grid[2][7]+"\t3I= "+grid[2][8]+"\t3J="+grid[2][9]+
@@ -142,7 +142,7 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
                 "\n7A= "+grid[6][0]+"\t7B="+grid[6][1]+"\t7C= "+grid[6][2]+"\t7D="+grid[6][3]+"\t7E= "+grid[6][4]+"\t7F="+grid[6][5]+"\t7G= "+grid[6][6]+"\t7H="+grid[6][7]+"\t7I= "+grid[6][8]+"\t7J="+grid[6][9]+
                 "\n8A= "+grid[7][0]+"\t8B="+grid[7][1]+"\t8C= "+grid[7][2]+"\t8D="+grid[7][3]+"\t8E= "+grid[7][4]+"\t8F="+grid[7][5]+"\t8G= "+grid[7][6]+"\t8H="+grid[7][7]+"\t7I= "+grid[7][8]+"\t7J="+grid[7][9]+
                 "\n9A= "+grid[8][0]+"\t9B="+grid[8][1]+"\t9C= "+grid[8][2]+"\t9D="+grid[8][3]+"\t9E= "+grid[8][4]+"\t9F="+grid[8][5]+"\t9G= "+grid[8][6]+"\t9H="+grid[8][7]+"\t7I= "+grid[8][8]+"\t7J="+grid[8][9]+
-                "\n10A= "+grid[9][0]+"\t10B="+grid[9][1]+"\t10C= "+grid[9][2]+"\t10D="+grid[9][3]+"\t10E= "+grid[9][4]+"\t10F="+grid[9][5]+"\t10G= "+grid[9][6]+"\t10H="+grid[9][7]+"\t10I= "+grid[9][8]+"\t10J="+grid[9][9]);*/
+                "\n10A= "+grid[9][0]+"\t10B="+grid[9][1]+"\t10C= "+grid[9][2]+"\t10D="+grid[9][3]+"\t10E= "+grid[9][4]+"\t10F="+grid[9][5]+"\t10G= "+grid[9][6]+"\t10H="+grid[9][7]+"\t10I= "+grid[9][8]+"\t10J="+grid[9][9]);
 
     }
 

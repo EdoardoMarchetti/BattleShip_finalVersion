@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,8 +25,6 @@ import android.widget.Toast;
 import com.edomar.battleship.BattleField;
 import com.edomar.battleship.R;
 import com.edomar.battleship.view.GameActivity;
-
-import org.w3c.dom.Text;
 
 import java.util.concurrent.TimeUnit;
 
@@ -51,6 +50,8 @@ public class MatchFragment extends Fragment {
 
     /** CountDownTimer **/
     private TextView timer;
+    float defaultTextSize;
+    int defaultTextColor;
     private TextView timerTextView;
     private CountDownTimer mCounterDownTimer;
     long duration = TimeUnit.SECONDS.toMillis(20);
@@ -100,7 +101,7 @@ public class MatchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d("Lifecycle", "onCreate: ");
         if (getArguments() != null) {
             mPLayerName = getArguments().getString(PLAYER_NAME);
             mNumber = getArguments().getInt(NUMBER);
@@ -112,23 +113,108 @@ public class MatchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_match, container, false);
+
+
+        View view;
+        if(mNumber == 1){
+            view = inflater.inflate(R.layout.fragment_match, container, false);
+            Log.d("Lifecycle", "onCreateView: number "+ mNumber);
+        }else {
+            view = inflater.inflate(R.layout.fragment_match2, container, false);
+            Log.d("Lifecycle", "onCreateView: number "+ mNumber);
+        }
 
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.d(GameActivity.PROVA, "onActivityCreated: number = "+ mNumber);
+
+        Log.d("Lifecycle", "onActivityCreated: number "+ mNumber);
         super.onActivityCreated(savedInstanceState);
 
+        FrameLayout fl;
+        if(mNumber == 1){
+            fl = (FrameLayout) getActivity().findViewById(R.id.fl1);
+        }else{
+            fl = (FrameLayout) getActivity().findViewById(R.id.fl2);
+        }
 
-        timer = getActivity().findViewById(R.id.timer);
-        timerTextView = getActivity().findViewById(R.id.timer_text);
+        timer = fl.findViewById(R.id.timer);
+        defaultTextSize = timer.getTextSize();
+        defaultTextColor = timer.getCurrentTextColor();
+        timerTextView = fl.findViewById(R.id.timer_text);
 
-        String pn = mPLayerName;
-        Log.d(TAG, "onActivityCreated: pn = "+ mPLayerName);
 
+        letters = fl.findViewById(R.id.letters);
+        numbers = fl.findViewById(R.id.numbers);
+
+        mBattleField = fl.findViewById(R.id.battle_field);
+        mBattleField.setZOrderOnTop(true);
+        mBattleField.setNumber(mNumber);
+        mBattleField.setName(mPLayerName);
+        mBattleField.init();
+        mBattleField.setImageViewsForCoordinates(letters, numbers);
+
+
+        mTurnLabel = fl.findViewById(R.id.turn_of_player_name);
+        mTurnLabel.setText(mPLayerName);
+
+        Log.d("BOHC", "onActivityCreated: after setTextView playername = "+ mPLayerName);
+
+        mButton = fl.findViewById(R.id.button);
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: ");
+                mListener.onFragmentInteraction(MatchFragment.this);
+            }
+        });
+
+
+    }
+
+
+    @Override
+    public void onResume() {
+        Log.d("BOHC", "onResume:mMatchFrag number = "+mNumber );
+        Log.d("BOHC", "onResume:mMatchFrag number = "+mPLayerName );
+        Log.d("Lifecycle", "onResume: number "+ mNumber);
+        super.onResume();
+
+        mBattleField.setVisibility(View.VISIBLE);
+        mBattleField.setZOrderOnTop(true);
+        mBattleField.startThread();
+        initCountDownTimer();
+        mCounterDownTimer.start();
+    }
+
+    @Override
+    public void onPause() {
+        Log.d("BOHC", "onPause: mMatchFrag number = "+mNumber);
+        Log.d("Lifecycle", "onPause: number " + mNumber);
+        super.onPause();
+
+        mBattleField.stopThread();
+        mBattleField.setVisibility(View.INVISIBLE);
+        //mBattleField.setZOrderOnTop(false);
+        mCounterDownTimer.cancel();
+    }
+
+    @Override
+    public void onDetach() {
+        Log.d("Lifecycle", "onDetach:number "+ mNumber );
+        super.onDetach();
+        mListener = null;
+    }
+
+    public String getName() {
+        return mPLayerName;
+    }
+
+
+
+    public void initCountDownTimer(){
         mCounterDownTimer = new CountDownTimer(duration, 1000) {
             @Override
             public void onTick(long l) {
@@ -143,13 +229,16 @@ public class MatchFragment extends Fragment {
                     Log.d("BOHC", "onTick: in if <10");
                 }else{
                     timer.setText(sDuration);
+                    timer.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+                    timer.setTextColor(defaultTextColor);
+                    timerTextView.setTypeface(null, Typeface.NORMAL);
                 }
             }
 
             @Override
             public void onFinish() {
                 //TODO
-                Log.d(GameActivity.PROVA, "onFinish: number = "+mNumber);
+
                 if(mListener != null){
                     mListener.onFragmentInteraction(MatchFragment.this);
                 }else{
@@ -157,96 +246,6 @@ public class MatchFragment extends Fragment {
                 }
             }
         };
-
-        letters = getActivity().findViewById(R.id.letters);
-        numbers = getActivity().findViewById(R.id.numbers);
-
-        mBattleField = getActivity().findViewById(R.id.battle_field);
-        mBattleField.setZOrderOnTop(true);
-        mBattleField.init();
-        mBattleField.setImageViewsForCoordinates(letters, numbers);
-
-
-        mTurnLabel = getActivity().findViewById(R.id.turn_of_player_name);
-        mTurnLabel.setText(mPLayerName);
-
-        Log.d("BOHC", "onActivityCreated: after setTextView playername = "+ mPLayerName);
-
-        mButton = getActivity().findViewById(R.id.button);
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: ");
-                mListener.onFragmentInteraction(MatchFragment.this);
-            }
-        });
-
-
-
-
-
-
-        Log.d(GameActivity.PROVA, "onActivityCreated: number = "+mNumber);
-    }
-
-
-    @Override
-    public void onResume() {
-        Log.d("BOHC", "onResume:mMatchFrag number = "+mNumber );
-        Log.d("BOHC", "onResume:mMatchFrag number = "+mPLayerName );
-        super.onResume();
-        //inizia a disegnare
-        //mRenderer.resume();
-        mBattleField.startThread();
-        mCounterDownTimer.start();
-    }
-
-    @Override
-    public void onPause() {
-        Log.d("BOHC", "onPause: mMatchFrag number = "+mNumber);
-        super.onPause();
-        //ferma il disegno
-        //mRenderer.pause();
-        mBattleField.stopThread();
-        mCounterDownTimer.cancel();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public String getName() {
-        return mPLayerName;
-    }
-
-    /*public interface OnFragmentInteractionListener {
-
-        void onFragmentInteraction(BlankFragment fragment);
-    }*/
-
-
-    /*@Override
-    public void onHiddenChanged(boolean hidden) {
-        Log.d("BlankFragmentOHC", "onHiddenChanged: number = "+ mNumber);
-        super.onHiddenChanged(hidden);
-        if(hidden){
-            Log.d("BOHC", "onHiddenChanged: number "+mNumber+" is hidden ");
-
-        }if(!hidden){
-            Log.d("BOHC", "onHiddenChanged: number "+mNumber+" is showed ");
-            Log.d("BOHC", "onHiddenChanged: playerName ="+ mPLayerName);
-            mBattleField.startThread();
-            mCounterDownTimer.start();
-        }
-
-    }*/
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d("BOHC", "onStart: number "+ mNumber+ "is showed");
     }
 
 

@@ -31,10 +31,11 @@ public class Renderer  {
 
     public void draw(Grid grid, ArrayList<GameObject> objects, ParticleSystem ps) {
         Log.d(TAG, "draw: start draw method in renderer");
-        Log.d(TAG, "draw: mSurfaceHolder.getSurface().isValid() = "+ mSurfaceHolder.getSurface().isValid());
+        Log.d("SurfaceView", "draw: mSurfaceHolder.getSurface().isValid() = "+ mSurfaceHolder.getSurface().isValid());
         if (mSurfaceHolder.getSurface().isValid()) {
-            Log.d(TAG, "draw: in if block ");
+            Log.d("SurfaceView", "draw: in if block");
             mCanvas = mSurfaceHolder.lockCanvas();
+            Log.d("SurfaceView", "draw: mCanvas is null? " + mCanvas.equals(null));
             mCanvas.drawColor(Color.WHITE);
 
             /**Grid**/

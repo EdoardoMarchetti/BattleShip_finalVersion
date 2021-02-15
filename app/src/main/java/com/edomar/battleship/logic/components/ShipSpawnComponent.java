@@ -15,16 +15,21 @@ public class ShipSpawnComponent implements SpawnComponent {
 
     private static final String TAG = "ShipSpawnComponent";
 
+    boolean startSpawn = true;
+
     @Override
     public void spawn(Transform t, int row, int column) {
 
         ShipTransform sp = (ShipTransform) t;
 
         /** Questa è la parte di default**/
-        boolean isVertical = true;
-        //t.setStartLocation(0,t.getBlockDimension() * 8, isVertical); //prova orizzontale
-        sp.setStartLocation(t.getBlockDimension() * column,0, isVertical); //prova verticale
-        Log.d(TAG, "spawn: blockDimension = " +t.getBlockDimension());
-        Log.d(TAG, "spawn: horizontal= "+t.getLocation().x+" vertical= "+t.getLocation().y);
+        if(startSpawn) {
+            boolean isVertical = true;
+            //t.setStartLocation(0,t.getBlockDimension() * 8, isVertical); //prova orizzontale
+            sp.setStartLocation(t.getBlockDimension() * column, 0, isVertical); //prova verticale
+            Log.d(TAG, "spawn: blockDimension = " + t.getBlockDimension());
+            Log.d(TAG, "spawn: horizontal= " + t.getLocation().x + " vertical= " + t.getLocation().y);
+            startSpawn = false;
+        }
     }
 }
