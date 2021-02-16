@@ -113,6 +113,8 @@ public class ShipInputComponent implements InputComponent, InputObserver {
                     mTransform.setRotatable();
                     level.transformInMovement = null;
 
+                    //positionShipInGrid();
+
                     break;
 
             }
@@ -206,4 +208,23 @@ public class ShipInputComponent implements InputComponent, InputObserver {
 
         mTransform.setLocation(newLocation.x, newLocation.y);
     }
+
+    //Probabilmente da rimuovere
+    /*private void positionShipInGrid(){
+        int startRow = (int) (mTransform.getLocation().y / mTransform.getBlockDimension());
+
+        int startColumn = (int) (mTransform.getLocation().x / mTransform.getBlockDimension());
+
+        boolean shipIsVertical = mTransform.isVertical() ;
+        int blockOccupied;
+
+        if(shipIsVertical){
+            blockOccupied = (int) (mTransform.getObjectHeight() / mTransform.getBlockDimension());
+        }else{
+            blockOccupied = (int) (mTransform.getObjectWidth() / mTransform.getBlockDimension());
+        }
+
+        String gridTag = objects.get(i)
+                .getGridTag();
+    }*/
 }

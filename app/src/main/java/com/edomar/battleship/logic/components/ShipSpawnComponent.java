@@ -3,6 +3,7 @@ package com.edomar.battleship.logic.components;
 import android.graphics.Point;
 import android.util.Log;
 
+import com.edomar.battleship.Grid;
 import com.edomar.battleship.logic.transform.ShipTransform;
 import com.edomar.battleship.logic.transform.Transform;
 import com.edomar.battleship.logic.components.interfaces.SpawnComponent;
@@ -22,14 +23,9 @@ public class ShipSpawnComponent implements SpawnComponent {
 
         ShipTransform sp = (ShipTransform) t;
 
-        /** Questa è la parte di default**/
-        if(startSpawn) {
-            boolean isVertical = true;
-            //t.setStartLocation(0,t.getBlockDimension() * 8, isVertical); //prova orizzontale
-            sp.setStartLocation(t.getBlockDimension() * column, 0, isVertical); //prova verticale
-            Log.d(TAG, "spawn: blockDimension = " + t.getBlockDimension());
-            Log.d(TAG, "spawn: horizontal= " + t.getLocation().x + " vertical= " + t.getLocation().y);
-            startSpawn = false;
-        }
+        t.setStartLocation(column * t.getBlockDimension(), row * t.getBlockDimension(), t.isVertical());
+        Log.d("SpawnConLettura", "spawn: horizontal= " + t.getLocation().x  + " vertical= " + t.getLocation().y);
+        Log.d("SpawnConLettura", "spawn: column= "+column+" row = "+row);
+
     }
 }

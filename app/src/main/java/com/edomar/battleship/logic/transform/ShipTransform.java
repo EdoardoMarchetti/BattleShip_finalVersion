@@ -4,18 +4,16 @@ import android.graphics.PointF;
 
 public class ShipTransform extends Transform {
 
+
     private boolean mIsMovable= false; //solo alla nave
     private boolean mRotatable = false; //solo alla nave
     private boolean mRotated = false; //solo alla nave
-    private boolean mIsVertical = true; //solo alla nave
+
 
     public ShipTransform(float objectWidth, float objectHeight, PointF startLocation, float gridDimension) {
         super(objectWidth, objectHeight, startLocation, gridDimension);
     }
 
-    public boolean isVertical() {
-        return mIsVertical;
-    }
 
     public boolean checkMovable(){
         return mIsMovable;
@@ -33,11 +31,6 @@ public class ShipTransform extends Transform {
         mIsMovable = false;
     }
 
-    public void rotate(){
-        mIsVertical = !mIsVertical;
-        invertDimension();
-        mRotated = true;
-    }
 
     public boolean isRotated() {
         return mRotated;
@@ -55,12 +48,9 @@ public class ShipTransform extends Transform {
         mRotatable = false;
     }
 
-    public void setStartLocation(float horizontal, float vertical, boolean isV){
-        super.mLocation = new PointF(horizontal, vertical);
-        mIsVertical = isV;
-        if(!mIsVertical){
-            invertDimension();
-        }
-        updateCollider();
-    }
+
+
+
+
+
 }

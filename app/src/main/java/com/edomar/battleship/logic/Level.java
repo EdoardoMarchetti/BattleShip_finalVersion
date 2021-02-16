@@ -20,6 +20,8 @@ public class Level {
 
     private static final String TAG = "Level";
 
+    public final String mName = "test";
+
     public static final int BATTLESHIP_INDEX = 0 ;
     public static final int CARRIER_INDEX = 1 ;
     public static final int CRUISER_INDEX = 2 ;

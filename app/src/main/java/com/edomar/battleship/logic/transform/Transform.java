@@ -15,8 +15,9 @@ public class Transform { //Pagina 528 e 708
     protected PointF mLocation;
     private float mObjectHeight; //ridimensionata rispetto alla dimensione dei blocchi
     private float mObjectWidth; //ridimensionata rispetto ai blocchi
+    private boolean mIsVertical = true; //solo alla nave
 
-    /*private boolean mIsVertical = true; //solo alla nave
+    /*
     private boolean mIsMovable= false; //solo alla nave
     private boolean mRotatable = false; //solo alla nave
     private boolean mRotated = false; //solo alla nave*/
@@ -48,9 +49,9 @@ public class Transform { //Pagina 528 e 708
     }
 
 
-    /*public boolean isVertical() {
+    public boolean isVertical() {
         return mIsVertical;
-    }*/
+    }
 
 
     public float getObjectHeight(){
@@ -74,54 +75,22 @@ public class Transform { //Pagina 528 e 708
         return mCollider;
     }
 
-    /*public boolean checkMovable(){
-        return mIsMovable;
-    }*/
 
-    /*public boolean checkRotatable(){
-        return mRotatable;
-    }*/
 
     /** Setters **/
 
-    /*public void setMovable(){
-        mIsMovable = true;
+    public void setVertical(){
+        mIsVertical = true;
     }
 
-    public void setImmovable(){
-        mIsMovable = false;
+    public void setHorizontal(){
+        mIsVertical = false;
     }
 
     public void rotate(){
         mIsVertical = !mIsVertical;
         invertDimension();
-        mRotated = true;
     }
-
-    public boolean isRotated() {
-        return mRotated;
-    }
-
-    public void isNotRotated(){
-        mRotated = false;
-    }
-
-    public void setRotatable(){
-        mRotatable = true;
-    }
-
-    public void setNotRotatable(){
-        mRotatable = false;
-    }*/
-
-    /*public void setStartLocation(float horizontal, float vertical, boolean isV){
-        mLocation = new PointF(horizontal, vertical);
-        mIsVertical = isV;
-        if(!mIsVertical){
-            invertDimension();
-        }
-        updateCollider();
-    }*/
 
     protected void invertDimension() {
         float support = mObjectWidth;
@@ -134,6 +103,15 @@ public class Transform { //Pagina 528 e 708
         mLocation = new PointF(horizontal, vertical);
         updateCollider();
         Log.d(TAG, "setLocation: ");
+    }
+
+    public void setStartLocation(float horizontalCoo, float verticalCoo, boolean isV){
+        mLocation = new PointF(horizontalCoo, verticalCoo);
+        mIsVertical = isV;
+        if(!mIsVertical){
+            invertDimension();
+        }
+        updateCollider();
     }
 
 

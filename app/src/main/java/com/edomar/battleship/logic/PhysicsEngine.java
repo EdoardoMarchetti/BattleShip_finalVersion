@@ -16,7 +16,7 @@ public class PhysicsEngine {
         int count = 0;
         for (GameObject o: objects) {
             if(o.checkActive()){
-                Log.d(TAG, "update: object number= "+count);
+                //Log.d(TAG, "update: object number= "+count);
                 o.update(fps, grid);
             }
             count++;
@@ -36,7 +36,7 @@ public class PhysicsEngine {
     //Codice per la gestione dell'esito del colpo
     private void hitCoordinates(Grid grid, ParticleSystem ps, GameObject missile){
 
-        Log.d(TAG, "hitCoordinates: ");
+        //Log.d(TAG, "hitCoordinates: ");
 
         //Prima faccio precipitare il razzo nell'ultimo colpo eseguito
         int row = grid.getLastHit().x;
@@ -46,7 +46,7 @@ public class PhysicsEngine {
 
         if(missile.getTransform().getLocation().x >= grid.getBlockDimension()*(column) && missile.checkActive()
                ){
-            Log.d(TAG, "hitCoordinates: in if");
+            //Log.d(TAG, "hitCoordinates: in if");
             missile.setInactive();
 
             //Verificare dove il missile è caduto
@@ -64,10 +64,10 @@ public class PhysicsEngine {
             );
             if(ps.mShipHit){
                 SoundEngine.playExplosion();
-                Log.d("Esplosione", "hitCoordinates: playExplosion");
+                //Log.d("Esplosione", "hitCoordinates: playExplosion");
             }else{
                 SoundEngine.playSplash();
-                Log.d("Esplosione", "hitCoordinates: playSplash");
+                //Log.d("Esplosione", "hitCoordinates: playSplash");
             }
 
         }

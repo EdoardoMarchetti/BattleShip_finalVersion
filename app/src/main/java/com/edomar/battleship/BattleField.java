@@ -17,9 +17,11 @@ import com.edomar.battleship.logic.Level;
 import com.edomar.battleship.logic.ParticleSystem;
 import com.edomar.battleship.logic.PhysicsEngine;
 import com.edomar.battleship.utils.BitmapStore;
+import com.edomar.battleship.utils.WriterReader;
 import com.edomar.battleship.view.gameplayFragments.MatchFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BattleField extends SurfaceView implements Runnable,
         SurfaceHolder.Callback,
@@ -97,13 +99,15 @@ public class BattleField extends SurfaceView implements Runnable,
         Log.d("InitMethod", "init: in init method for fragment number = "+ mN);
         Log.d("InitMethod", "init: in init method for fragment name = "+ nome);
         mBitmapStore = BitmapStore.getInstance(getContext());
-        mRenderer = new Renderer(this);
-        mPhysicsEngine = new PhysicsEngine();
-        mGrid = new Grid(this.getLayoutParams().width);
         mLevel = new Level(getContext(), this.getLayoutParams().width, this);
+        List<String[]> gridRows = WriterReader.getInstance().read(mLevel.mName);
+        mGrid = new Grid(this.getLayoutParams().width, gridRows);
+        //placeTheShips();
         mGridController = new GridInputController(this);
+        mPhysicsEngine = new PhysicsEngine();
         mParticleSystem = new ParticleSystem();
         mParticleSystem.init(250);
+        mRenderer = new Renderer(this);
     }
 
     /** Adding observers **/
@@ -134,7 +138,7 @@ public class BattleField extends SurfaceView implements Runnable,
     /**Run**/
     @Override
     public void run() {
-        Log.d("InitMethodInRun", "init: in init method for fragment number = "+ mN);
+
         //Le coordinate sono fuori dal while perchè vengono disegnate solo una volta
         //Il metodo threadHandler.post è necessario in quanto Battlefield deve operare
         //su componenti di tipo ImageView che devono essere trattai su thread pricipale
@@ -148,20 +152,14 @@ public class BattleField extends SurfaceView implements Runnable,
         });
 
         deSpawnRespawn();//Il metodo deSpawnReSpawn dovrà essere invocato solo all'inizio della partita per posizionare le navi
+                         //sulla view
 
         while (mRunning){
             long frameStartTime = System.currentTimeMillis();
             ArrayList<GameObject> objects = mLevel.getGameObject();
 
             /** Update the objects **/
-
             mPhysicsEngine.update(mFPS, mParticleSystem, objects, mGrid);
-
-            /*for (GameObject o: objects) {
-                if(o.checkActive()){
-                    o.update(mFPS, mGrid);
-                }
-            }*/
 
 
             /** Draw objects **/
@@ -201,22 +199,90 @@ public class BattleField extends SurfaceView implements Runnable,
         return true;
     }
 
+    //fa lo spawn in base alla configurazione della griglia
     public void deSpawnRespawn(){
-       ArrayList<GameObject> objects = mLevel.getGameObject();
+
+        ArrayList<GameObject> objects = mLevel.getGameObject();
+        String[][] gridConfiguration = mGrid.getGridConfiguration();
+
 
         for (GameObject o: objects) {
             o.setInactive();
         }
 
 
-        /*for(int i = 0; i<Level.mNumShipsInLevel; i++){
-            objects.get(i)
-                    .spawn(objects.get(i).getTransform(), i);
-        }*/
+        for(int i = 0; i<Level.mNumShipsInLevel; i++) {
+            int row = 0;
+            int column = 0;
+            boolean found = false;
 
-        for(int column = 0; column<Level.mNumShipsInLevel; column++) {
-            objects.get(column)
-                    .spawn(0, column);
+            String gridTag = objects.get(i)
+                    .getGridTag();
+
+
+
+            for (int j = 0; j < gridConfiguration.length && !found; j++) {
+                for (int k = 0; k < gridConfiguration.length && !found; k++) {
+                    if(gridTag == "S")
+                        Log.d("Griglia da leggere", "deSpawnRespawn: gridConfiguration["+j+"]["+k+"] "+gridConfiguration[j][k]);
+
+                    if(gridConfiguration[j][k].equals(gridTag)){
+
+
+                        found = true;
+
+                        try {
+
+
+                            if (gridConfiguration[j + 1][k].equals(gridTag)) {
+                                objects.get(i)
+                                        .getTransform()
+                                        .setVertical();
+                                row = j;
+                                column = k;
+
+                                Log.d("SpawnConLettura", "deSpawnRespawn: found gridTag = "+gridTag+
+                                        "\nrow= "+row+
+                                        "\ncolumn= "+column+
+                                        "\nvertical= ");
+
+                            }
+                        }catch (IndexOutOfBoundsException ioobe){
+                            ioobe.printStackTrace();
+                            Log.e("SpawnConLettura", "deSpawnRespawn: outbound from  ");
+                        }
+
+                        try {
+
+                            if (gridConfiguration[j][k + 1].equals(gridTag)) {
+                                objects.get(i)
+                                        .getTransform()
+                                        .setHorizontal();
+                                row = j;
+                                column = k;
+
+                                Log.d("SpawnConLettura", "deSpawnRespawn: found gridTag = "+gridTag+
+                                        "\nrow= "+row+
+                                        "\ncolumn= "+column+
+                                        "\nhorizontal= ");
+
+                            }
+
+                        }catch (IndexOutOfBoundsException ioobe){
+                            ioobe.printStackTrace();
+                            Log.e("SpawnConLettura", "deSpawnRespawn: outbound from  ");
+                        }
+                    }
+
+                }
+            }
+
+            objects.get(i)
+                    .spawn(row, column);
+
+
+
+
         }
 
 
@@ -281,11 +347,9 @@ public class BattleField extends SurfaceView implements Runnable,
     }
 
 
-    public void setNumber (int num){
-        mN = num;
-    }
 
-    public void setName (String name){
-        nome = name;
+    /** Utility methods **/
+    public String getLevelName(){
+        return mLevel.mName;
     }
 }

@@ -14,7 +14,11 @@ import android.widget.ImageView;
 import com.edomar.battleship.BattleField;
 import com.edomar.battleship.R;
 import com.edomar.battleship.utils.SoundEngine;
+import com.edomar.battleship.utils.WriterReader;
 import com.edomar.battleship.view.HudActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,8 +41,10 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
     /**Save Button**/
     private Button mButton;
 
-   /** BattleField Instance**/
-   private BattleField mBattleField;
+
+
+    /** BattleField Instance**/
+    private BattleField mBattleField;
 
 
     public FleetFragment() {
@@ -89,6 +95,8 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
         ImageView letters = (ImageView) mActivity.findViewById(R.id.letters);
         ImageView numbers = (ImageView) mActivity.findViewById(R.id.numbers);
 
+
+
         //Creazione SurfaceView
         mBattleField = (BattleField) mActivity.findViewById(R.id.battle_field);
         mBattleField.setZOrderOnTop(true);
@@ -131,6 +139,22 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         SoundEngine.getInstance(getContext()).playShoot();
         String[][] grid = mBattleField.saveDefaultFleet();
+        List<String[]> gridRows = new ArrayList<>();
+
+        Log.d(TAG, "onClick: grid.length = "+grid.length);
+
+        //Transform the matrix in an ArrayList
+        for(int i = 0; i<grid.length; i++){
+            gridRows.add(grid[i]);
+            Log.d(TAG, "onClick: grid["+i+"] "+ grid[i].toString());
+            for (int j = 0; j < grid[i].length; j++) {
+                Log.d(TAG, "onClick: "+grid[i][j]+"\t");
+            }
+        }
+
+        //Write on file
+        WriterReader.getInstance().write(gridRows, mBattleField.getLevelName());
+
         //Test
         Log.d("Saving", "onClick: " +
                 "\n1A= "+grid[0][0]+"\t1B="+grid[0][1]+"\t1C= "+grid[0][2]+"\t1D="+grid[0][3]+"\t1E= "+grid[0][4]+"\t1F="+grid[0][5]+"\t1G= "+grid[0][6]+"\t1H="+grid[0][7]+"\t1I= "+grid[0][8]+"\t1J="+grid[0][9]+

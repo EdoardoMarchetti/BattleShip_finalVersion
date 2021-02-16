@@ -151,8 +151,6 @@ public class MatchFragment extends Fragment {
 
         mBattleField = fl.findViewById(R.id.battle_field);
         mBattleField.setZOrderOnTop(true);
-        mBattleField.setNumber(mNumber);
-        mBattleField.setName(mPLayerName);
         mBattleField.init();
         mBattleField.setImageViewsForCoordinates(letters, numbers);
 
