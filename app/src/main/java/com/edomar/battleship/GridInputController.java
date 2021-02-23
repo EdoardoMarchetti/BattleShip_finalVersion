@@ -14,7 +14,7 @@ public class GridInputController implements InputObserver{
     private static final String TAG = "GridController";
     private AmmoSpawner mAS;
 
-    public GridInputController(BattleField b){
+    public GridInputController(IBattleField b){
         b.addObserver(this);
         mAS = b;
     }

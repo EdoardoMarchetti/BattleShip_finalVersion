@@ -11,10 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.edomar.battleship.BattleField;
+
+
+import com.edomar.battleship.BattleFieldFragmentController;
 import com.edomar.battleship.R;
 import com.edomar.battleship.utils.SoundEngine;
-import com.edomar.battleship.utils.WriterReader;
 import com.edomar.battleship.view.HudActivity;
 
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
 
 
         //Creazione SurfaceView
-        mBattleField = (BattleField) mActivity.findViewById(R.id.battle_field);
+        mBattleField = mActivity.findViewById(R.id.battle_field);
         mBattleField.setZOrderOnTop(true);
         mBattleField.init();
         mBattleField.setImageViewsForCoordinates(letters, numbers);

@@ -23,7 +23,8 @@ import com.edomar.battleship.view.gameplayFragments.MatchFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BattleField extends SurfaceView implements Runnable,
+public class BattleField extends BattleFieldFragmentController implements IBattleField,
+        Runnable,
         SurfaceHolder.Callback,
         BattleFieldBroadcaster,
         AmmoSpawner{
@@ -279,8 +280,6 @@ public class BattleField extends SurfaceView implements Runnable,
 
             objects.get(i)
                     .spawn(row, column);
-
-
 
 
         }
