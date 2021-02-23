@@ -7,7 +7,7 @@ public class ShipTransform extends Transform {
 
     private boolean mIsMovable= false; //solo alla nave
     private boolean mRotatable = false; //solo alla nave
-    private boolean mRotated = false; //solo alla nave
+
 
 
     public ShipTransform(float objectWidth, float objectHeight, PointF startLocation, float gridDimension) {
