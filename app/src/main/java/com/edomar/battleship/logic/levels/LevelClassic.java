@@ -1,7 +1,5 @@
 package com.edomar.battleship.logic.levels;
 
-import com.edomar.battleship.logic.GameObject;
-
 import java.util.ArrayList;
 
 public class LevelClassic extends Level {

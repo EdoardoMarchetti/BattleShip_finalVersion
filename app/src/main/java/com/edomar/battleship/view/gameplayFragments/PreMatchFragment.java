@@ -16,10 +16,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.edomar.battleship.BattleField;
+import com.edomar.battleship.battlefield.BattleField;
 import com.edomar.battleship.view.GameActivity;
 import com.edomar.battleship.R;
-import com.edomar.battleship.view.menuFragments.MainMenuFragment;
 
 import java.util.concurrent.TimeUnit;
 

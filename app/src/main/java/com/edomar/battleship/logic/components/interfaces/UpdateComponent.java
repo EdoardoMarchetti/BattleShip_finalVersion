@@ -1,7 +1,7 @@
 package com.edomar.battleship.logic.components.interfaces;
 
-import com.edomar.battleship.Grid;
-import com.edomar.battleship.logic.transform.Transform;
+import com.edomar.battleship.logic.grid.Grid;
+import com.edomar.battleship.logic.transforms.Transform;
 
 public interface UpdateComponent {
 

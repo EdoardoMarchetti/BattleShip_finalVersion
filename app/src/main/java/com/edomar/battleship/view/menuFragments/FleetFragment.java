@@ -13,7 +13,7 @@ import android.widget.ImageView;
 
 
 
-import com.edomar.battleship.BattleFieldFragmentController;
+import com.edomar.battleship.battlefield.IBattleField;
 import com.edomar.battleship.R;
 import com.edomar.battleship.utils.SoundEngine;
 import com.edomar.battleship.view.HudActivity;

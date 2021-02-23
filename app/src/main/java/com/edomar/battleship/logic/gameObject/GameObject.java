@@ -1,4 +1,4 @@
-package com.edomar.battleship.logic;
+package com.edomar.battleship.logic.gameObject;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,13 +6,13 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.util.Log;
 
-import com.edomar.battleship.Grid;
 import com.edomar.battleship.logic.components.interfaces.GraphicsComponent;
 import com.edomar.battleship.logic.components.interfaces.InputComponent;
 import com.edomar.battleship.logic.components.interfaces.SpawnComponent;
 import com.edomar.battleship.logic.components.interfaces.UpdateComponent;
+import com.edomar.battleship.logic.grid.Grid;
 import com.edomar.battleship.logic.specifications.ObjectSpec;
-import com.edomar.battleship.logic.transform.Transform;
+import com.edomar.battleship.logic.transforms.Transform;
 
 public class GameObject {
 

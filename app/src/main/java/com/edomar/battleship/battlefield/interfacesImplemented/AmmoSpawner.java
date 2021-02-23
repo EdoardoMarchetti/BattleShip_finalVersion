@@ -1,4 +1,4 @@
-package com.edomar.battleship;
+package com.edomar.battleship.battlefield.interfacesImplemented;
 
 public interface AmmoSpawner {
 

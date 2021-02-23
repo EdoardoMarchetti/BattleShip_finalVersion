@@ -1,10 +1,10 @@
-package com.edomar.battleship.logic;
+package com.edomar.battleship.logic.gameObject;
 
 import android.content.Context;
 import android.graphics.PointF;
 import android.util.Log;
 
-import com.edomar.battleship.BattleField;
+import com.edomar.battleship.battlefield.IBattleField;
 import com.edomar.battleship.logic.components.AmmoGraphicsComponent;
 import com.edomar.battleship.logic.components.AmmoSpawnComponent;
 import com.edomar.battleship.logic.components.AmmoUpdateComponent;
@@ -13,9 +13,9 @@ import com.edomar.battleship.logic.components.ShipInputComponent;
 import com.edomar.battleship.logic.components.ShipSpawnComponent;
 import com.edomar.battleship.logic.components.ShipUpdateComponent;
 import com.edomar.battleship.logic.specifications.ObjectSpec;
-import com.edomar.battleship.logic.transform.AmmoTransform;
-import com.edomar.battleship.logic.transform.ShipTransform;
-import com.edomar.battleship.logic.transform.Transform;
+import com.edomar.battleship.logic.transforms.AmmoTransform;
+import com.edomar.battleship.logic.transforms.ShipTransform;
+
 
 public class GameObjectFactory { //pagina 559 e 657
 
@@ -24,9 +24,9 @@ public class GameObjectFactory { //pagina 559 e 657
     private Context mContext;
     private float mGridSize;
     private float mBlockSize;
-    private BattleField mBattlefieldReference;
+    private IBattleField mBattlefieldReference;
 
-    public GameObjectFactory (Context c, float gridSize, BattleField bf){
+    public GameObjectFactory (Context c, float gridSize, IBattleField bf){
         this.mContext = c;
         this.mGridSize = gridSize;
         this.mBlockSize = gridSize / 10;

@@ -5,12 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.ImageView;
 
-import com.edomar.battleship.logic.GameObject;
+import com.edomar.battleship.logic.gameObject.GameObject;
+import com.edomar.battleship.logic.grid.Grid;
 import com.edomar.battleship.logic.ParticleSystem;
 
 import java.util.ArrayList;

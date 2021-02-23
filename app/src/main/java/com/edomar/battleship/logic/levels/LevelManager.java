@@ -5,9 +5,9 @@ import android.graphics.RectF;
 import android.util.Log;
 
 
-import com.edomar.battleship.BattleField;
-import com.edomar.battleship.logic.GameObject;
-import com.edomar.battleship.logic.GameObjectFactory;
+import com.edomar.battleship.battlefield.IBattleField;
+import com.edomar.battleship.logic.gameObject.GameObject;
+import com.edomar.battleship.logic.gameObject.GameObjectFactory;
 import com.edomar.battleship.logic.specifications.BattleshipSpec;
 import com.edomar.battleship.logic.specifications.CarrierSpec;
 import com.edomar.battleship.logic.specifications.CruiserSpec;
@@ -34,7 +34,7 @@ public class LevelManager { //Pagina 694
     private int mNumShipsInLevel;
 
 
-    public LevelManager(Context context, float gridSize, BattleField bf, String level){
+    public LevelManager(Context context, float gridSize, IBattleField bf, String level){
 
         objects = new ArrayList<>();
         factory = new GameObjectFactory(context, gridSize, bf);

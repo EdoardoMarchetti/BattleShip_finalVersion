@@ -37,7 +37,7 @@
         </LinearLayout>
 
 
-        <com.edomar.battleship.BattleField
+        <com.edomar.battleship.battlefield.BattleField
             android:id="@+id/battle_field"
             android:layout_width="@dimen/battlefield_size"
             android:layout_height="@dimen/battlefield_size"

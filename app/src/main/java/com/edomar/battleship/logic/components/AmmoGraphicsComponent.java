@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 
-import com.edomar.battleship.logic.transform.Transform;
+import com.edomar.battleship.logic.transforms.Transform;
 import com.edomar.battleship.logic.components.interfaces.GraphicsComponent;
 import com.edomar.battleship.logic.specifications.ObjectSpec;
 import com.edomar.battleship.utils.BitmapStore;

@@ -5,17 +5,19 @@ import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
 
-import com.edomar.battleship.BattleField;
-import com.edomar.battleship.Grid;
-import com.edomar.battleship.InputObserver;
-import com.edomar.battleship.logic.Level;
-import com.edomar.battleship.logic.transform.ShipTransform;
-import com.edomar.battleship.logic.transform.Transform;
+import com.edomar.battleship.battlefield.IBattleField;
+import com.edomar.battleship.logic.grid.Grid;
+import com.edomar.battleship.battlefield.InputObserver;
+import com.edomar.battleship.logic.levels.LevelManager;
+import com.edomar.battleship.logic.transforms.ShipTransform;
+import com.edomar.battleship.logic.transforms.Transform;
 import com.edomar.battleship.logic.components.interfaces.InputComponent;
 
 /** Per migliorare il D&D bisognerebbe avere anche mFPS da Battlefield**/
 
-public class ShipInputComponent implements InputComponent, InputObserver {
+public class ShipInputComponent implements InputComponent, InputObserver
+        //,UpdateComponent
+        {
 
     private static final String TAG = "ShipInputComponent";
    
@@ -23,23 +25,36 @@ public class ShipInputComponent implements InputComponent, InputObserver {
 
     float mDownX;
     float mDownY;
+
     float mCurrentX;
     float mCurrentY;
+
+
     float SCROLL_THRESHOLD;
     boolean isOnClick;
 
+    //For test
+    boolean dragging = false;
+    private boolean dropped = false;
+    private long mFps;
+
+
     //Il costruttore viene chiamato dal GameObjectFactory
-    public ShipInputComponent(BattleField bf) {
+    public ShipInputComponent(IBattleField bf) {
         bf.addObserver(this);
     }
    
     @Override
     public void setTransform(Transform t) {
+        Log.d(TAG, "setTransform: transfmor setted");
+        Log.d(TAG, "setTransform: is t null? "+ (t == null));
         mTransform = (ShipTransform) t;
+        Log.d(TAG, "setTransform: is mTransform null? "+ (mTransform == null));
+
     }
 
     @Override
-    public void handleInput(MotionEvent event, Grid grid, Level level) {
+    public void handleInput(MotionEvent event, Grid grid, LevelManager levelManager) {
         //Primo check sullo stato del gioco (if statement da inserire)
         //Match -> l'input non è mai rivolto alla nave
         //PreMatch -> l'input è sempre rivolto alla nave -> verificare se si la nave è già "attiva"
@@ -53,6 +68,8 @@ public class ShipInputComponent implements InputComponent, InputObserver {
 
         RectF shipCollider = mTransform.getCollider();
 
+
+
         int eventType = event.getAction() & MotionEvent.ACTION_MASK;
 
         if(eventType == MotionEvent.ACTION_DOWN && preMatch){
@@ -61,28 +78,32 @@ public class ShipInputComponent implements InputComponent, InputObserver {
             mCurrentX = mDownX;
             mCurrentY = mDownY;
 
-            if(shipCollider.contains(mDownX,mDownY) && level.transformInMovement == null) {
+
+            if(shipCollider.contains(mDownX,mDownY) && levelManager.getCurrentLevel().transformInMovement == null) {
                 mTransform.setMovable();
-                Log.d(TAG, "handleInput: nave attivata");
-                level.transformInMovement = mTransform;
+                levelManager.getCurrentLevel().transformInMovement = mTransform;
                 isOnClick = true;
+
             }else{
                 mTransform.setImmovable();
-
+                mTransform.setNotRotatable();
             }
 
         }
 
 
-        if(level.transformInMovement == mTransform){
-            Log.d(TAG, "handleInput: i'm movable");
+        if(levelManager.getCurrentLevel().transformInMovement == mTransform){
+            //Log.d(TAG, "handleInput: i'm movable");
             switch (eventType){
+
                 case MotionEvent.ACTION_MOVE:
 
                     if(mTransform.checkMovable()){
                         //Drag the ship
-
                         drag(event.getX(), event.getY());
+
+                        //test
+                        //dragging = true;
 
                         mCurrentX = event.getX();
                         mCurrentY = event.getY();
@@ -96,24 +117,33 @@ public class ShipInputComponent implements InputComponent, InputObserver {
 
                 case MotionEvent.ACTION_UP:
 
+                    //test
+                    //dragging = false;
+
                     if(isOnClick){ //rotate or active
-                        Log.d(TAG, "simple touch");
+                        //Log.d(TAG, "simple touch");
 
                         if(mTransform.checkMovable() && mTransform.checkRotatable()){
                             mTransform.rotate();
                             rotate();
-                            Log.d(TAG, "handleInput: nave ruotata");
+                            //Log.d(TAG, "handleInput: nave ruotata");
                         }
 
                     }else{
                         //Drop the ship
                         drop(event.getX(), event.getY());
+
+                        //dropped = true;
                     }
 
                     mTransform.setRotatable();
-                    level.transformInMovement = null;
+                   //Log.d("LOCKINGTRAN", "4) handleInput: transformInMovement= "+ levelManager.getCurrentLevel().transformInMovement);
+                    if(!(levelManager.getCurrentLevel().transformInMovement == null)) {
+                        levelManager.getCurrentLevel().transformInMovement = null;
+                        //Log.d("ProvaDelCollider", "5) handleInput: transformInMovement= " + levelManager.getCurrentLevel().transformInMovement);
+                    }
 
-                    //positionShipInGrid();
+                    levelManager.checkCorrectFleetConfiguration();
 
                     break;
 
@@ -128,9 +158,12 @@ public class ShipInputComponent implements InputComponent, InputObserver {
 
     private void drag(float eventX, float eventY) {
         //First check if the ship is outside the BattleField
-
-        float differenceX = eventX - mCurrentX ;
-        float differenceY = eventY - mCurrentY ;
+        Log.d("Dragging", "drag: ");
+        float differenceX = (eventX - mCurrentX);
+        float differenceY = (eventY - mCurrentY);
+        Log.d("Differenza", "drag: (eventX - mCurrentX) = "+(eventX - mCurrentX));
+        Log.d("Differenza", "drag: (eventX - mCurrentX) / fps = "+(eventX - mCurrentX)/mFps);
+        Log.d("Differenza", "fps = "+mFps);
 
         PointF oldLocation = mTransform.getLocation();
         PointF newLocation = new PointF(oldLocation.x + differenceX, oldLocation.y + differenceY);
@@ -209,22 +242,12 @@ public class ShipInputComponent implements InputComponent, InputObserver {
         mTransform.setLocation(newLocation.x, newLocation.y);
     }
 
-    //Probabilmente da rimuovere
-    /*private void positionShipInGrid(){
-        int startRow = (int) (mTransform.getLocation().y / mTransform.getBlockDimension());
 
-        int startColumn = (int) (mTransform.getLocation().x / mTransform.getBlockDimension());
+    /*@Override
+    public boolean update(long fps, Transform t, Grid grid) {
+        Log.d("Update", "update: i'm moving the ship");
 
-        boolean shipIsVertical = mTransform.isVertical() ;
-        int blockOccupied;
-
-        if(shipIsVertical){
-            blockOccupied = (int) (mTransform.getObjectHeight() / mTransform.getBlockDimension());
-        }else{
-            blockOccupied = (int) (mTransform.getObjectWidth() / mTransform.getBlockDimension());
-        }
-
-        String gridTag = objects.get(i)
-                .getGridTag();
+        mFps = fps;
+        Log.d(TAG, "update: mFps = " + mFps);
     }*/
 }

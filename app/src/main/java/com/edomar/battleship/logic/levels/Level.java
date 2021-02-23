@@ -1,6 +1,5 @@
 package com.edomar.battleship.logic.levels;
 
-import com.edomar.battleship.logic.GameObject;
 import com.edomar.battleship.logic.transforms.Transform;
 
 import java.util.ArrayList;

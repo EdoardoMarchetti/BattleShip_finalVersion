@@ -1,4 +1,4 @@
-package com.edomar.battleship;
+package com.edomar.battleship.logic.grid;
 
 import android.graphics.RectF;
 import android.util.Log;
@@ -9,7 +9,7 @@ import com.edomar.battleship.logic.Level;
 
 import java.util.ArrayList;
 
-public class GridInputController implements InputObserver{
+public class GridInputController implements InputObserver {
 
     private static final String TAG = "GridController";
     private AmmoSpawner mAS;

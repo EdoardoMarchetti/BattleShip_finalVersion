@@ -11,8 +11,8 @@ public class SubMarineSpec extends ObjectSpec {
     private static final PointF blocksOccupied= new PointF(1,5);
     private static final  String[] components = new String[]{"ShipGraphicsComponent",
             "ShipSpawnComponent",
-            "ShipInputComponent",
-            "ShipUpdateComponent"};
+            "ShipUpdateComponent",
+            "ShipInputComponent"};
 
     public SubMarineSpec() {
         super(tag, gridTag,bitmapName, speed,blocksOccupied, components);

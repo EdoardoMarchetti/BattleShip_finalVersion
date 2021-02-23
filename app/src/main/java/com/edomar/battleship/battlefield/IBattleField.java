@@ -1,4 +1,4 @@
-package com.edomar.battleship;
+package com.edomar.battleship.battlefield;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -10,24 +10,29 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.edomar.battleship.logic.GameObject;
-import com.edomar.battleship.logic.Level;
+import com.edomar.battleship.Renderer;
+import com.edomar.battleship.battlefield.interfacesImplemented.AmmoSpawner;
+import com.edomar.battleship.battlefield.interfacesImplemented.BattleFieldBroadcaster;
 import com.edomar.battleship.logic.ParticleSystem;
 import com.edomar.battleship.logic.PhysicsEngine;
+import com.edomar.battleship.logic.gameObject.GameObject;
+import com.edomar.battleship.logic.grid.Grid;
+import com.edomar.battleship.logic.grid.GridInputController;
+import com.edomar.battleship.logic.levels.LevelManager;
 import com.edomar.battleship.utils.BitmapStore;
 import com.edomar.battleship.utils.WriterReader;
-import com.edomar.battleship.view.gameplayFragments.MatchFragment;
+
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class BattleField extends BattleFieldFragmentController implements IBattleField,
+public abstract class IBattleField extends SurfaceView implements SurfaceHolder.Callback,
         Runnable,
-        SurfaceHolder.Callback,
-        BattleFieldBroadcaster,
-        AmmoSpawner{
+        AmmoSpawner,
+        BattleFieldBroadcaster
+{
 
     private static final String TAG = "BattleField";
 
@@ -36,15 +41,15 @@ public class BattleField extends BattleFieldFragmentController implements IBattl
 
 
     /** Instances **/
-    private Renderer mRenderer;
-    private PhysicsEngine mPhysicsEngine;
-    private ParticleSystem mParticleSystem;
-    private Grid mGrid;
-    private boolean mRunning;
-    private BitmapStore mBitmapStore;
-    private Level mLevel;
-    private ArrayList<InputObserver> inputObservers = new ArrayList<>();
-    private GridInputController mGridController;
+    public Renderer mRenderer;
+    public PhysicsEngine mPhysicsEngine;
+    public ParticleSystem mParticleSystem;
+    public Grid mGrid;
+    public boolean mRunning;
+    public BitmapStore mBitmapStore;
+    public LevelManager mLevelManager;
+    public ArrayList<InputObserver> inputObservers = new ArrayList<>();
+    public GridInputController mGridController;
 
 
 
@@ -53,18 +58,16 @@ public class BattleField extends BattleFieldFragmentController implements IBattl
     ImageView mNumbers;
     Point mLettersDimen = new Point();
 
-    /**Prova**/
-    int mN = 0;
-    String nome = "";
+
 
 
     /** Costruttori **/
-    public BattleField(Context context) {
+    public IBattleField(Context context) {
         super(context);
         getHolder().addCallback(this);
     }
 
-    public BattleField(Context context, AttributeSet attrs) {
+    public IBattleField(Context context, AttributeSet attrs) {
         super(context, attrs);
         getHolder().addCallback(this);
         Log.d(TAG, "BattleField: in the constructor");
@@ -72,7 +75,7 @@ public class BattleField extends BattleFieldFragmentController implements IBattl
 
 
 
-    public BattleField(Context context, AttributeSet attrs, int defStyleAttr) {
+    public IBattleField(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         getHolder().addCallback(this);
     }
@@ -80,45 +83,36 @@ public class BattleField extends BattleFieldFragmentController implements IBattl
     /**Metodi Callback**/
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        Log.d(TAG, "surfaceCreated: now you can draw");
-        Log.d("BOHC", "surfaceCreated: "+mN);
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-        Log.d("BOHC", "surfaceChanged: "+mN);
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-        Log.d("BOHC", "surfaceDestroyed: "+mN);
     }
 
 
     /** Init Method**/
-    public void init(){
-        Log.d("InitMethod", "init: in init method for fragment number = "+ mN);
-        Log.d("InitMethod", "init: in init method for fragment name = "+ nome);
+    public void init(String level){
         mBitmapStore = BitmapStore.getInstance(getContext());
-        mLevel = new Level(getContext(), this.getLayoutParams().width, this);
-        List<String[]> gridRows = WriterReader.getInstance().read(mLevel.mName);
-        mGrid = new Grid(this.getLayoutParams().width, gridRows);
-        //placeTheShips();
-        mGridController = new GridInputController(this);
+        mGridController = new GridInputController(this); //Probabilmente solo battleField giocatore
         mPhysicsEngine = new PhysicsEngine();
         mParticleSystem = new ParticleSystem();
         mParticleSystem.init(250);
         mRenderer = new Renderer(this);
+        setLevel(level);
     }
 
     /** Adding observers **/
     @Override
-    public void addObserver(InputObserver o) {
+    public void addObserver(InputObserver o) {//Probabilmente solo battleField giocatore e fleetFragment sempre
         inputObservers.add(o);
-    }
+    } //Probabilmente solo battlefield giocatore
 
     /** Start and stop Thread**/
-    public void stopThread() {
+    public void stopThread() {//in tutti i battlefield
         // New code here soon
         mRunning = false;
         try {
@@ -129,7 +123,7 @@ public class BattleField extends BattleFieldFragmentController implements IBattl
         }
     }
 
-    public void startThread() {
+    public void startThread() {//in tutti i battlefield
         // New code here soon
         mRunning= true; //da cambiare con il gameState
         mThread = new Thread(this);
@@ -138,7 +132,7 @@ public class BattleField extends BattleFieldFragmentController implements IBattl
 
     /**Run**/
     @Override
-    public void run() {
+    public void run() {//in tutti i battlefield
 
         //Le coordinate sono fuori dal while perchè vengono disegnate solo una volta
         //Il metodo threadHandler.post è necessario in quanto Battlefield deve operare
@@ -148,19 +142,19 @@ public class BattleField extends BattleFieldFragmentController implements IBattl
             @Override
             public void run() {
                 //Qua va il codice per disegnare le coordinate
-                mRenderer.drawGridCoordinates(mLetters, mNumbers, mLettersDimen );
+                mRenderer.drawGridCoordinates(mLetters, mNumbers, mLettersDimen);
             }
         });
 
-        deSpawnRespawn();//Il metodo deSpawnReSpawn dovrà essere invocato solo all'inizio della partita per posizionare le navi
-                         //sulla view
+
 
         while (mRunning){
             long frameStartTime = System.currentTimeMillis();
-            ArrayList<GameObject> objects = mLevel.getGameObject();
+            ArrayList<GameObject> objects = mLevelManager.getObjects();
 
             /** Update the objects **/
-            mPhysicsEngine.update(mFPS, mParticleSystem, objects, mGrid);
+            mPhysicsEngine.update(mFPS, mParticleSystem,
+                    objects, mGrid);
 
 
             /** Draw objects **/
@@ -178,32 +172,19 @@ public class BattleField extends BattleFieldFragmentController implements IBattl
     }
 
     /** set ImageView per le coordinate**/
-    public void setImageViewsForCoordinates(ImageView letters, ImageView numbers){
+    public void setImageViewsForCoordinates(ImageView letters, ImageView numbers){//in tutti i battlefield
         mLetters = letters;
         mNumbers = numbers;
         mLettersDimen.x = letters.getLayoutParams().width;
         mLettersDimen.y = letters.getLayoutParams().height;
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
 
-        Toast.makeText(getContext(), "toccata", Toast.LENGTH_LONG).show();
-        Log.d(TAG, "onTouchEvent: inside touchevent");
 
-        for (InputObserver io : inputObservers) {
-            io.handleInput(event, mGrid, mLevel);
-        }
+    //Posiziona le navi in bas alla configurazione della griglia
+    public void deSpawnRespawn(){//in tutti i battlefield
 
-        //mParticleSystem.emitParticles( new PointF(event.getX(), event.getY()));
-
-        return true;
-    }
-
-    //fa lo spawn in base alla configurazione della griglia
-    public void deSpawnRespawn(){
-
-        ArrayList<GameObject> objects = mLevel.getGameObject();
+        ArrayList<GameObject> objects = mLevelManager.getObjects();
         String[][] gridConfiguration = mGrid.getGridConfiguration();
 
 
@@ -212,23 +193,20 @@ public class BattleField extends BattleFieldFragmentController implements IBattl
         }
 
 
-        for(int i = 0; i<Level.mNumShipsInLevel; i++) {
+        for(int i = 0; i<mLevelManager.getNumShipsInLevel(); i++) {
             int row = 0;
             int column = 0;
             boolean found = false;
 
             String gridTag = objects.get(i)
-                    .getGridTag();
-
+                    .getGridTag() + String.valueOf(i); //String.valueOf(i) mi permette di distinguera tra navi dello stesso tipo
 
 
             for (int j = 0; j < gridConfiguration.length && !found; j++) {
                 for (int k = 0; k < gridConfiguration.length && !found; k++) {
-                    if(gridTag == "S")
-                        Log.d("Griglia da leggere", "deSpawnRespawn: gridConfiguration["+j+"]["+k+"] "+gridConfiguration[j][k]);
+
 
                     if(gridConfiguration[j][k].equals(gridTag)){
-
 
                         found = true;
 
@@ -278,8 +256,15 @@ public class BattleField extends BattleFieldFragmentController implements IBattl
                 }
             }
 
-            objects.get(i)
-                    .spawn(row, column);
+            if(found) {
+                //Esiste il file e quindi disporre secondo la griglia restituita
+                objects.get(i)
+                        .spawn(row, column);
+            }else{
+                //Non esiste il file quindi disporre in maniera progressiva
+                objects.get(i)
+                        .spawn(0,i);
+            }
 
 
         }
@@ -288,67 +273,90 @@ public class BattleField extends BattleFieldFragmentController implements IBattl
     }
 
     @Override
-    public boolean spawnAmmo(int row, int column) {
+    public boolean spawnAmmo(int row, int column) {//solo per battlefield Match
 
-        ArrayList<GameObject> objects = mLevel.getGameObject();
+        ArrayList<GameObject> objects = mLevelManager.getObjects();
 
         Log.d("SpawnMissile", "spawnAmmo: in BattleField");
-        objects.get(Level.MISSILE)
+        objects.get(LevelManager.MISSILE)
                 .spawn(row, column);
         Log.d("SpawnMissile", "spawnAmmo: after spawn");
-
 
 
         return true;
     }
 
-    public String[][] saveDefaultFleet() {
+    public boolean saveDefaultFleet(String levelToLoad) {//solo per fleetFragment
         Log.d("Saving", "saveDefaultFleet: ");
-        ArrayList<GameObject> objects = mLevel.getGameObject();
+        ArrayList<GameObject> objects = mLevelManager.getObjects();
         mGrid.clearGrid();
 
-        for (int i = 0; i < Level.mNumShipsInLevel; i++) {
-            int startRow = (int) (objects.get(i)
-                                .getTransform()
-                                .getLocation().y / mGrid.getBlockDimension());
+        if(mLevelManager.checkCorrectFleetConfiguration()) {
 
-            int startColumn = (int) (objects.get(i)
-                                    .getTransform()
-                                    .getLocation().x / mGrid.getBlockDimension());
+            for (int i = 0; i < mLevelManager.getNumShipsInLevel(); i++) {
+                int startRow = (int) (objects.get(i)
+                        .getTransform()
+                        .getLocation().y / mGrid.getBlockDimension());
 
-            float shipWidth = objects.get(i)
-                    .getTransform()
-                    .getObjectWidth();
 
-            float shipHeight = objects.get(i)
-                    .getTransform()
-                    .getObjectHeight();
 
-            boolean shipIsVertical;
-            int blockOccupied;
+                int startColumn = (int) (objects.get(i)
+                        .getTransform()
+                        .getLocation().x / mGrid.getBlockDimension());
 
-            if(shipWidth >= shipHeight){
-                shipIsVertical = false;
-                blockOccupied = (int) (shipWidth / mGrid.getBlockDimension());
-            }else{
-                shipIsVertical = true;
-                blockOccupied = (int) (shipHeight / mGrid.getBlockDimension());
+                float shipWidth = objects.get(i)
+                        .getTransform()
+                        .getObjectWidth();
+
+                float shipHeight = objects.get(i)
+                        .getTransform()
+                        .getObjectHeight();
+
+                boolean shipIsVertical;
+                int blockOccupied;
+
+                if (shipWidth >= shipHeight) {
+                    shipIsVertical = false;
+                    blockOccupied = (int) (shipWidth / mGrid.getBlockDimension());
+                } else {
+                    shipIsVertical = true;
+                    blockOccupied = (int) (shipHeight / mGrid.getBlockDimension());
+                }
+
+                String gridTag = objects.get(i)
+                        .getGridTag() + String.valueOf(i);
+
+                mGrid.positionShip(startRow, startColumn, blockOccupied, shipIsVertical, gridTag);
             }
 
-            String gridTag = objects.get(i)
-                    .getGridTag();
+            List<String[]> gridRows = new ArrayList<>();
 
-            mGrid.positionShip(startRow, startColumn, blockOccupied, shipIsVertical, gridTag );
+            //Transform the matrix in an ArrayList
+            gridRows.addAll(Arrays.asList(mGrid.getGridConfiguration()));
+
+            //write on file
+            WriterReader.getInstance().write(gridRows, levelToLoad);
+            return true;
+
+        }else{
+            return false;
         }
 
-        return mGrid.getGridConfiguration();
+    }
 
+    public void setLevel(String levelToLoad) {
+        inputObservers.clear();
+        inputObservers.add(mGridController);
+
+        mLevelManager = new LevelManager(getContext(), this.getLayoutParams().width, this, levelToLoad);
+        List<String[]> gridRows = WriterReader.getInstance().read(levelToLoad);
+        mGrid = new Grid(this.getLayoutParams().width, gridRows);
+        deSpawnRespawn(); //indica ad ogni nave dove posizionarsi
+        Log.d(TAG, "setLevel: inputObservers "+inputObservers.size());
     }
 
 
-
-    /** Utility methods **/
-    public String getLevelName(){
-        return mLevel.mName;
-    }
+    /**Metodi per battleField giocatore**/
+    @Override
+    public abstract boolean onTouchEvent(MotionEvent event);//Probabilmente solo in fase preMatch
 }

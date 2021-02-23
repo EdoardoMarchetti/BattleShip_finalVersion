@@ -1,9 +1,6 @@
 package com.edomar.battleship.logic.components.interfaces;
 
-import android.graphics.Point;
-
-import com.edomar.battleship.Grid;
-import com.edomar.battleship.logic.transform.Transform;
+import com.edomar.battleship.logic.transforms.Transform;
 
 public interface SpawnComponent {
 

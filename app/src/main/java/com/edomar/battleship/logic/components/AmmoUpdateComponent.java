@@ -4,9 +4,9 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.util.Log;
 
-import com.edomar.battleship.Grid;
-import com.edomar.battleship.logic.transform.AmmoTransform;
-import com.edomar.battleship.logic.transform.Transform;
+import com.edomar.battleship.logic.grid.Grid;
+import com.edomar.battleship.logic.transforms.AmmoTransform;
+import com.edomar.battleship.logic.transforms.Transform;
 import com.edomar.battleship.logic.components.interfaces.UpdateComponent;
 
 public class AmmoUpdateComponent implements UpdateComponent {

@@ -1,11 +1,9 @@
 package com.edomar.battleship.logic.components;
 
-import android.graphics.Point;
 import android.util.Log;
 
-import com.edomar.battleship.Grid;
-import com.edomar.battleship.logic.transform.ShipTransform;
-import com.edomar.battleship.logic.transform.Transform;
+import com.edomar.battleship.logic.transforms.ShipTransform;
+import com.edomar.battleship.logic.transforms.Transform;
 import com.edomar.battleship.logic.components.interfaces.SpawnComponent;
 
 /** Alcuni appunti:

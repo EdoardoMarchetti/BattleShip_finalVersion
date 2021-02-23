@@ -3,7 +3,11 @@ package com.edomar.battleship.logic;
 
 import android.graphics.PointF;
 import android.util.Log;
-import com.edomar.battleship.Grid;
+
+
+import com.edomar.battleship.logic.gameObject.GameObject;
+import com.edomar.battleship.logic.grid.Grid;
+import com.edomar.battleship.logic.levels.LevelManager;
 import com.edomar.battleship.utils.SoundEngine;
 
 import java.util.ArrayList;
