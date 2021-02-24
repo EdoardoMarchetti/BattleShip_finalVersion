@@ -34,10 +34,11 @@ public class GameObjectFactory { //pagina 559 e 657
     }
 
     public GameObject create(ObjectSpec spec){
-        GameObject object = new GameObject();
+        //GameObject object = new GameObject();
+        GameObject object = null;
 
         int numComponents = spec.getComponents().length;
-        object.setTag(spec.getTag());
+        //object.setTag(spec.getTag());
 
         final float HIDDEN = -2000f;
 
@@ -49,12 +50,17 @@ public class GameObjectFactory { //pagina 559 e 657
         // First give the game object the
         // right kind of transform
 
-        switch(object.getTag()){
+        switch(spec.getTag()){
             case "Ship":
+                //TODO--Crea oggetto nave
+                object = new ShipObject();
                 object.setGridTag(spec.getGridTag());
                 object.setTransform(new ShipTransform(objectSize.x, objectSize.y, location, mGridSize));
                 break;
             case "Ammo":
+                //TODO--Crea oggetto generico
+                object = new GameObject();
+                object.setTag(spec.getTag());
                 float speed = mGridSize / spec.getSpeed();
                 object.setTransform(new AmmoTransform(speed, objectSize.x, objectSize.y, location, mGridSize));
                 break;
@@ -66,7 +72,6 @@ public class GameObjectFactory { //pagina 559 e 657
 
 
 
-        //object.setTransform(new Transform(objectSize.x, objectSize.y, location, mGridSize));
 
         for(int i=0 ; i < numComponents ; i++){
             switch (spec.getComponents()[i]){

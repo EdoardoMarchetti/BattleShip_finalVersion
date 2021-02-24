@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.ImageView;
@@ -44,7 +45,15 @@ public class Renderer  {
             /** Objects **/
             for (GameObject object: objects) {
                 if(object.checkActive()) {
-                    object.draw(mCanvas, mPaint);
+                    if(object.getTag() == "Ship"){
+                        //Log.d("Attivazione", "disegno: nave "+object.getGridTag()+" attivata ");
+                        if(object.checkDrawable()){
+                            Log.d("Ultimotentativo", "draw: infatti disegno");
+                            object.draw(mCanvas,mPaint);
+                        }
+                    }else{
+                        object.draw(mCanvas, mPaint);
+                    }
                 }
             }
 

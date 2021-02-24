@@ -80,7 +80,6 @@ public class ParticleSystem {
             }
 
 
-
             paint.setARGB(255,
                     red,
                     green,

@@ -17,6 +17,8 @@ public class Transform { //Pagina 528 e 708
     private float mObjectWidth; //ridimensionata rispetto ai blocchi
     private boolean mIsVertical = true; //solo alla nave
 
+
+
     /*
     private boolean mIsMovable= false; //solo alla nave
     private boolean mRotatable = false; //solo alla nave
@@ -48,11 +50,9 @@ public class Transform { //Pagina 528 e 708
         return sBlockDimension;
     }
 
-
     public boolean isVertical() {
         return mIsVertical;
     }
-
 
     public float getObjectHeight(){
         return mObjectHeight;
@@ -113,7 +113,6 @@ public class Transform { //Pagina 528 e 708
         }
         updateCollider();
     }
-
 
 
     public void updateCollider(){

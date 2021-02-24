@@ -27,11 +27,12 @@ public class LevelManager { //Pagina 694
     private static final String TAG = "LevelManager";
 
     public static int MISSILE;
+    public static int sNumShipsInLevel;
 
     private ArrayList<GameObject> objects;
     private Level currentLevel;
     private GameObjectFactory factory;
-    private int mNumShipsInLevel;
+
 
 
     public LevelManager(Context context, float gridSize, IBattleField bf, String level){
@@ -99,7 +100,7 @@ public class LevelManager { //Pagina 694
                 case "missile":
                     objects.add(factory.create(new MissileSpec()));
                     MISSILE = i;
-                    mNumShipsInLevel = i;
+                    sNumShipsInLevel = i;
                     break;
                 default:
                     Log.e(TAG, "buildGameObject: oggetto non riconosciuto");
@@ -119,7 +120,7 @@ public class LevelManager { //Pagina 694
         return currentLevel;
     }
 
-    public int getNumShipsInLevel(){return mNumShipsInLevel;}
+    public int getNumShipsInLevel(){return sNumShipsInLevel;}
 
     public boolean checkCorrectFleetConfiguration() {
 
@@ -131,7 +132,7 @@ public class LevelManager { //Pagina 694
             RectF collider1Expanded = new RectF();
             RectF collider2Expanded = new RectF();
 
-            for (int i = 0; i < mNumShipsInLevel; i++) {
+            for (int i = 0; i < sNumShipsInLevel; i++) {
 
                 Collider collider1= objects.get(i)
                         .getTransform().getCollider();
@@ -146,7 +147,7 @@ public class LevelManager { //Pagina 694
 
                 boolean collides = false;
 
-                for (int j = 0; j < mNumShipsInLevel; j++) {
+                for (int j = 0; j < sNumShipsInLevel; j++) {
                     if(i != j) {
                         Log.d("CicloVicine", "checkCorrectFleetConfiguration: nave ["+i+"]["+j+"]");
                         Collider collider2 = objects.get(j)
@@ -177,14 +178,14 @@ public class LevelManager { //Pagina 694
 
         }else{//NON devono essere SOVRAPPOSTE
 
-            for (int i = 0; i < mNumShipsInLevel; i++) {
+            for (int i = 0; i < sNumShipsInLevel; i++) {
 
                 Collider collider1= objects.get(i)
                         .getTransform().getCollider();
 
                 boolean collides = false;
 
-                for (int j = 0; j < mNumShipsInLevel; j++) {
+                for (int j = 0; j < sNumShipsInLevel; j++) {
                     if(i != j) {
                         Collider collider2 = objects.get(j)
                                 .getTransform().getCollider();

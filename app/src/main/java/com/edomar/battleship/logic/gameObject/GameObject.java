@@ -12,20 +12,23 @@ import com.edomar.battleship.logic.components.interfaces.SpawnComponent;
 import com.edomar.battleship.logic.components.interfaces.UpdateComponent;
 import com.edomar.battleship.logic.grid.Grid;
 import com.edomar.battleship.logic.specifications.ObjectSpec;
+import com.edomar.battleship.logic.transforms.ShipTransform;
 import com.edomar.battleship.logic.transforms.Transform;
 
 public class GameObject {
 
     private static final String TAG = "GameObject";
 
-    private Transform mTransform;
-    private  boolean isActive = false; //forse da inserire nel transform
-    private String mTag;
-    private String mGridTag;
+    protected Transform mTransform;
+    protected  boolean isActive = false;
+    protected boolean isDrawable = true;
+    protected String mTag;
+    protected String mGridTag;
 
-    private GraphicsComponent graphicsComponent;
-    private UpdateComponent updateComponent;
-    private SpawnComponent spawnComponent;
+    protected GraphicsComponent graphicsComponent;
+    protected UpdateComponent updateComponent;
+    protected SpawnComponent spawnComponent;
+
 
     /** Setters**/
 
@@ -62,7 +65,10 @@ public class GameObject {
 
     public void setInactive(){
         isActive = false;
+        isDrawable = false;
     }
+
+
 
     /** Getters**/
 
@@ -73,6 +79,8 @@ public class GameObject {
     public boolean checkActive() {
         return isActive;
     }
+
+    public boolean checkDrawable(){ return isDrawable;}
 
     public String getTag() {
         return mTag;
@@ -93,17 +101,25 @@ public class GameObject {
             // Component returned false
             isActive = false;
         }
+
     }
 
     public boolean spawn(int row, int column) { //Da modificare in base alle necessità
         // Only spawnComponent if not already active
         if (!isActive) {
             Log.d("SpawnMissile", "spawn: in gameObject");
+            Log.d("ObjectActivation", "spawn: object activated= "+getGridTag());
             spawnComponent.spawn(mTransform, row, column);
             isActive = true;
+            isDrawable = true;
             return true;
         }
         return false;
     }
 
+
+    public void setActive() {
+        isActive = true;
+        isDrawable = true;
+    }
 }

@@ -28,7 +28,7 @@ public class GridInputController implements InputObserver {
         //                                              -> definire se si è colpito una nave o meno
         //                                              -> indicare nella model della griglia il colpo effettuato
 
-        boolean preMatch = true;
+        boolean preMatch = false;
 
 
         if(!preMatch && !level.getGameObject().get(Level.MISSILE).checkActive()){
@@ -68,17 +68,16 @@ public class GridInputController implements InputObserver {
                         if (objectCollider.contains(x, y)) {
                             //nave colpita
                             hit = true;
-                            Log.d(TAG, "handleInput: nave colpita");
-                            //diminuisci vite della nave
-                            //segna sulla griglia il bersaglio colpito
+                            ((ShipTransform)objects.get(j).getTransform()).shipHit();
+
                         }
 
                         j++;
 
                     }
 
-                    //se al termine del ciclo for hit=false nessuna nave è stata colpita e quindi sulla griglia verrà disegnata una X
-                    grid.setHit(row, column, hit);
+                    //se al termine del ciclo for hit=false nessuna nave è stata colpita e quindi sulla griglia verrà disegnata una X quando l'animazione del razzo terminerà
+                    grid.setLastHit(row, column, hit);
                     Log.d(TAG, "handleInput: colpo aggiornato");
 
                     Log.d("SpawnMissile", "handleInput: start spawn Missile");

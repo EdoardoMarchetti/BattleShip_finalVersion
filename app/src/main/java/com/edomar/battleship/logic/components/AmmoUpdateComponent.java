@@ -19,7 +19,7 @@ public class AmmoUpdateComponent implements UpdateComponent {
         // Laser can only travel two screen widths
         float range = t.getGridDimension();
         //Which is the target?
-        Point target = grid.getLastHit();
+        Point target = grid.getLastHitCoordinates();
         //Where is the Ammo?
         PointF location = at.getLocation();
         //How fast is going?

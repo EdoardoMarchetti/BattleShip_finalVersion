@@ -27,6 +27,7 @@ public class Grid  {
     private static int textDimension;
 
     private Point mLastHit= new Point();
+    private boolean mLastHitResult = false;
 
 
     public Grid(float gridDimension, List<String[]> gridRows) {
@@ -141,7 +142,9 @@ public class Grid  {
         return mBlockDimension;
     }
 
-    public Point getLastHit(){ return  mLastHit;}
+    public Point getLastHitCoordinates(){ return  mLastHit;}
+
+    public boolean getLastHitResult(){ return mLastHitResult;}
 
     /** Setters **/
     public void clearGrid(){
@@ -160,8 +163,8 @@ public class Grid  {
             mGridConfiguration[row][column] = "X";
             Log.d("setHit", "setHit: acqua in = "+row+","+column);
         }
-        mLastHit.x = row;
-        mLastHit.y = column;
+        /*mLastHit.x = row;
+        mLastHit.y = column;*/
     }
 
     public void positionShip(int startRow, int startColumn, int blockOccupied, boolean isVertical, String gridTag ){
@@ -174,5 +177,11 @@ public class Grid  {
                 mGridConfiguration[startRow][j] = gridTag;
             }
         }
+    }
+
+    public void setLastHit(int row, int column, boolean hit) {
+        mLastHit.x = row;
+        mLastHit.y = column;
+        mLastHitResult= hit;
     }
 }

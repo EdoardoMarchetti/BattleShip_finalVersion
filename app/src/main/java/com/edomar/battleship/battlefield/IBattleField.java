@@ -190,6 +190,7 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
 
         for (GameObject o: objects) {
             o.setInactive();
+            Log.d("ObjectActivation ", "deSpawnRespawn: object inactive = "+o.getGridTag());
         }
 
 
