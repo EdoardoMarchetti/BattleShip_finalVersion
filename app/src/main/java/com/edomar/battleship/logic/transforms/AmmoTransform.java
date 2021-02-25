@@ -1,4 +1,4 @@
-package com.edomar.battleship.logic.transform;
+package com.edomar.battleship.logic.transforms;
 
 import android.graphics.PointF;
 

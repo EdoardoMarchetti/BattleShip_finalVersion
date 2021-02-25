@@ -12,6 +12,7 @@
 
     <!-- FleetFregment -->
     <string name="saveFleet">SAVE FLEET</string>
+    <string name="change_level">SCENARIO</string>
 
 
     <!--Settings menu-->
@@ -58,6 +59,7 @@
     <string name="win">Win!!!</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="level_key">level key</string>
 
 
 </resources>

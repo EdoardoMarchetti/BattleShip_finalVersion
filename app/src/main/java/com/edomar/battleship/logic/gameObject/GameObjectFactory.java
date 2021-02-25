@@ -2,7 +2,7 @@ package com.edomar.battleship.logic.gameObject;
 
 import android.content.Context;
 import android.graphics.PointF;
-import android.util.Log;
+
 
 import com.edomar.battleship.battlefield.IBattleField;
 import com.edomar.battleship.logic.components.AmmoGraphicsComponent;
@@ -92,6 +92,11 @@ public class GameObjectFactory { //pagina 559 e 657
                 case "ShipUpdateComponent":
                     object.setUpdater(new ShipUpdateComponent());
                     break;
+                //Test
+                /*case "ShipMovementComponent":
+                    ShipInputComponent sic = new ShipInputComponent(mBattlefieldReference);
+                    object.setInput(sic);
+                    object.setUpdater(sic);*/
 
                 //Ammos' components
                 case "AmmoGraphicsComponent":

@@ -1,18 +1,14 @@
-package com.edomar.battleship;
+package com.edomar.battleship.logic.grid;
 
-import android.content.Context;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
-import com.edomar.battleship.R;
 
 import java.util.List;
 
@@ -38,7 +34,6 @@ public class Grid  {
         mGridConfiguration = new String[10][10];
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                //mGridConfiguration[i][j] ="0";
                 Log.d(TAG, "Grid: gridRows is null? " +gridRows.equals(null));
                 if(gridRows.size() == 0){ //Primo avvio -> non esiste flotta default -> poszioni iniziali
                     mGridConfiguration[i][j] ="0";
@@ -53,8 +48,7 @@ public class Grid  {
 
 
         textDimension = strokeWidth * 10;
-       // Log.d(TAG, "Grid: gridDimension = "+mGridDimension);
-        //Log.d(TAG, "Grid: mBlockDimension = "+mBlockDimension);
+
     }
 
     public void drawGrid (Canvas canvas, Paint paint){
@@ -101,8 +95,6 @@ public class Grid  {
         paint.setColor(Color.BLACK);
 
 
-        //Log.d("Coo", "drawCoordinates:unit.x = "+unit.x );
-        //Log.d("Coo", "drawCoordinates:unit.y = "+unit.y );
         //draw letters
         String[] lettersSymbols = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
         paint.setTextAlign(Paint.Align.CENTER);
@@ -112,10 +104,9 @@ public class Grid  {
             paint.getTextBounds(lettersSymbols[i], 0, lettersSymbols[i].length(), textBounds);
             canvas.drawText(lettersSymbols[i], (float) (unit.x * (i+ 0.5)), unit.y / 2 - textBounds.exactCenterY(), paint);
         }
-        //Log.d("Draw", "drawCoordinates: end letters ");
+
         //Now draw numbers
         canvas.setBitmap(numbers);
-
 
         String[] numbersSymbol = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
         paint.setTextAlign(Paint.Align.CENTER);
@@ -157,7 +148,7 @@ public class Grid  {
 
     public void setHit(int row, int column, boolean shipHit){
         if(shipHit){
-            mGridConfiguration[row][column] = "O";
+            mGridConfiguration[row][column] = "S";
             Log.d("setHit", "setHit: nave in = "+row+","+column);
         }else{
             mGridConfiguration[row][column] = "X";

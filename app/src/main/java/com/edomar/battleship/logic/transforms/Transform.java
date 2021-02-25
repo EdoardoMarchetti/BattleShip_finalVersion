@@ -1,7 +1,6 @@
-package com.edomar.battleship.logic.transform;
+package com.edomar.battleship.logic.transforms;
 
 import android.graphics.PointF;
-import android.graphics.RectF;
 import android.util.Log;
 
 public class Transform { //Pagina 528 e 708
@@ -11,8 +10,8 @@ public class Transform { //Pagina 528 e 708
     //public boolean stopOther = false;
 
     /** Private Variables **/
-    private RectF mCollider;
-    protected PointF mLocation;
+    private Collider mCollider;
+    private PointF mLocation;
     private float mObjectHeight; //ridimensionata rispetto alla dimensione dei blocchi
     private float mObjectWidth; //ridimensionata rispetto ai blocchi
     private boolean mIsVertical = true; //solo alla nave
@@ -32,7 +31,7 @@ public class Transform { //Pagina 528 e 708
 
 
     public Transform (float objectWidth, float objectHeight, PointF startLocation, float gridDimension){
-        mCollider = new RectF();
+        mCollider = new Collider();
         mObjectHeight = objectHeight;
         mObjectWidth = objectWidth;
         mLocation = startLocation;
@@ -71,7 +70,7 @@ public class Transform { //Pagina 528 e 708
                 (int) mObjectHeight);
     }
 
-    public RectF getCollider(){
+    public Collider getCollider(){
         return mCollider;
     }
 
@@ -93,9 +92,15 @@ public class Transform { //Pagina 528 e 708
     }
 
     protected void invertDimension() {
+        Log.d("SpawnConLettura", "invertDimension: " +
+                "\nwidth: "+mObjectWidth+
+                "\nheight: "+mObjectHeight);
         float support = mObjectWidth;
         mObjectWidth = mObjectHeight;
         mObjectHeight = support;
+        Log.d("SpawnConLettura", "invertDimension: " +
+                "\nwidth: "+mObjectWidth+
+                "\nheight: "+mObjectHeight);
     }
 
 
@@ -108,6 +113,7 @@ public class Transform { //Pagina 528 e 708
     public void setStartLocation(float horizontalCoo, float verticalCoo, boolean isV){
         mLocation = new PointF(horizontalCoo, verticalCoo);
         mIsVertical = isV;
+
         if(!mIsVertical){
             invertDimension();
         }
@@ -123,11 +129,11 @@ public class Transform { //Pagina 528 e 708
 
 
 
-        Log.d(TAG, "updateCollider: vertical \n" +
+        /*Log.d("ProvaDelCollider", "updateCollider:  \n" +
                 "mCollider.top = "+mCollider.top / sBlockDimension+
                 "\nmCollider.left = "+mCollider.left / sBlockDimension+
                 "\nmCollider.bottom = "+mCollider.bottom / sBlockDimension+
-                "\nmCollider.right = "+mCollider.right / sBlockDimension);
+                "\nmCollider.right = "+mCollider.right / sBlockDimension);*/
 
     }
 

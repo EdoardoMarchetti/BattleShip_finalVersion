@@ -1,4 +1,4 @@
-package com.edomar.battleship.logic.transform;
+package com.edomar.battleship.logic.transforms;
 
 import android.graphics.PointF;
 import android.util.Log;
@@ -22,14 +22,6 @@ public class ShipTransform extends Transform {
     }
 
 
-    public boolean checkMovable(){
-        return mIsMovable;
-    }
-
-    public boolean checkRotatable(){
-        return mRotatable;
-    }
-
     public void setMovable(){
         mIsMovable = true;
     }
@@ -38,14 +30,10 @@ public class ShipTransform extends Transform {
         mIsMovable = false;
     }
 
-
-    public boolean isRotated() {
-        return mRotated;
+    public boolean checkMovable(){
+        return mIsMovable;
     }
 
-    public void isNotRotated(){
-        mRotated = false;
-    }
 
     public void setRotatable(){
         mRotatable = true;
@@ -54,6 +42,23 @@ public class ShipTransform extends Transform {
     public void setNotRotatable(){
         mRotatable = false;
     }
+
+    public boolean checkRotatable(){
+        return mRotatable;
+    }
+
+
+    public int getLives(){
+        return mLives;
+    }
+
+    public void shipHit(){
+        Log.d("Colpo", "shipHit: vite prima del colpo = " +getLives());
+        mLives = mLives-1;
+        Log.d("Colpo", "shipHit: vite dopo colpo = "+getLives());
+    }
+
+
 
 
 

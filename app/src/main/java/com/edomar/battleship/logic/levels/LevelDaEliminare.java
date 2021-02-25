@@ -1,22 +1,6 @@
-package com.edomar.battleship.logic;
+package com.edomar.battleship.logic.levels;
 
-import android.content.Context;
-import android.util.Log;
-
-import com.edomar.battleship.BattleField;
-import com.edomar.battleship.logic.specifications.BattleshipSpec;
-import com.edomar.battleship.logic.specifications.CarrierSpec;
-import com.edomar.battleship.logic.specifications.CruiserSpec;
-import com.edomar.battleship.logic.specifications.DestroyerSpec;
-import com.edomar.battleship.logic.specifications.MissileSpec;
-import com.edomar.battleship.logic.specifications.PatrolSpec;
-import com.edomar.battleship.logic.specifications.RescueSpec;
-import com.edomar.battleship.logic.specifications.SubMarineSpec;
-import com.edomar.battleship.logic.transform.Transform;
-
-import java.util.ArrayList;
-
-public class Level {
+/*public class Level {
 
     private static final String TAG = "Level";
 
@@ -68,4 +52,4 @@ public class Level {
         return objects;
     }
 
-}
+}*/

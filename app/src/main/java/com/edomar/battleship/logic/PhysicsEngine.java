@@ -17,25 +17,36 @@ import java.util.ArrayList;
 public class PhysicsEngine {
     private static final String TAG = "PhysicsEngine";
 
-    public boolean update(long fps, ParticleSystem ps, ArrayList<GameObject> objects, Grid grid){
+    public boolean update(long fps, ParticleSystem ps,
+                          ArrayList<GameObject> objects, Grid grid){ //forse da aggiungere lo stato del gioco per migliorare efficienza
 
         int count = 0;
         for (GameObject o: objects) {
-            if(o.checkActive()){
-                //Log.d(TAG, "update: object number= "+count);
+            /*if(o.checkActive()){
                 o.update(fps, grid);
             }*/
             o.update(fps, grid);
             count++;
         }
 
-        hitCoordinates(grid, ps, objects.get(Level.MISSILE));
+        /** Da usare una volta inserito il gamestate del campo
+        /*
+        if(!preMatch){
+            colpisci
+         }
+         */
+
+
+        if(objects.get(LevelManager.MISSILE).checkActive()){
+            hitCoordinates(grid, ps, objects);
+        }
+
 
         if(ps.mIsRunning){
             ps.update(fps);
         }
 
-        //hitCoordinates(grid, ps, objects.get(Level.MISSILE));
+
 
         return false;
     }
@@ -43,7 +54,7 @@ public class PhysicsEngine {
     //Codice per la gestione dell'esito del colpo
     private void hitCoordinates(Grid grid, ParticleSystem ps, ArrayList<GameObject> objects){
 
-        //Log.d(TAG, "hitCoordinates: ");
+        Log.d(TAG, "hitCoordinates: ");
 
         //Prima faccio precipitare il razzo nell'ultimo colpo eseguito
         int row = grid.getLastHitCoordinates().x;
@@ -53,7 +64,7 @@ public class PhysicsEngine {
 
         if(missile.getTransform().getLocation().x >= grid.getBlockDimension()*(column) && missile.checkActive()
                ){
-            //Log.d(TAG, "hitCoordinates: in if");
+            Log.d(TAG, "hitCoordinates: in if");
             missile.setInactive();
 
             float cooX = (float)(grid.getBlockDimension()*(column+0.5));
@@ -82,18 +93,6 @@ public class PhysicsEngine {
             }
 
         }
-
-
-
-        /*int row = grid.getLastHit().x;
-        int column = grid.getLastHit().y;
-        String[][] gridConfig = grid.getGridConfiguration();
-
-        if (gridConfig[row][column] == "0"){
-            ps.mShipHit = false;
-        }else{
-            ps.mShipHit = true;
-        }*/
 
 
 

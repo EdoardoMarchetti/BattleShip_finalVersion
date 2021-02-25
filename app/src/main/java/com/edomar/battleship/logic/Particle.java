@@ -1,6 +1,6 @@
 package com.edomar.battleship.logic;
 
-import android.graphics.Point;
+
 import android.graphics.PointF;
 
 public class Particle {
