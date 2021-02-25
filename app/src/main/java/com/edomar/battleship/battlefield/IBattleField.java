@@ -37,7 +37,7 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
     private static final String TAG = "BattleField";
 
     private Thread mThread;
-    private long mFPS;
+    public long mFPS;
 
 
     /** Instances **/
@@ -105,11 +105,7 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
         setLevel(level);
     }
 
-    /** Adding observers **/
-    @Override
-    public void addObserver(InputObserver o) {//Probabilmente solo battleField giocatore e fleetFragment sempre
-        inputObservers.add(o);
-    } //Probabilmente solo battlefield giocatore
+
 
     /** Start and stop Thread**/
     public void stopThread() {//in tutti i battlefield
@@ -130,46 +126,8 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
         mThread.start();
     }
 
-    /**Run**/
-    @Override
-    public void run() {//in tutti i battlefield
-
-        //Le coordinate sono fuori dal while perchè vengono disegnate solo una volta
-        //Il metodo threadHandler.post è necessario in quanto Battlefield deve operare
-        //su componenti di tipo ImageView che devono essere trattai su thread pricipale
-        Handler threadHandler = new Handler(Looper.getMainLooper());
-        threadHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                //Qua va il codice per disegnare le coordinate
-                mRenderer.drawGridCoordinates(mLetters, mNumbers, mLettersDimen);
-            }
-        });
 
 
-
-        while (mRunning){
-            long frameStartTime = System.currentTimeMillis();
-            ArrayList<GameObject> objects = mLevelManager.getObjects();
-
-            /** Update the objects **/
-            mPhysicsEngine.update(mFPS, mParticleSystem,
-                    objects, mGrid);
-
-
-            /** Draw objects **/
-            mRenderer.draw(mGrid, objects, mParticleSystem);
-
-            // Measure the frames per second in the usual way
-            long timeThisFrame = System.currentTimeMillis()
-                    - frameStartTime;
-            if (timeThisFrame >= 1) {
-                final int MILLIS_IN_SECOND = 1000;
-                mFPS = MILLIS_IN_SECOND / timeThisFrame;
-            }
-        }
-
-    }
 
     /** set ImageView per le coordinate**/
     public void setImageViewsForCoordinates(ImageView letters, ImageView numbers){//in tutti i battlefield
@@ -287,63 +245,7 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
         return true;
     }
 
-    public boolean saveDefaultFleet(String levelToLoad) {//solo per fleetFragment
-        Log.d("Saving", "saveDefaultFleet: ");
-        ArrayList<GameObject> objects = mLevelManager.getObjects();
-        mGrid.clearGrid();
 
-        if(mLevelManager.checkCorrectFleetConfiguration()) {
-
-            for (int i = 0; i < mLevelManager.getNumShipsInLevel(); i++) {
-                int startRow = (int) (objects.get(i)
-                        .getTransform()
-                        .getLocation().y / mGrid.getBlockDimension());
-
-
-
-                int startColumn = (int) (objects.get(i)
-                        .getTransform()
-                        .getLocation().x / mGrid.getBlockDimension());
-
-                float shipWidth = objects.get(i)
-                        .getTransform()
-                        .getObjectWidth();
-
-                float shipHeight = objects.get(i)
-                        .getTransform()
-                        .getObjectHeight();
-
-                boolean shipIsVertical;
-                int blockOccupied;
-
-                if (shipWidth >= shipHeight) {
-                    shipIsVertical = false;
-                    blockOccupied = (int) (shipWidth / mGrid.getBlockDimension());
-                } else {
-                    shipIsVertical = true;
-                    blockOccupied = (int) (shipHeight / mGrid.getBlockDimension());
-                }
-
-                String gridTag = objects.get(i)
-                        .getGridTag() + String.valueOf(i);
-
-                mGrid.positionShip(startRow, startColumn, blockOccupied, shipIsVertical, gridTag);
-            }
-
-            List<String[]> gridRows = new ArrayList<>();
-
-            //Transform the matrix in an ArrayList
-            gridRows.addAll(Arrays.asList(mGrid.getGridConfiguration()));
-
-            //write on file
-            WriterReader.getInstance().write(gridRows, levelToLoad);
-            return true;
-
-        }else{
-            return false;
-        }
-
-    }
 
     public void setLevel(String levelToLoad) {
         inputObservers.clear();
@@ -357,7 +259,18 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
     }
 
 
-    /**Metodi per battleField giocatore**/
+    /**METODI ASTRATTI**/
+
     @Override
-    public abstract boolean onTouchEvent(MotionEvent event);//Probabilmente solo in fase preMatch
+    public abstract void addObserver(InputObserver o);//Usato in FLEET_FRAGMENT, MATCH_FRAGMEN e PRE_MATCHFRAGMENT
+
+    @Override
+    public abstract void run();//Usato in tutti ma forse in modo diverso in ciascuno; da valutare se lascaire una versione di defualt e eventualmente modificarlo nella classe acui serve
+
+    public abstract boolean saveDefaultFleet(String levelToLoad);//Usato in FLEET_FRAGMENT
+
+    @Override
+    public abstract boolean onTouchEvent(MotionEvent event);//Usato in FLEET_FRAGMENT, MATCH_FRAGMENT e PRE_MATCHFRAGMENT
+
+
 }

@@ -22,8 +22,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.edomar.battleship.battlefield.BattleField;
+
 import com.edomar.battleship.R;
+import com.edomar.battleship.battlefield.IBattleField;
 
 import java.util.concurrent.TimeUnit;
 
@@ -58,7 +59,9 @@ public class MatchFragment extends Fragment {
     /** Turn Label **/
     private TextView mTurnLabel;
 
-    private BattleField mBattleField;
+    private IBattleField mBattleField;
+    private String levelToLoad;
+
     private Button mButton;
     private ImageView letters;
     private ImageView numbers;
@@ -150,7 +153,7 @@ public class MatchFragment extends Fragment {
 
         mBattleField = fl.findViewById(R.id.battle_field);
         mBattleField.setZOrderOnTop(true);
-        mBattleField.init();
+        mBattleField.init(levelToLoad);
         mBattleField.setImageViewsForCoordinates(letters, numbers);
 
 

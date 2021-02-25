@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.edomar.battleship.battlefield.BattleField;
+import com.edomar.battleship.battlefield.IBattleField;
 import com.edomar.battleship.view.GameActivity;
 import com.edomar.battleship.R;
 
@@ -42,7 +42,8 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
     private Button mStartMatchButton;
 
     /** BattleField Instance**/
-    private BattleField mBattleField;
+    private IBattleField mBattleField;
+    private String levelToLoad;
 
     /** Count Down Timer **/
     private TextView timer;
@@ -134,9 +135,9 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
         ImageView numbers = (ImageView) mActivity.findViewById(R.id.numbers);
 
         //Creazione SurfaceView
-        mBattleField = (BattleField) mActivity.findViewById(R.id.battle_field);
+        mBattleField = (IBattleField) mActivity.findViewById(R.id.battle_field);
         mBattleField.setZOrderOnTop(true);
-        mBattleField.init();
+        mBattleField.init(levelToLoad);
         mBattleField.setImageViewsForCoordinates(letters, numbers);
 
         //Button

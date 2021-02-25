@@ -48,7 +48,7 @@ public class Renderer  {
                     if(object.getTag() == "Ship"){
                         //Log.d("Attivazione", "disegno: nave "+object.getGridTag()+" attivata ");
                         if(object.checkDrawable()){
-                            Log.d("Ultimotentativo", "draw: infatti disegno");
+                            Log.d("Ultimotentativo", "draw: infatti disegno ");
                             object.draw(mCanvas,mPaint);
                         }
                     }else{
@@ -56,6 +56,8 @@ public class Renderer  {
                     }
                 }
             }
+
+
 
             /**Particles**/
             if(ps.mIsRunning){

@@ -14,19 +14,11 @@
         >
         <!-- Save button -->
 
-        <Button
-            android:id="@+id/save_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/battle_field"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="@string/saveFleet"
-            android:background="@color/colorAccent"/>
+
 
 
         <!-- Grid -->
-        <com.edomar.battleship.battlefield.BattleField
+        <com.edomar.battleship.battlefield.BattleFieldFleetFragment
             android:id="@+id/battle_field"
             android:layout_width="@dimen/battlefield_size"
             android:layout_height="@dimen/battlefield_size"
@@ -48,6 +40,35 @@
             android:layout_height="@dimen/battlefield_size"
             android:layout_toLeftOf="@+id/battle_field"
             android:layout_below="@+id/letters"/>
+
+        <LinearLayout
+            android:layout_width="@dimen/battlefield_size"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/battle_field"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="20dp"
+            android:paddingLeft="30dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="30dp">
+
+
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="95dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:text="@string/saveFleet"
+                android:layout_marginRight="50dp"/>
+
+            <Button
+                android:id="@+id/change_scenario"
+                android:layout_width="95dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:text="@string/change_level"
+                />
+
+        </LinearLayout>
     </RelativeLayout>
 
 

@@ -27,16 +27,16 @@ public class ShipUpdateComponent implements UpdateComponent {
 
         Log.d("Colpo", "update: vite rimanenti = "+ sp.getLives());
 
-        if(sp.getLives() == 0){
+        /*if(sp.getLives() == 0){
             //Nave affondata
             Log.d("Ultimotentativo", "update: affondata");
             return true;
         }else{
             //nave ancora viva
             return false;
-        }
+        }*/
 
-        //return true;
+        return true;
     }
 
 
