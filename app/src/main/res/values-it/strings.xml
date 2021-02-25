@@ -10,6 +10,8 @@
 
     <!-- MainMenuFragment -->
     <string name="single_player">Giocatore Singolo</string>
+    <string name="local_game">1vs1</string>
+    <string name="online">Online</string>
 
     <!-- FleetFragment -->
     <string name="saveFleet">SALVA</string>

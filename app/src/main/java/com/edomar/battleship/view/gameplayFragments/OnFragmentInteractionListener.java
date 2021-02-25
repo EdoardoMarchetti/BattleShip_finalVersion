@@ -6,5 +6,7 @@ import androidx.fragment.app.Fragment;
 
 public interface OnFragmentInteractionListener {
 
-    void onFragmentInteraction(Fragment fragment);
+    void notifyToChangeFragment(Fragment fragment);
+
+    void notifyToStartMatch();
 }

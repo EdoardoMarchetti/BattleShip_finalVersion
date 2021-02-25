@@ -23,7 +23,7 @@
     <LinearLayout
         android:id="@+id/game_mode_menu"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="0dp">
@@ -31,8 +31,8 @@
         <ImageView
             android:layout_weight="1"
             android:id="@+id/left_arrow"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="left"
             android:src="@drawable/left_arrow"/>
 
@@ -43,14 +43,14 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/single_player"
-
+            android:textSize="30dp"
             />
 
         <ImageView
             android:layout_weight="1"
             android:id="@+id/right_arrow"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/right_arrow" />
     </LinearLayout>
 

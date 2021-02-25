@@ -39,8 +39,8 @@ public class ScenarioSelectionActivity extends AppCompatActivity implements View
         mStandardButton = (Button) findViewById(R.id.standard_button);
 
         mRussianButton.setOnClickListener(this);
-        mRussianButton.setOnClickListener(this);
-        mRussianButton.setOnClickListener(this);
+        mClassicButton.setOnClickListener(this);
+        mStandardButton.setOnClickListener(this);
     }
 
     /** Una volta cliccato un pulsante si inizia la partita**/

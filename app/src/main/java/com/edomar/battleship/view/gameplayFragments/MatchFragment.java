@@ -167,7 +167,7 @@ public class MatchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: ");
-                mListener.onFragmentInteraction(MatchFragment.this);
+                mListener.notifyToChangeFragment(MatchFragment.this);
             }
         });
 
@@ -240,7 +240,7 @@ public class MatchFragment extends Fragment {
                 //TODO
 
                 if(mListener != null){
-                    mListener.onFragmentInteraction(MatchFragment.this);
+                    mListener.notifyToChangeFragment(MatchFragment.this);
                 }else{
                     Toast.makeText(getContext(), "mListener is null", Toast.LENGTH_SHORT).show();
                 }

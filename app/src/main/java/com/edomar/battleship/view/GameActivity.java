@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
-import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -23,6 +23,8 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
     public static final String SECOND_MATCH_FRAGMENT_TAG = "SecondFrag";
 
 
+    /**Level**/
+    private String levelToPlay;
 
     /** Fragment Manager **/
     private FragmentManager mFM;
@@ -42,8 +44,12 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        Intent src = getIntent();
+        levelToPlay = src.getStringExtra("scenario");
+
         if(savedInstanceState == null){
-            PreMatchFragment preMatchFragment = new PreMatchFragment();
+            PreMatchFragment preMatchFragment = PreMatchFragment.newInstance(levelToPlay);
+
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, preMatchFragment, PRE_MATCH_FRAGMENT)
                     .commit();
@@ -174,10 +180,12 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
 
 
     @Override
-    public void onFragmentInteraction(Fragment fragment) {
+    public void notifyToChangeFragment(Fragment fragment) {
         changeFragment(fragment);
     }
 
-
-
+    @Override
+    public void notifyToStartMatch() {
+        startMatch();
+    }
 }
