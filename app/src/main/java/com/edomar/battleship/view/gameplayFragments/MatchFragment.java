@@ -43,10 +43,12 @@ public class MatchFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PLAYER_NAME = "playerName";
     private static final String NUMBER = "param2";
+    private static final String LEVEL_TO_LOAD = "scenario";
 
     // TODO: Rename and change types of parameters
     private String mPLayerName;
     private int mNumber;
+    private String mLevelToLoad;
 
     /** CountDownTimer **/
     private TextView timer;
@@ -60,7 +62,7 @@ public class MatchFragment extends Fragment {
     private TextView mTurnLabel;
 
     private IBattleField mBattleField;
-    private String levelToLoad;
+
 
     private Button mButton;
     private ImageView letters;
@@ -79,11 +81,12 @@ public class MatchFragment extends Fragment {
      * @return A new instance of fragment BlankFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MatchFragment newInstance(String pn, int n) {
+    public static MatchFragment newInstance(String pn, int n, String levelToLoad) {
         MatchFragment fragment = new MatchFragment();
         Bundle args = new Bundle();
         args.putString(PLAYER_NAME, pn);
         args.putInt(NUMBER, n);
+        args.putString(LEVEL_TO_LOAD, levelToLoad);
         fragment.setArguments(args);
         Log.d(TAG, "newInstance: number = "+ n);
         return fragment;
@@ -107,6 +110,7 @@ public class MatchFragment extends Fragment {
         if (getArguments() != null) {
             mPLayerName = getArguments().getString(PLAYER_NAME);
             mNumber = getArguments().getInt(NUMBER);
+            mLevelToLoad = getArguments().getString(LEVEL_TO_LOAD).toLowerCase();
             Log.d(TAG, "onCreate: getArguments is not null for number = "+mNumber);
             Log.d(TAG, "onCreate: mPlayerName = "+ mPLayerName);
         }
@@ -153,7 +157,7 @@ public class MatchFragment extends Fragment {
 
         mBattleField = fl.findViewById(R.id.battle_field);
         mBattleField.setZOrderOnTop(true);
-        mBattleField.init(levelToLoad);
+        mBattleField.init(mLevelToLoad);
         mBattleField.setImageViewsForCoordinates(letters, numbers);
 
 

@@ -1,11 +1,15 @@
 package com.edomar.battleship.view.gameplayFragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.util.TypedValue;
@@ -16,27 +20,39 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.edomar.battleship.R;
 import com.edomar.battleship.battlefield.IBattleField;
 import com.edomar.battleship.view.GameActivity;
-import com.edomar.battleship.R;
 
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link PreMatchFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
 public class PreMatchFragment extends Fragment implements View.OnClickListener {
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String LEVEL_TO_LOAD = "scenario";
+
+
+    // TODO: Rename and change types of parameters
+    private String mLevelToLoad;
+
 
     public static final String TAG = PreMatchFragment.class.getSimpleName();
 
-    private GameActivity mActivity;
+    private GameActivity getActivity;
 
 
     /**Shared Preference**/
     SharedPreferences sp;
     SharedPreferences.Editor editor;
 
+    /**Activity reference to call methods**/
+    private OnFragmentInteractionListener mListener;
 
     /**Start Match Button**/
     private Button mStartMatchButton;
@@ -51,36 +67,44 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
     private CountDownTimer mCounterDownTimer;
 
 
-    public PreMatchFragment() {
-        //Required empty public constructor
-    }
 
-    public static PreMatchFragment newInstance(){
-        return new PreMatchFragment();
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     *
+     * @return A new instance of fragment NewPreMatchFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static PreMatchFragment newInstance(String levelToLoad) {
+        PreMatchFragment fragment = new PreMatchFragment();
+        Bundle args = new Bundle();
+        args.putString(LEVEL_TO_LOAD, levelToLoad);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
-    public void onAttach(@NonNull Activity activity) {
-        Log.d(TAG, "onAttach: ");
-        super.onAttach(activity);
-        mActivity = (GameActivity) activity;
-
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mLevelToLoad = getArguments().getString(LEVEL_TO_LOAD).toLowerCase();
+        }
     }
 
-
-
     @Override
-    public void onDetach() {
-        Log.d(TAG, "onDetach: ");
-        super.onDetach();
-        mActivity= null;
-
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener){
+            mListener = (OnFragmentInteractionListener) context;
+        }else{
+            mListener = null;
+        }
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fleet_configuration_pre_match, container, false);
 
         /** Initialize SharedPreference value **/
@@ -98,10 +122,10 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
 
         //Timer
-        timer = (TextView) mActivity.findViewById(R.id.timer);
-        timerTextView = (TextView) mActivity.findViewById(R.id.timer_text);
+        timer = (TextView) getActivity().findViewById(R.id.timer);
+        timerTextView = (TextView) getActivity().findViewById(R.id.timer_text);
         //textView.setText("Ciao");
-        long duration = TimeUnit.SECONDS.toMillis(10);
+        long duration = TimeUnit.SECONDS.toMillis(60);
         mCounterDownTimer = new CountDownTimer(duration, 1000) {
             @Override
             public void onTick(long l) {
@@ -125,28 +149,26 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
             public void onFinish() {
                 //Quando il tempo finisce passa al match
 
-                mActivity.startMatch();
+                mListener.notifyToChangeFragment(PreMatchFragment.this);
 
             }
         }.start();
 
         //ImageView delle coordinate
-        ImageView letters = (ImageView) mActivity.findViewById(R.id.letters);
-        ImageView numbers = (ImageView) mActivity.findViewById(R.id.numbers);
+        ImageView letters = (ImageView) getActivity().findViewById(R.id.letters);
+        ImageView numbers = (ImageView) getActivity().findViewById(R.id.numbers);
 
         //Creazione SurfaceView
-        mBattleField = (IBattleField) mActivity.findViewById(R.id.battle_field);
+        mBattleField = (IBattleField) getActivity().findViewById(R.id.battle_field);
         mBattleField.setZOrderOnTop(true);
-        mBattleField.init(levelToLoad);
+        mBattleField.init(mLevelToLoad);
         mBattleField.setImageViewsForCoordinates(letters, numbers);
 
         //Button
-        mStartMatchButton = (Button) mActivity.findViewById(R.id.start_match_button);
+        mStartMatchButton = (Button) getActivity().findViewById(R.id.start_match_button);
         mStartMatchButton.setOnClickListener(this);
 
     }
-
-
 
     @Override
     public void onResume() {
@@ -173,6 +195,6 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         Log.d(TAG, "onClick: ");
         //Quando il pulsante viene premuto inizia il match
-        mActivity.startMatch();
+        mListener.notifyToChangeFragment(PreMatchFragment.this);
     }
 }

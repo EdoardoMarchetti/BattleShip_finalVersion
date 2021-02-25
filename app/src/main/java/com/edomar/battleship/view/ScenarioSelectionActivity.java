@@ -20,6 +20,8 @@ public class ScenarioSelectionActivity extends AppCompatActivity implements View
 
     Button mRussianButton, mClassicButton, mStandardButton;
 
+    private int numberOfPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,9 @@ public class ScenarioSelectionActivity extends AppCompatActivity implements View
 
         sp = getSharedPreferences(getString(R.string.configuration_preference_key), MODE_PRIVATE);
         editor = sp.edit();
+
+        numberOfPlayer = getIntent().getIntExtra("numGiocatori", 1);
+
 
         /**Badge Configuration**/
         ImageViewBadge = (ImageView) findViewById(R.id.badge_image_view);
@@ -49,6 +54,7 @@ public class ScenarioSelectionActivity extends AppCompatActivity implements View
         Button button = (Button) view;
         Intent intent = new Intent(ScenarioSelectionActivity.this, GameActivity.class);
         intent.putExtra("scenario", button.getText());
+        intent.putExtra("numGiocatori", numberOfPlayer);
         startActivity(intent);
         finish();
     }

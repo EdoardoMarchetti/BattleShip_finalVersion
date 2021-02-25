@@ -141,9 +141,11 @@ public class MainMenuFragment extends Fragment {
                 intent = new Intent(getContext(), ScenarioSelectionActivity.class);
                 Locale current = getResources().getConfiguration().locale;
                 intent.putExtra("locale", String.valueOf(current));
+                intent.putExtra("numGiocatori", 1);
                 break;
              case "1vs1":
                 intent = new Intent(getContext(), ScenarioSelectionActivity.class);
+                 intent.putExtra("numGiocatori", 2);
                 break;
             case "Online":
                 intent = new Intent(getContext(), OnlineMultiplayerFragment.class);
@@ -155,4 +157,10 @@ public class MainMenuFragment extends Fragment {
         }
 
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        editor.putInt(mActivity.getString(R.string.game_mode_key), position);
+        editor.commit();
+    }
 }
