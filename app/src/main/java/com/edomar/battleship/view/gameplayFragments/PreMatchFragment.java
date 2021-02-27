@@ -35,11 +35,14 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String PLAYER_NUMBER = "player_number";
     private static final String LEVEL_TO_LOAD = "scenario";
 
 
     // TODO: Rename and change types of parameters
+    private int mPlayerNumber;
     private String mLevelToLoad;
+
 
 
     public static final String TAG = PreMatchFragment.class.getSimpleName();
@@ -59,7 +62,7 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
 
     /** BattleField Instance**/
     private IBattleField mBattleField;
-    private String levelToLoad;
+
 
     /** Count Down Timer **/
     private TextView timer;
@@ -76,9 +79,10 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
      * @return A new instance of fragment NewPreMatchFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PreMatchFragment newInstance(String levelToLoad) {
+    public static PreMatchFragment newInstance(int playerNumber, String levelToLoad) {
         PreMatchFragment fragment = new PreMatchFragment();
         Bundle args = new Bundle();
+        args.putInt(PLAYER_NUMBER, playerNumber);
         args.putString(LEVEL_TO_LOAD, levelToLoad);
         fragment.setArguments(args);
         return fragment;
@@ -88,6 +92,7 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            mPlayerNumber = getArguments().getInt(PLAYER_NUMBER);
             mLevelToLoad = getArguments().getString(LEVEL_TO_LOAD).toLowerCase();
         }
     }
@@ -149,7 +154,7 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
             public void onFinish() {
                 //Quando il tempo finisce passa al match
 
-                mListener.notifyToChangeFragment(PreMatchFragment.this);
+                mListener.requestToChangeFragment(PreMatchFragment.this);
 
             }
         }.start();
@@ -161,7 +166,7 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
         //Creazione SurfaceView
         mBattleField = (IBattleField) getActivity().findViewById(R.id.battle_field);
         mBattleField.setZOrderOnTop(true);
-        mBattleField.init(mLevelToLoad);
+        mBattleField.init(mLevelToLoad, mPlayerNumber);
         mBattleField.setImageViewsForCoordinates(letters, numbers);
 
         //Button
@@ -195,6 +200,7 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         Log.d(TAG, "onClick: ");
         //Quando il pulsante viene premuto inizia il match
-        mListener.notifyToChangeFragment(PreMatchFragment.this);
+        mBattleField.saveFleet(mLevelToLoad, mPlayerNumber);
+        mListener.requestToChangeFragment(PreMatchFragment.this);
     }
 }

@@ -3,15 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data
-        andorid:layout_width="5dp"
-        andorid:layout_height="8dp">
 
-        <variable
-            name="player"
-            type="com.edomar.battleship.logic.IGameState" />
-
-    </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

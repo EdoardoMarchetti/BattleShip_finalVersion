@@ -66,6 +66,7 @@ public class GameObject {
     public void setInactive(){
         isActive = false;
         isDrawable = false;
+        Log.d("NaveColpita", "setInactive: ");
     }
 
 
@@ -104,7 +105,7 @@ public class GameObject {
 
     }
 
-    public boolean spawn(int row, int column) { //Da modificare in base alle necessità
+    public boolean spawn(int row, int column, int gameState) { //Da modificare in base alle necessità
         // Only spawnComponent if not already active
         if (!isActive) {
             Log.d("SpawnMissile", "spawn: in gameObject");

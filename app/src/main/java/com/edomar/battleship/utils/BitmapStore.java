@@ -14,22 +14,23 @@ public class BitmapStore {
     private static Map <String, Bitmap> sVerticalBitmapsMap;
     private static Map <String, Bitmap> sHorizontalBitmapsMap;
     private static BitmapStore sInstance;
+    private static float sBlockSize;
 
 
-    public static BitmapStore getInstance(Context context){
+    public static BitmapStore getInstance(Context context, float blockSize){
         if(sInstance == null){
-            sInstance = new BitmapStore(context);
+            sInstance = new BitmapStore(context, blockSize);
         }
         return sInstance;
     }
 
-    private BitmapStore (Context context){
+    private BitmapStore (Context context, float blockSize){
 
         sVerticalBitmapsMap = new HashMap<>();
         sHorizontalBitmapsMap = new HashMap<>();
 
-        //Add the default bitmap in each map
-
+        //Add the default bitmap
+        addBitmap(context, "hit_marker", blockSize, blockSize, false);
     }
 
     public static Bitmap getVerticalBitmap(String bitmapName){
@@ -44,7 +45,8 @@ public class BitmapStore {
 
     public static void addBitmap(Context c,
                                  String bitmapName,
-                                 PointF objectSize,
+                                 float objectSizeX,
+                                 float objectSizeY,
                                  boolean needHorizontal){
 
         Bitmap bitmap;
@@ -61,8 +63,8 @@ public class BitmapStore {
                 decodeResource(c.getResources(), resID);
 
         verticalBitmap = Bitmap.createScaledBitmap(bitmap,
-                (int) (objectSize.x),
-                (int) (objectSize.y),
+                (int) (objectSizeX),
+                (int) (objectSizeY),
                 false);
 
         sVerticalBitmapsMap.put(bitmapName, verticalBitmap);
@@ -73,8 +75,8 @@ public class BitmapStore {
             matrix.postRotate(90);
             horizontalBitmap = Bitmap.createBitmap(verticalBitmap,
                     0,0,
-                    (int) (objectSize.x),
-                    (int) (objectSize.y),
+                    (int) (objectSizeX),
+                    (int) (objectSizeY),
                     matrix,
                     true);
 

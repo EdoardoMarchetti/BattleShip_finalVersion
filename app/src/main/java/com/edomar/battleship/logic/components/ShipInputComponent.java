@@ -54,15 +54,15 @@ public class ShipInputComponent implements InputComponent, InputObserver
     }
 
     @Override
-    public void handleInput(MotionEvent event, Grid grid, LevelManager levelManager) {
+    public void handleInput(MotionEvent event, Grid grid, LevelManager levelManager, int gameState, int notifyNumber) {
         //Primo check sullo stato del gioco (if statement da inserire)
-        //Match -> l'input non è mai rivolto alla nave
-        //PreMatch -> l'input è sempre rivolto alla nave -> verificare se si la nave è già "attiva"
+        //1->Match -> l'input non è mai rivolto alla nave
+        //0->PreMatch -> l'input è sempre rivolto alla nave -> verificare se si la nave è già "attiva"
         //                                              -> verificare tipo di evento 
         //                                              -> ruota / D&D
         //                                              -> indicare nella model della griglia la nuova posizione della nave
         
-        boolean preMatch = true;
+
 
         SCROLL_THRESHOLD = mTransform.getBlockDimension() / 10;
 
@@ -72,7 +72,7 @@ public class ShipInputComponent implements InputComponent, InputObserver
 
         int eventType = event.getAction() & MotionEvent.ACTION_MASK;
 
-        if(eventType == MotionEvent.ACTION_DOWN && preMatch){
+        if(gameState == 0 &&  eventType == MotionEvent.ACTION_DOWN ){
             mDownX = event.getX();
             mDownY = event.getY();
             mCurrentX = mDownX;

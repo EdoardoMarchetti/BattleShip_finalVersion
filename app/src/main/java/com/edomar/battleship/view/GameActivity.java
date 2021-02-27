@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.edomar.battleship.R;
+import com.edomar.battleship.logic.GameState;
+import com.edomar.battleship.logic.IGameStateForActivity;
 import com.edomar.battleship.view.gameplayFragments.MatchFragment;
 import com.edomar.battleship.view.gameplayFragments.OnFragmentInteractionListener;
 import com.edomar.battleship.view.gameplayFragments.PreMatchFragment;
@@ -21,6 +23,9 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
     public static final String PRE_MATCH_FRAGMENT = "PreMatchFrag";
     public static final String FIRST_MATCH_FRAGMENT_TAG = "FirstFrag";
     public static final String SECOND_MATCH_FRAGMENT_TAG = "SecondFrag";
+
+    /**Game State**/
+    private IGameStateForActivity mGameStateReference;
 
 
     /**Level**/
@@ -52,8 +57,10 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
         levelToPlay = src.getStringExtra("scenario");
         numberOfPlayer = src.getIntExtra("numGiocatori", 1);
 
+        mGameStateReference = GameState.getInstance();
+
         if(savedInstanceState == null){
-            mPreMatchFragment1 = PreMatchFragment.newInstance(levelToPlay);
+            mPreMatchFragment1 = PreMatchFragment.newInstance(1,levelToPlay);
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, mPreMatchFragment1, PRE_MATCH_FRAGMENT)
@@ -67,7 +74,7 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
 
 
         if(numberOfPlayer == 2){
-            mPreMatchFragment2 = PreMatchFragment.newInstance(levelToPlay);
+            mPreMatchFragment2 = PreMatchFragment.newInstance(2,levelToPlay);
             Log.d("NumeroGiocatori", "onCreate: 2 giocatori");
         }
 
@@ -80,7 +87,11 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
 
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGameStateReference.endGame();
+    }
 
     /**Questo metodo è invocato in due casi:
      *      -a fine timer
@@ -93,6 +104,7 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
                 .replace(R.id.container, mMatchFragment1, FIRST_MATCH_FRAGMENT_TAG)
                 .commit();
 
+        mGameStateReference.startMatch();
 
     }
 
@@ -217,12 +229,18 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
 
 
     @Override
-    public void notifyToChangeFragment(Fragment fragment) {
+    public void requestToChangeFragment(Fragment fragment) {
         changeFragment(fragment);
     }
 
+
+
     @Override
-    public void notifyToStartMatch() {
-        startMatch();
+    public void endGame(String playerName) {
+        Log.d(TAG, "endGame: ");
+        Intent intent = new Intent(GameActivity.this, WinnerActivity.class);
+        intent.putExtra("winner", playerName);
+        startActivity(intent);
+        finish();
     }
 }

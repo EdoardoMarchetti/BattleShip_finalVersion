@@ -17,6 +17,7 @@ import com.edomar.battleship.logic.specifications.PatrolSpec;
 import com.edomar.battleship.logic.specifications.RescueSpec;
 import com.edomar.battleship.logic.specifications.SubMarineSpec;
 import com.edomar.battleship.logic.transforms.Collider;
+import com.edomar.battleship.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class LevelManager { //Pagina 694
     private ArrayList<GameObject> objects;
     private Level currentLevel;
     private GameObjectFactory factory;
-
+    private int mNumShipsRemains;
 
 
     public LevelManager(Context context, float gridSize, IBattleField bf, String level){
@@ -46,6 +47,7 @@ public class LevelManager { //Pagina 694
     }
 
     public void setCurrentLevel(String level) {
+        level = Utils.translateScenario(level);
         switch (level){
             case "russian":
                 currentLevel = new LevelRussian();
@@ -60,7 +62,7 @@ public class LevelManager { //Pagina 694
                 currentLevel = new LevelTest();
                 break;
             default:
-                Log.e(TAG, "setCurrentLevel: errore nel caricare il livello");
+                Log.e(TAG, "setCurrentLevel: errore nel caricare il livello = "+level);
                 break;
 
         }
@@ -101,6 +103,7 @@ public class LevelManager { //Pagina 694
                     objects.add(factory.create(new MissileSpec()));
                     MISSILE = i;
                     sNumShipsInLevel = i;
+                    mNumShipsRemains = i;
                     break;
                 default:
                     Log.e(TAG, "buildGameObject: oggetto non riconosciuto");
@@ -208,5 +211,18 @@ public class LevelManager { //Pagina 694
         }
 
         return goodPosition;
+    }
+
+    public void shipLost() {
+        mNumShipsRemains--;
+    }
+
+
+    public int getShipsRemains() {
+        return  mNumShipsRemains;
+    }
+
+    public boolean needDistance() {
+        return currentLevel.mDistance;
     }
 }

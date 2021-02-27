@@ -7,7 +7,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.Log;
+
 
 
 import java.util.List;
@@ -120,6 +122,29 @@ public class Grid  {
 
     }
 
+    public void drawHitCells(Canvas canvas, Paint paint){
+        //Draw hit cell
+        Paint previousStyle = paint;
+        for(int i = 0; i<10; i++){
+            for(int j = 0; j<10; j++){
+                if(mGridConfiguration[j][i] == "X"){
+                    paint.setStyle(Paint.Style.FILL);
+                    paint.setColor(Color.BLACK);
+                    canvas.drawLine(mBlockDimension*i, mBlockDimension*j, mBlockDimension*(i+1), mBlockDimension*(j+1), paint);
+                    canvas.drawLine(mBlockDimension*i, mBlockDimension*(j+1), mBlockDimension*(i+1), mBlockDimension*j, paint);
+                }else if(mGridConfiguration[j][i] == "S"){ // questa parte poi dovraà essere portata fuori da drawGrid poichè i pallini devono andare sopra e le navi
+                    paint.setStyle(Paint.Style.STROKE);
+                    paint.setColor(Color.RED);
+                    canvas.drawCircle((float) (mBlockDimension*(i+ 0.5)), (float) (mBlockDimension*(j+ 0.5)), mBlockDimension/2, paint);
+                    paint.setStyle(Paint.Style.FILL);
+                    canvas.drawCircle((float) (mBlockDimension*(i+ 0.5)), (float) (mBlockDimension*(j+ 0.5)), mBlockDimension/4, paint);
+
+                }
+            }
+        }
+        paint = previousStyle;
+    }
+
     /** Getters **/
     public String[][] getGridConfiguration() {
         return mGridConfiguration;
@@ -154,8 +179,6 @@ public class Grid  {
             mGridConfiguration[row][column] = "X";
             Log.d("setHit", "setHit: acqua in = "+row+","+column);
         }
-        /*mLastHit.x = row;
-        mLastHit.y = column;*/
     }
 
     public void positionShip(int startRow, int startColumn, int blockOccupied, boolean isVertical, String gridTag ){
@@ -174,5 +197,38 @@ public class Grid  {
         mLastHit.x = row;
         mLastHit.y = column;
         mLastHitResult= hit;
+    }
+
+    public void setHitForDistance(RectF shipCollider) {
+        int left = (int) (shipCollider.left / mBlockDimension);
+        int top = (int) (shipCollider.top / mBlockDimension);
+        int right = (int) (shipCollider.right / mBlockDimension);
+        int bottom = (int) (shipCollider.bottom / mBlockDimension);
+
+
+
+
+
+        for(int i = top-1; i<=bottom; i++){
+            if(i>=0 && i<10) {
+                if(left-1 >= 0){
+                    setHit(i, left - 1, false);
+                }
+                if(right<10){
+                    setHit(i, right, false);
+                }
+            }
+        }
+        for(int j = left-1; j<=right; j++){
+            if(j>=0  && j<10){
+                if(top-1 >= 0){
+                    setHit(top-1, j, false);
+                }
+                if(bottom<10){
+                    setHit(bottom, j, false);
+                }
+            }
+
+        }
     }
 }

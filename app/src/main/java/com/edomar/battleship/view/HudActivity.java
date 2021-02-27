@@ -20,10 +20,8 @@ import android.widget.Toast;
 
 import com.edomar.battleship.R;
 import com.edomar.battleship.databinding.ActivityHudBinding;
-import com.edomar.battleship.logic.IGameState;
 import com.edomar.battleship.utils.HomeWatcher;
 import com.edomar.battleship.utils.MusicService;
-import com.edomar.battleship.utils.SoundEngine;
 import com.edomar.battleship.utils.Utils;
 import com.edomar.battleship.view.menuFragments.FleetFragment;
 import com.edomar.battleship.view.menuFragments.MainMenuFragment;
@@ -36,8 +34,8 @@ public class HudActivity extends AppCompatActivity {
 
     public static final String TAG = HudActivity.class.getSimpleName();
 
-    public IGameState gameState;
-    //public SoundEngine mSoundEngine;
+
+
     HomeWatcher mHomeWatcher;
 
 

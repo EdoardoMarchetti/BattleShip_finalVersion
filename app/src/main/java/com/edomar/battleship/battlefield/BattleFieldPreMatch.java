@@ -8,31 +8,28 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.edomar.battleship.logic.gameObject.GameObject;
+import com.edomar.battleship.logic.grid.Grid;
+import com.edomar.battleship.logic.levels.LevelManager;
 import com.edomar.battleship.utils.WriterReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
-public class BattleFieldFleetFragment extends IBattleField
-        {
-
-    private static final String TAG = "BattleFieldFleetFragment";
-
+public class BattleFieldPreMatch extends IBattleField {
 
     /** Costruttori **/
-    public BattleFieldFleetFragment(Context context) {
+    public BattleFieldPreMatch(Context context) {
         super(context);
     }
 
-    public BattleFieldFleetFragment(Context context, AttributeSet attrs) {
+    public BattleFieldPreMatch(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
 
 
-    public BattleFieldFleetFragment(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BattleFieldPreMatch(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -44,21 +41,17 @@ public class BattleFieldFleetFragment extends IBattleField
     }
 
 
-    /**Run**/
+
     @Override
-    public void run() {//in tutti i battlefield ma non sempre uguale forse
-                //Le coordinate sono fuori dal while perchè vengono disegnate solo una volta
-                //Il metodo threadHandler.post è necessario in quanto Battlefield deve operare
-                //su componenti di tipo ImageView che devono essere trattai su thread pricipale
+    public void run() {
         Handler threadHandler = new Handler(Looper.getMainLooper());
         threadHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        //Qua va il codice per disegnare le coordinate
-                        mRenderer.drawGridCoordinates(mLetters, mNumbers, mLettersDimen);
-                    }
-                });
-
+            @Override
+            public void run() {
+                //Qua va il codice per disegnare le coordinate
+                mRenderer.drawGridCoordinates(mLetters, mNumbers, mLettersDimen);
+            }
+        });
 
 
         while (mRunning){
@@ -67,11 +60,12 @@ public class BattleFieldFleetFragment extends IBattleField
 
             /** Update the objects **/
             mPhysicsEngine.update(mFPS, mParticleSystem,
-                    objects, mGrid);
+                    mGrid, this);
 
 
+            Log.d("NotifyNumber", "run: notifyNumber = "+notifyNumber);
             /** Draw objects **/
-            mRenderer.draw(mGrid, objects, mParticleSystem);
+            mRenderer.draw(mGrid, objects, mParticleSystem, mGameStateReference.getGameState());
 
             // Measure the frames per second in the usual way
             long timeThisFrame = System.currentTimeMillis()
@@ -80,12 +74,14 @@ public class BattleFieldFleetFragment extends IBattleField
                 final int MILLIS_IN_SECOND = 1000;
                 mFPS = MILLIS_IN_SECOND / timeThisFrame;
             }
-        }
 
+        }
     }
 
 
-    public boolean saveDefaultFleet(String levelToLoad) {//solo per fleetFragment
+
+    @Override
+    public boolean saveFleet(String levelToLoad, int playerNumber) {
         Log.d("Saving", "saveDefaultFleet: ");
         ArrayList<GameObject> objects = mLevelManager.getObjects();
         mGrid.clearGrid();
@@ -134,27 +130,22 @@ public class BattleFieldFleetFragment extends IBattleField
             gridRows.addAll(Arrays.asList(mGrid.getGridConfiguration()));
 
             //write on file
-            WriterReader.getInstance().write(gridRows, levelToLoad);
+            Log.d("WriterReader", "saveFleet:from PreMatch "+levelToLoad);
+            WriterReader.getInstance().write(gridRows, "match"+ playerNumber,levelToLoad);
             return true;
 
         }else{
             return false;
         }
-
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         for (InputObserver io : inputObservers) {
-            io.handleInput(event, mGrid, mLevelManager);
+            io.handleInput(event,
+                    mGrid, mLevelManager,
+                    0, notifyNumber);
         }
-
         return true;
     }
-
-
-
-
-
 }

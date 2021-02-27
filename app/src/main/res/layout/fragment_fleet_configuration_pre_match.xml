@@ -35,7 +35,7 @@
 
 
     <!-- Temporary -->
-    <com.edomar.battleship.battlefield.BattleFieldFleetFragment
+    <com.edomar.battleship.battlefield.BattleFieldPreMatch
         android:id="@+id/battle_field"
         android:layout_width="@dimen/battlefield_size"
         android:layout_height="@dimen/battlefield_size"

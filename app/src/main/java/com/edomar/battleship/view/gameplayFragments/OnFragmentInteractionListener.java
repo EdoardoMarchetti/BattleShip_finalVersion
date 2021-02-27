@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment;
 
 public interface OnFragmentInteractionListener {
 
-    void notifyToChangeFragment(Fragment fragment);
+    void requestToChangeFragment(Fragment fragment);
 
-    void notifyToStartMatch();
+    void endGame(String playerName);
 }

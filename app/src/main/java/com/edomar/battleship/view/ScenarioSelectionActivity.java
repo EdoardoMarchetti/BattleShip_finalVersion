@@ -53,9 +53,13 @@ public class ScenarioSelectionActivity extends AppCompatActivity implements View
     public void onClick(View view) {
         Button button = (Button) view;
         Intent intent = new Intent(ScenarioSelectionActivity.this, GameActivity.class);
-        intent.putExtra("scenario", button.getText());
+        String scenarioSelected = button.getText().toString();
+        scenarioSelected = Utils.translateScenario(scenarioSelected);
+        intent.putExtra("scenario", scenarioSelected);
         intent.putExtra("numGiocatori", numberOfPlayer);
         startActivity(intent);
         finish();
     }
+
+
 }

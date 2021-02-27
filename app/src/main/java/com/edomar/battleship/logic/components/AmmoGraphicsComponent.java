@@ -19,7 +19,7 @@ public class AmmoGraphicsComponent implements GraphicsComponent {
     public void initialize(Context c, ObjectSpec spec, PointF objectSize) {
         mBitmapName = spec.getBitmapName();
 
-        BitmapStore.addBitmap(c, mBitmapName, objectSize,true);
+        BitmapStore.addBitmap(c, mBitmapName, objectSize.x, objectSize.y,true);
     }
 
     @Override

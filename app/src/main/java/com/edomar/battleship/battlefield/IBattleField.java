@@ -2,8 +2,6 @@ package com.edomar.battleship.battlefield;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -14,6 +12,8 @@ import android.widget.ImageView;
 import com.edomar.battleship.Renderer;
 import com.edomar.battleship.battlefield.interfacesImplemented.AmmoSpawner;
 import com.edomar.battleship.battlefield.interfacesImplemented.BattleFieldBroadcaster;
+import com.edomar.battleship.logic.GameState;
+import com.edomar.battleship.logic.IGameStateForBattlefield;
 import com.edomar.battleship.logic.ParticleSystem;
 import com.edomar.battleship.logic.PhysicsEngine;
 import com.edomar.battleship.logic.gameObject.GameObject;
@@ -22,10 +22,10 @@ import com.edomar.battleship.logic.grid.GridInputController;
 import com.edomar.battleship.logic.levels.LevelManager;
 import com.edomar.battleship.utils.BitmapStore;
 import com.edomar.battleship.utils.WriterReader;
+import com.edomar.battleship.view.IFragmentForBattlefield;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class IBattleField extends SurfaceView implements SurfaceHolder.Callback,
@@ -39,6 +39,11 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
     private Thread mThread;
     public long mFPS;
 
+    /**GameState variables**/
+    private int gameState = 0;
+    public int notifyNumber = 0;
+    public boolean notificated = false;
+
 
     /** Instances **/
     public Renderer mRenderer;
@@ -50,6 +55,8 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
     public LevelManager mLevelManager;
     public ArrayList<InputObserver> inputObservers = new ArrayList<>();
     public GridInputController mGridController;
+    public IGameStateForBattlefield mGameStateReference;
+    public IFragmentForBattlefield mFragmentReference;
 
 
 
@@ -95,14 +102,18 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
 
 
     /** Init Method**/
-    public void init(String level){
-        mBitmapStore = BitmapStore.getInstance(getContext());
+    public void init(String level, int playerNumber){
+
+        mGameStateReference = GameState.getInstance();
+        mBitmapStore = BitmapStore.getInstance(getContext(), this.getLayoutParams().width / 10);
         mGridController = new GridInputController(this); //Probabilmente solo battleField giocatore
-        mPhysicsEngine = new PhysicsEngine();
+        setLevel(level, playerNumber); // forse tramite gameState
+        mPhysicsEngine = new PhysicsEngine(mLevelManager);
         mParticleSystem = new ParticleSystem();
         mParticleSystem.init(250);
         mRenderer = new Renderer(this);
-        setLevel(level);
+
+
     }
 
 
@@ -111,6 +122,11 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
     public void stopThread() {//in tutti i battlefield
         // New code here soon
         mRunning = false;
+
+        if(mLevelManager.getObjects().get(LevelManager.MISSILE).checkActive()){
+            mLevelManager.getObjects().get(LevelManager.MISSILE).setInactive();
+        }
+
         try {
             mThread.join();
         } catch (InterruptedException e) {
@@ -121,7 +137,9 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
 
     public void startThread() {//in tutti i battlefield
         // New code here soon
-        mRunning= true; //da cambiare con il gameState
+        mRunning = true;
+        notifyNumber = 0;
+        notificated = false;
         mThread = new Thread(this);
         mThread.start();
     }
@@ -218,11 +236,11 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
             if(found) {
                 //Esiste il file e quindi disporre secondo la griglia restituita
                 objects.get(i)
-                        .spawn(row, column);
+                        .spawn(row, column, mGameStateReference.getGameState());
             }else{
                 //Non esiste il file quindi disporre in maniera progressiva
                 objects.get(i)
-                        .spawn(0,i);
+                        .spawn(0,i, mGameStateReference.getGameState());
             }
 
 
@@ -238,7 +256,7 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
 
         Log.d("SpawnMissile", "spawnAmmo: in BattleField");
         objects.get(LevelManager.MISSILE)
-                .spawn(row, column);
+                .spawn(row, column, gameState);
         Log.d("SpawnMissile", "spawnAmmo: after spawn");
 
 
@@ -247,15 +265,19 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
 
 
 
-    public void setLevel(String levelToLoad) {
+    public void setLevel(String levelToLoad, int playerNumber) {
         inputObservers.clear();
         inputObservers.add(mGridController);
 
         mLevelManager = new LevelManager(getContext(), this.getLayoutParams().width, this, levelToLoad);
-        List<String[]> gridRows = WriterReader.getInstance().read(levelToLoad);
+        List<String[]> gridRows = WriterReader.getInstance().readFleet("default",levelToLoad);
         mGrid = new Grid(this.getLayoutParams().width, gridRows);
         deSpawnRespawn(); //indica ad ogni nave dove posizionarsi
         Log.d(TAG, "setLevel: inputObservers "+inputObservers.size());
+    }
+
+    public void setFragmentReference(IFragmentForBattlefield fragmentReference){
+        mFragmentReference = fragmentReference;
     }
 
 
@@ -267,7 +289,7 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
     @Override
     public abstract void run();//Usato in tutti ma forse in modo diverso in ciascuno; da valutare se lascaire una versione di defualt e eventualmente modificarlo nella classe acui serve
 
-    public abstract boolean saveDefaultFleet(String levelToLoad);//Usato in FLEET_FRAGMENT
+    public abstract boolean saveFleet(String levelToLoad, int playerNumber);//Usato in FLEET_FRAGMENT
 
     @Override
     public abstract boolean onTouchEvent(MotionEvent event);//Usato in FLEET_FRAGMENT, MATCH_FRAGMENT e PRE_MATCHFRAGMENT

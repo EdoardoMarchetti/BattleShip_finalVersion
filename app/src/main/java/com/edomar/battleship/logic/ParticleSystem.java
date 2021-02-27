@@ -47,7 +47,10 @@ public class ParticleSystem {
 
         if(mDuration< 0){
             mIsRunning = false;
+
         }
+
+
     }
 
     public void emitParticles(PointF startPosition){

@@ -30,7 +30,7 @@ public class Renderer  {
         this.mPaint = new Paint();
     }
 
-    public void draw(Grid grid, ArrayList<GameObject> objects, ParticleSystem ps) {
+    public void draw(Grid grid, ArrayList<GameObject> objects, ParticleSystem ps, int gameState) {
         //Log.d(TAG, "draw: start draw method in renderer");
         //Log.d("SurfaceView", "draw: mSurfaceHolder.getSurface().isValid() = "+ mSurfaceHolder.getSurface().isValid());
         if (mSurfaceHolder.getSurface().isValid()) {
@@ -45,7 +45,7 @@ public class Renderer  {
             /** Objects **/
             for (GameObject object: objects) {
                 if(object.checkActive()) {
-                    if(object.getTag() == "Ship"){
+                    /*if(object.getTag() == "Ship"){
                         //Log.d("Attivazione", "disegno: nave "+object.getGridTag()+" attivata ");
                         if(object.checkDrawable()){
                             Log.d("Ultimotentativo", "draw: infatti disegno ");
@@ -53,11 +53,15 @@ public class Renderer  {
                         }
                     }else{
                         object.draw(mCanvas, mPaint);
-                    }
+                    }*/
+                    object.draw(mCanvas, mPaint);
                 }
             }
 
-
+            /**Hit Marker**/
+            if(gameState == 1){
+                grid.drawHitCells(mCanvas, mPaint);
+            }
 
             /**Particles**/
             if(ps.mIsRunning){

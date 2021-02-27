@@ -61,4 +61,14 @@ public class Utils {
                 break;
         }
     }
+
+    public static String translateScenario(String scenarioSelected){
+        scenarioSelected = scenarioSelected.toLowerCase();
+        if(scenarioSelected.equals("russo") ){
+            scenarioSelected = "russian";
+        }else if(scenarioSelected.equals("classico")){
+            scenarioSelected = "classic";
+        }
+        return scenarioSelected;
+    }
 }

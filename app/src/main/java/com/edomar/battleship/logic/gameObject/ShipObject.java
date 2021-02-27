@@ -14,11 +14,18 @@ public class ShipObject extends GameObject {
                 mTransform, grid))) {
             // Component returned false
             isActive = false;
-        }else{
-            isDrawable = true;
-            isActive = true;
-            Log.d("Ultimotentativo", "update: da ora puoi disegnare");
         }
+    }
 
+    @Override
+    public boolean spawn(int row, int column, int gameState) {
+        if (!isActive) {
+            spawnComponent.spawn(mTransform, row, column);
+            if(gameState == 0){
+                isActive = true;
+            }
+            return true;
+        }
+        return false;
     }
 }

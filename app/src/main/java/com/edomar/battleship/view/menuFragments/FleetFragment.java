@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.edomar.battleship.battlefield.IBattleField;
 import com.edomar.battleship.R;
 import com.edomar.battleship.utils.SoundEngine;
+import com.edomar.battleship.utils.Utils;
 import com.edomar.battleship.view.HudActivity;
 
 
@@ -106,7 +107,7 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
         //Creazione SurfaceView
         mBattleField = mActivity.findViewById(R.id.battle_field);
         mBattleField.setZOrderOnTop(true);
-        mBattleField.init(levelToLoad);
+        mBattleField.init(levelToLoad, 0); //0 IS A DEFUALT NUMBER
         mBattleField.setImageViewsForCoordinates(letters, numbers);
 
 
@@ -157,7 +158,7 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
                 SoundEngine.playShoot();
 
 
-                if(mBattleField.saveDefaultFleet(levelToLoad)){//Prova a salvare
+                if(mBattleField.saveFleet(levelToLoad, 0)){//Prova a salvare
                     Toast.makeText(getContext(), "Salvataggio riuscito", Toast.LENGTH_SHORT).show();
 
                 }else{
@@ -201,7 +202,7 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
                 russian.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        levelToLoad = russian.getText().toString().toLowerCase();
+                        levelToLoad = russian.getText().toString();
                         notifyLevelToShowChanged(levelToLoad);
                         popupWindow.dismiss();
                     }
@@ -211,7 +212,7 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
                 classic.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        levelToLoad = classic.getText().toString().toLowerCase();
+                        levelToLoad = classic.getText().toString();
                         notifyLevelToShowChanged(levelToLoad);
                         popupWindow.dismiss();
                     }
@@ -222,7 +223,7 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
                 standard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        levelToLoad = standard.getText().toString().toLowerCase();
+                        levelToLoad = standard.getText().toString();
                         notifyLevelToShowChanged(levelToLoad);
                         popupWindow.dismiss();
                     }
@@ -248,8 +249,10 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
     }
 
     private void notifyLevelToShowChanged(String levelToLoad) {
+
+        levelToLoad = Utils.translateScenario(levelToLoad);
         Log.d(TAG, "notifyLevelToShowChanged: change level to: "+ levelToLoad);
-        mBattleField.setLevel(levelToLoad);
+        mBattleField.setLevel(levelToLoad, 0);
     }
 
 

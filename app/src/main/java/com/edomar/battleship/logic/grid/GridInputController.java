@@ -24,7 +24,7 @@ public class GridInputController implements InputObserver {
     }
 
     @Override
-    public void handleInput(MotionEvent event, Grid grid, LevelManager levelManager) {
+    public void handleInput(MotionEvent event, Grid grid, LevelManager levelManager, int gameState, int notifyNumber) {
         //Prima di tutto controllare se sia è in preMatch o durante una partita (if statement da aggiungere)
         //PreMatch -> l'input non è mai rivolta alla griglia
         //Match -> l'input è sempre rivolto ala griglia -> verificare se si ha già fatto quel colpo
@@ -32,10 +32,9 @@ public class GridInputController implements InputObserver {
         //                                              -> definire se si è colpito una nave o meno
         //                                              -> indicare nella model della griglia il colpo effettuato
 
-        boolean preMatch = true;
 
-
-        if(!preMatch && !levelManager.getObjects().get(LevelManager.MISSILE).checkActive()){
+        Log.d(TAG, "handleInput: ");
+        if(gameState == 1 && notifyNumber == 0 &&!levelManager.getObjects().get(LevelManager.MISSILE).checkActive()){
 
 
             int i = event.getActionIndex();
@@ -45,15 +44,14 @@ public class GridInputController implements InputObserver {
             int row = (int) (y / grid.getBlockDimension());
             int column = (int) (x / grid.getBlockDimension());
             String[][] gridConfiguration = grid.getGridConfiguration();
-            Log.d(TAG, "handleInput: row = "+ row+ " column= "+column);
+
 
             int eventType = event.getAction() & MotionEvent.ACTION_MASK;
-            Log.d(TAG, "handleInput: envenType= "+eventType);
+
 
             if(eventType == MotionEvent.ACTION_UP ||
                     eventType == MotionEvent.ACTION_POINTER_UP) {
-                Log.d(TAG, "handleInput: envenType corretto");
-                Log.d(TAG, "handleInput: gridConfiguration["+row+"]["+column+"]"+ gridConfiguration[row][column]);
+
                 //Verifica se il tocco è avvenuto in coordinate ammesse e se il colpo era già stato fatto
                 if (row >= 0 && row < 10 && column >= 0 && column < 10 && !gridConfiguration[row][column].equals("S") && !gridConfiguration[row][column].equals("X")) {
 
@@ -63,6 +61,7 @@ public class GridInputController implements InputObserver {
                     ArrayList<GameObject> objects = levelManager.getObjects();
                     boolean hit = false;
                     int j = 0;
+
                     //Verifica se è stata colpita una nave
                     while (!hit && j < levelManager.getNumShipsInLevel()) {
                         RectF objectCollider = objects.get(j) //nave
@@ -72,8 +71,6 @@ public class GridInputController implements InputObserver {
                         if (objectCollider.contains(x, y)) {
                             //nave colpita
                             hit = true;
-                            //((ShipTransform)objects.get(j).getTransform()).shipHit(); //dovrebbe andare nel physic engine
-
                         }
 
                         j++;

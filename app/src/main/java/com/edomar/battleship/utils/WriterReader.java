@@ -22,10 +22,7 @@ public class WriterReader {
     private static String directoryPath;
 
     private WriterReader(){
-        directoryPath = "/data/data/com.edomar.battleship/levelDir/";
-        File levelDir = new File(directoryPath);
-        levelDir.mkdirs();
-
+        directoryPath = "/data/data/com.edomar.battleship/";
     }
 
     public static WriterReader getInstance(){
@@ -35,10 +32,15 @@ public class WriterReader {
         return sInstance;
     }
 
-    public void write(List<String[]> gridRows, String levelName){
+    public boolean write(List<String[]> gridRows, String directoryName,String levelName){
 
-        String filePath = directoryPath+levelName+".csv";
+        File levelDir = new File(directoryPath+directoryName);
+        levelDir.mkdirs();
+
+        String filePath = directoryPath+directoryName+"/"+levelName+".csv";
         Log.d(TAG, "write: filePath "+ filePath);
+
+
 
         File file = new File(filePath);
 
@@ -57,16 +59,21 @@ public class WriterReader {
             writer.close();
 
             Log.d(TAG, "write: complete");
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d(TAG, "write: problem");
+            Log.e(TAG, "write: problem");
+            return false;
         }
+
     }
 
-    public List<String[]> read(String levelName) {
+
+
+    public List<String[]> readFleet(String directoryName,String levelName) {
         List<String[]> gridRows = new ArrayList<>();
 
-        String filePath = directoryPath+levelName+".csv";
+        String filePath = directoryPath+directoryName+"/"+levelName+".csv";
         Log.d(TAG, "read: filePath "+ filePath);
 
         File file = new File(filePath);

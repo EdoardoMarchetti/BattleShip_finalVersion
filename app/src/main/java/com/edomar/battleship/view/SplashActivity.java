@@ -23,7 +23,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private final int SPLASH_DISPLAY_LENGTH = 1000;
 
-    private GameState mGameState;
+
 
     private SharedPreferences sp;
 
@@ -41,7 +41,6 @@ public class SplashActivity extends AppCompatActivity {
                 if(initData(getBaseContext())){
                     /* Create an Intent that will start the Menu-Activity. */
                     Intent mainIntent = new Intent(SplashActivity.this , HudActivity.class);
-                    mainIntent.putExtra("player_name", mGameState);
                     SplashActivity.this.startActivity(mainIntent);
                     SplashActivity.this.finish();
                 }else{
