@@ -13,6 +13,7 @@ import android.util.Log;
 
 
 import java.util.List;
+import java.util.Random;
 
 public class Grid  {
     private static final String TAG = "Grid";
@@ -28,26 +29,18 @@ public class Grid  {
     private boolean mLastHitResult = false;
 
 
-    public Grid(float gridDimension, List<String[]> gridRows) {
+    public Grid(float gridDimension) {
         mGridDimension = gridDimension;
         mBlockDimension = gridDimension / 10;
         strokeWidth = (int) gridDimension / 175;
 
         mGridConfiguration = new String[10][10];
+
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                Log.d(TAG, "Grid: gridRows is null? " +gridRows.equals(null));
-                if(gridRows.size() == 0){ //Primo avvio -> non esiste flotta default -> poszioni iniziali
-                    mGridConfiguration[i][j] ="0";
-                }else{//esiste il file -> esiste una configurazione preferita
-                    mGridConfiguration[i][j] = (gridRows.get(i))[j];
-                    Log.d("Lettura", "Grid:  mGridConfiguration[i][j] "+mGridConfiguration[i][j]);
-                }
-
-
+                mGridConfiguration[i][j] ="0";
             }
         }
-
 
         textDimension = strokeWidth * 10;
 
@@ -171,6 +164,22 @@ public class Grid  {
         }
     }
 
+    public void setDispositionInGrid(List<String[]> gridRows){
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(gridRows.size() == 0){ //Primo avvio -> non esiste flotta default -> poszioni iniziali
+                    mGridConfiguration[i][j] ="0";
+                }else{//esiste il file -> esiste una configurazione preferita
+                    /*mGridConfiguration[i][j] = (gridRows.get(i))[j];
+                    Log.d("Lettura", "Grid:  mGridConfiguration[i][j] "+mGridConfiguration[i][j]);*/
+                }
+                mGridConfiguration[i][j] = (gridRows.get(i))[j];
+                Log.d("Lettura", "Grid:  mGridConfiguration[i][j] "+mGridConfiguration[i][j]);
+
+            }
+        }
+    }
+
     public void setHit(int row, int column, boolean shipHit){
         if(shipHit){
             mGridConfiguration[row][column] = "S";
@@ -181,13 +190,17 @@ public class Grid  {
         }
     }
 
-    public void positionShip(int startRow, int startColumn, int blockOccupied, boolean isVertical, String gridTag ){
+    public void positionShip(int startRow, int startColumn, int blockOccupied, boolean isVertical, String gridTag){
         if(isVertical){
+            Log.d("ShipPosition", "positionShip: verticale");
             for (int i = startRow; i < (startRow+blockOccupied) ; i++) {
+                Log.d("ShipPosition", "positionShip: i = "+i+" startColumn= "+startColumn);
                 mGridConfiguration[i][startColumn] = gridTag;
             }
         }else{
+            Log.d("ShipPosition", "positionShip: orizzontale");
             for (int j = startColumn; j < (startColumn+blockOccupied) ; j++) {
+                Log.d("ShipPosition", "positionShip: startRow = "+startRow+" j= "+j);
                 mGridConfiguration[startRow][j] = gridTag;
             }
         }
@@ -204,8 +217,6 @@ public class Grid  {
         int top = (int) (shipCollider.top / mBlockDimension);
         int right = (int) (shipCollider.right / mBlockDimension);
         int bottom = (int) (shipCollider.bottom / mBlockDimension);
-
-
 
 
 
@@ -228,7 +239,9 @@ public class Grid  {
                     setHit(bottom, j, false);
                 }
             }
-
         }
     }
+
+
+
 }

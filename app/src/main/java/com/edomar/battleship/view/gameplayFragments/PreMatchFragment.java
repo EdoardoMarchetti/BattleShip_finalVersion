@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.CountDownTimer;
+import android.os.Looper;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.edomar.battleship.R;
 import com.edomar.battleship.battlefield.IBattleField;
@@ -66,8 +68,11 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
 
     /** Count Down Timer **/
     private TextView timer;
+    float defaultTextSize;
+    int defaultTextColor;
     private TextView timerTextView;
     private CountDownTimer mCounterDownTimer;
+    long duration = TimeUnit.SECONDS.toMillis(60);
 
 
 
@@ -128,36 +133,12 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
 
         //Timer
         timer = (TextView) getActivity().findViewById(R.id.timer);
+        defaultTextSize = timer.getTextSize();
+        defaultTextColor = timer.getCurrentTextColor();
         timerTextView = (TextView) getActivity().findViewById(R.id.timer_text);
-        //textView.setText("Ciao");
-        long duration = TimeUnit.SECONDS.toMillis(60);
-        mCounterDownTimer = new CountDownTimer(duration, 1000) {
-            @Override
-            public void onTick(long l) {
+        //timer.setText("Ciao");
 
 
-                String sDuration = String.format(getResources().getConfiguration().locale,"%02d",
-                        TimeUnit.MILLISECONDS.toSeconds(l));
-                if(TimeUnit.MILLISECONDS.toSeconds(l) < 20){
-                    timer.setText(sDuration);
-                    timer.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
-                    timer.setTextColor(Color.RED);
-                    timerTextView.setTypeface(null, Typeface.BOLD);
-
-
-                }else{
-                    timer.setText(sDuration);
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                //Quando il tempo finisce passa al match
-
-                mListener.requestToChangeFragment(PreMatchFragment.this);
-
-            }
-        }.start();
 
         //ImageView delle coordinate
         ImageView letters = (ImageView) getActivity().findViewById(R.id.letters);
@@ -181,7 +162,11 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
         super.onResume();
         //inizia a disegnare
         //mRenderer.resume();
+        mBattleField.setVisibility(View.VISIBLE);
+        mBattleField.setZOrderOnTop(true);
         mBattleField.startThread();
+        initCountDownTimer();
+        mCounterDownTimer.start();
     }
 
 
@@ -196,11 +181,50 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    public void initCountDownTimer(){
+
+        mCounterDownTimer = new CountDownTimer(duration, 1000) {
+            @Override
+            public void onTick(long l) {
+
+                String sDuration = String.format(getResources().getConfiguration().locale,"%02d",
+                        TimeUnit.MILLISECONDS.toSeconds(l));
+                if(TimeUnit.MILLISECONDS.toSeconds(l) < 10){
+                    timer.setText(sDuration);
+                    timer.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+                    timer.setTextColor(Color.RED);
+                    timerTextView.setTypeface(null, Typeface.BOLD);
+
+                }else{
+                    timer.setText(sDuration);
+                    timer.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+                    timer.setTextColor(defaultTextColor);
+                    timerTextView.setTypeface(null, Typeface.NORMAL);
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                //TODO
+                if(mListener != null){
+                    mListener.requestToChangeFragment(PreMatchFragment.this);
+                }else{
+                    Toast.makeText(getContext(), "mListener is null", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+    }
+
     @Override
     public void onClick(View view) {
         Log.d(TAG, "onClick: ");
         //Quando il pulsante viene premuto inizia il match
-        mBattleField.saveFleet(mLevelToLoad, mPlayerNumber);
-        mListener.requestToChangeFragment(PreMatchFragment.this);
+        if(mBattleField.saveFleet(mLevelToLoad, mPlayerNumber)){
+            mListener.requestToChangeFragment(PreMatchFragment.this);
+        }else{
+            Toast.makeText(getContext(), "Errore di avvio", Toast.LENGTH_SHORT).show();
+            mBattleField.repositionShips(mLevelToLoad, mPlayerNumber);
+        }
+
     }
 }

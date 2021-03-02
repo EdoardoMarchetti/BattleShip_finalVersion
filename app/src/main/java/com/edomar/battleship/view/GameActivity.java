@@ -13,6 +13,7 @@ import android.util.Log;
 import com.edomar.battleship.R;
 import com.edomar.battleship.logic.GameState;
 import com.edomar.battleship.logic.IGameStateForActivity;
+import com.edomar.battleship.utils.WriterReader;
 import com.edomar.battleship.view.gameplayFragments.MatchFragment;
 import com.edomar.battleship.view.gameplayFragments.OnFragmentInteractionListener;
 import com.edomar.battleship.view.gameplayFragments.PreMatchFragment;
@@ -90,6 +91,7 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
     @Override
     protected void onStop() {
         super.onStop();
+        WriterReader.getInstance().deleteMatchFleets();
         mGameStateReference.endGame();
     }
 

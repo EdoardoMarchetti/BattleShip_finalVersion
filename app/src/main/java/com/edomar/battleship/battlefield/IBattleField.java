@@ -271,7 +271,9 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
 
         mLevelManager = new LevelManager(getContext(), this.getLayoutParams().width, this, levelToLoad);
         List<String[]> gridRows = WriterReader.getInstance().readFleet("default",levelToLoad);
-        mGrid = new Grid(this.getLayoutParams().width, gridRows);
+        Log.d("VerificaRapida", "setLevel: gridRows size = "+gridRows.size());
+        mGrid = new Grid(this.getLayoutParams().width);
+        mGrid.setDispositionInGrid(gridRows);
         deSpawnRespawn(); //indica ad ogni nave dove posizionarsi
         Log.d(TAG, "setLevel: inputObservers "+inputObservers.size());
     }
@@ -295,4 +297,5 @@ public abstract class IBattleField extends SurfaceView implements SurfaceHolder.
     public abstract boolean onTouchEvent(MotionEvent event);//Usato in FLEET_FRAGMENT, MATCH_FRAGMENT e PRE_MATCHFRAGMENT
 
 
+    public abstract void repositionShips(String level, int playerNumber);
 }

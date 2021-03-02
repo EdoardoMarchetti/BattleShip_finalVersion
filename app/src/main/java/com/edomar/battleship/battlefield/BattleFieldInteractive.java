@@ -164,8 +164,10 @@ public class BattleFieldInteractive extends IBattleField {
         return true;
     }
 
-
-
+    @Override
+    public void repositionShips(String level, int playerNumber) {
+        //Do nothing
+    }
 
 
 }

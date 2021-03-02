@@ -35,6 +35,7 @@ public class LevelManager { //Pagina 694
     private GameObjectFactory factory;
     private int mNumShipsRemains;
 
+    private boolean[] shipsInError;
 
     public LevelManager(Context context, float gridSize, IBattleField bf, String level){
 
@@ -43,7 +44,7 @@ public class LevelManager { //Pagina 694
 
         setCurrentLevel(level);
         buildGameObject();
-
+        shipsInError = new boolean[sNumShipsInLevel];
     }
 
     public void setCurrentLevel(String level) {
@@ -166,6 +167,7 @@ public class LevelManager { //Pagina 694
                             Log.d("ControlloPosizione", "checkCorrectFleetConfiguration: troppo vicine");
                             collides = true;
                             goodPosition = false;
+
                         }
                     }
 
@@ -173,8 +175,10 @@ public class LevelManager { //Pagina 694
 
                 if(collides){
                     collider1.setColorRed();
+                    shipsInError[i] = true;
                 }else{
                     collider1.setColorGreen();
+                    shipsInError[i] = false;
                 }
             }
 
@@ -203,8 +207,10 @@ public class LevelManager { //Pagina 694
 
                 if(collides){
                     collider1.setColorRed();
+                    shipsInError[i] = true;
                 }else{
                     collider1.setColorGreen();
+                    shipsInError[i] = false;
                 }
             }
 
@@ -224,5 +230,9 @@ public class LevelManager { //Pagina 694
 
     public boolean needDistance() {
         return currentLevel.mDistance;
+    }
+
+    public boolean[] getShipsInError(){
+        return shipsInError;
     }
 }

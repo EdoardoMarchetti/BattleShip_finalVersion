@@ -88,7 +88,7 @@ public class FleetFragment extends Fragment implements View.OnClickListener{
         //end initialization
 
 
-        levelToLoad = sp.getString(mActivity.getString(R.string.level_key), "classic" );
+        levelToLoad = Utils.translateScenario(sp.getString(mActivity.getString(R.string.level_key), "classic" )).toLowerCase();
 
         return view;
     }

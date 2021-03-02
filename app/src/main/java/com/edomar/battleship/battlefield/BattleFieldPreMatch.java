@@ -1,6 +1,8 @@
 package com.edomar.battleship.battlefield;
 
 import android.content.Context;
+import android.graphics.PointF;
+import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -15,6 +17,7 @@ import com.edomar.battleship.utils.WriterReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class BattleFieldPreMatch extends IBattleField {
 
@@ -147,5 +150,45 @@ public class BattleFieldPreMatch extends IBattleField {
                     0, notifyNumber);
         }
         return true;
+    }
+
+    @Override
+    public void repositionShips(String level, int playerNumber) {
+
+        ArrayList<GameObject> objects = mLevelManager.getObjects();
+        boolean[] shipsInError = mLevelManager.getShipsInError();
+        boolean corrected = false;
+
+        for (int i = 0; i < shipsInError.length && !corrected; i++) {
+            Log.d("RepositionShip", "repositionShips: ship["+i+"] ="  +shipsInError[i]);
+            if(shipsInError[i]){
+                GameObject ship = objects.get(i);
+                RectF shipCollider = objects.get(i).getTransform().getCollider();
+                PointF newLocation =  ship.getTransform().getLocation();
+                float blockSize = ship.getTransform().getBlockDimension();
+
+                Random random = new Random();
+                int x = random.nextInt(9);
+                int y = random.nextInt(9);
+                Log.d("RepositionShip", "repositionShips: x= "+x+" y= "+y);
+                
+                if((x*blockSize + shipCollider.right) <= this.getLayoutParams().width && (y*blockSize + shipCollider.bottom ) <= this.getLayoutParams().height){
+                    Log.d("RepositionShip", "repositionShips: oldPosition.x = "+newLocation.x);
+                    newLocation.x = (x*blockSize);
+                    Log.d("RepositionShip", "repositionShips: newPosition.x = "+newLocation.x);
+                    Log.d("RepositionShip", "repositionShips: oldPosition.y = "+newLocation.y);
+                    newLocation.y = (y*blockSize);
+                    Log.d("RepositionShip", "repositionShips: newPosition.y = "+newLocation.y);
+                }
+
+                ship.getTransform().setLocation(newLocation.x, newLocation.y);
+                corrected = true;
+            }
+
+        }
+
+        if(!saveFleet(level, playerNumber)){
+            repositionShips(level, playerNumber);
+        }
     }
 }
