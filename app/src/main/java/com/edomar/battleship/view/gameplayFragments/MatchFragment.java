@@ -127,8 +127,12 @@ public class MatchFragment extends Fragment implements IFragmentForBattlefield {
             view = inflater.inflate(R.layout.fragment_match, container, false);
             Log.d("Lifecycle", "onCreateView: number "+ mPlayerNumber);
         }else {
-            view = inflater.inflate(R.layout.fragment_match2, container, false);
-            Log.d("Lifecycle", "onCreateView: number "+ mPlayerNumber);
+            if(mPLayerName == "computer"){
+                view = inflater.inflate(R.layout.fragment_match_cpu, container, false);
+            }else {
+                view = inflater.inflate(R.layout.fragment_match2, container, false);
+                Log.d("Lifecycle", "onCreateView: number " + mPlayerNumber);
+            }
         }
 
         return view;
@@ -146,7 +150,12 @@ public class MatchFragment extends Fragment implements IFragmentForBattlefield {
         if(mPlayerNumber == 1){
             fl = (FrameLayout) getActivity().findViewById(R.id.fl1);
         }else{
-            fl = (FrameLayout) getActivity().findViewById(R.id.fl2);
+            if(mPLayerName == "computer"){
+                fl = (FrameLayout) getActivity().findViewById(R.id.fl_cpu);
+            }else {
+                fl = (FrameLayout) getActivity().findViewById(R.id.fl2);
+            }
+
         }
 
         timer = fl.findViewById(R.id.timer);

@@ -95,6 +95,8 @@ public class WriterReader {
         File levelDir = new File(directoryPath+directoryName);
         levelDir.mkdirs();
 
+        levelName = Utils.translateScenario(levelName);
+
         String filePath = directoryPath+directoryName+"/"+levelName+".csv";
         Log.d(TAG, "write: filePath "+ filePath);
 

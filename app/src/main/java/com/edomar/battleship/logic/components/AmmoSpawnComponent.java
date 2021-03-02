@@ -12,9 +12,8 @@ public class AmmoSpawnComponent implements SpawnComponent {
     @Override
     public void spawn(Transform t, int  row, int column) {
         Log.d("AmmoSpawnComponent", "spawn: spawn completed ");
-        //t.setLocation(column * t.getBlockDimension(), row * t.getBlockDimension());
-        Log.d(TAG, "spawn: column ="+column);
-        Log.d(TAG, "spawn: row ="+row);
+        Log.d("BattleFieldCPU", "spawncomponent: column ="+column);
+        Log.d("BattleFieldCPU", "spawncomponent: row ="+row);
         t.setLocation(0 - (t.getObjectWidth()+t.getBlockDimension()), row * t.getBlockDimension());
         Log.d(TAG, "spawn: ");
     }

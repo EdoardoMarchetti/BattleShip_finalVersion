@@ -76,13 +76,17 @@ public class GameActivity extends AppCompatActivity implements OnFragmentInterac
 
         if(numberOfPlayer == 2){
             mPreMatchFragment2 = PreMatchFragment.newInstance(2,levelToPlay);
+            mMatchFragment1 = MatchFragment.newInstance("giocatore1", 1, levelToPlay);
+            Log.d(TAG, "onCreate: mMatchFragment1 playerName = "+mMatchFragment1.getName());
+            mMatchFragment2 = MatchFragment.newInstance("giocatore2", 2, levelToPlay);
+            Log.d(TAG, "onCreate: mMatchFragment2 playerName = "+mMatchFragment2.getName());
             Log.d("NumeroGiocatori", "onCreate: 2 giocatori");
+        }else{
+            mMatchFragment1 = MatchFragment.newInstance("giocatore1", 1, levelToPlay);
+            mMatchFragment2 = MatchFragment.newInstance("computer", 2, levelToPlay);
         }
 
-        mMatchFragment1 = MatchFragment.newInstance("giocatore1", 1, levelToPlay);
-        Log.d(TAG, "onCreate: mMatchFragment1 playerName = "+mMatchFragment1.getName());
-        mMatchFragment2 = MatchFragment.newInstance("giocatore2", 2, levelToPlay);
-        Log.d(TAG, "onCreate: mMatchFragment2 playerName = "+mMatchFragment2.getName());
+
 
 
 

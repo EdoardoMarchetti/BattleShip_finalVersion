@@ -21,9 +21,9 @@ public class ShipObject extends GameObject {
     public boolean spawn(int row, int column, int gameState) {
         if (!isActive) {
             spawnComponent.spawn(mTransform, row, column);
-            isActive = true;
+
             if(gameState == 0){
-                //isActive = true;
+                isActive = true;
             }
             return true;
         }

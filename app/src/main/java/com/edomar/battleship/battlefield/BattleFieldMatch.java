@@ -149,8 +149,8 @@ public class BattleFieldMatch extends IBattleField {
 
             do{
                 goodPosition = true;
-                startColumn = random.nextInt(9);
-                startRaw = random.nextInt(9);
+                startColumn = random.nextInt(10);
+                startRaw = random.nextInt(10);
                 Log.d("ShipPosition", "autoPosition: inizialmente x = "+ startColumn+" y= "+startRaw);
 
                 if(isVertical){

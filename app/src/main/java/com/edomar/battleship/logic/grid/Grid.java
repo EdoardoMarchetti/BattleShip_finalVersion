@@ -172,8 +172,9 @@ public class Grid  {
                 }else{//esiste il file -> esiste una configurazione preferita
                     /*mGridConfiguration[i][j] = (gridRows.get(i))[j];
                     Log.d("Lettura", "Grid:  mGridConfiguration[i][j] "+mGridConfiguration[i][j]);*/
+                    mGridConfiguration[i][j] = (gridRows.get(i))[j];
                 }
-                mGridConfiguration[i][j] = (gridRows.get(i))[j];
+
                 Log.d("Lettura", "Grid:  mGridConfiguration[i][j] "+mGridConfiguration[i][j]);
 
             }
