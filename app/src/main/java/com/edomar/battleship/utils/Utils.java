@@ -54,9 +54,11 @@ public class Utils {
     public static void setFlagOfImageButtonLanguage(String selectedLanguage, ImageView imageButtonLanguage){
         switch (selectedLanguage) {
             case "English":
+            case "Inglese":
                 imageButtonLanguage.setImageResource(R.drawable.flag_usa);
                 break;
             case "Italian":
+            case "Italiano":
                 imageButtonLanguage.setImageResource(R.drawable.flag_italy);
                 break;
         }

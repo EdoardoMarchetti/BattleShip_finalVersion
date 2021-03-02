@@ -1,6 +1,7 @@
 package com.edomar.battleship.battlefield;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
@@ -8,18 +9,25 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
+import com.edomar.battleship.logic.AlternativeArtificialPlayer;
 import com.edomar.battleship.logic.gameObject.GameObject;
 import com.edomar.battleship.logic.grid.Grid;
 import com.edomar.battleship.logic.levels.LevelManager;
 import com.edomar.battleship.utils.WriterReader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 public class BattleFieldCPU extends IBattleField {
 
     private static final String TAG = "BattleFieldCPU";
+
+
+    private AlternativeArtificialPlayer mAlterArtificialPlayer;
+
+    private int lastRow;
+    private int lastColumn;
 
     public BattleFieldCPU(Context context) {
         super(context);
@@ -27,6 +35,7 @@ public class BattleFieldCPU extends IBattleField {
 
     public BattleFieldCPU(Context context, AttributeSet attrs) {
         super(context, attrs);
+
     }
 
     public BattleFieldCPU(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -39,31 +48,33 @@ public class BattleFieldCPU extends IBattleField {
         shot();
     }
 
-    private void shot() {
-        Log.d(TAG, "shot: ");
-        Random random = new Random();
+    @Override
+    public void init(String level, int playerNumber) {
+        super.init(level, playerNumber);
 
-        boolean shot = false;
-        int column;
-        int row;
+        mAlterArtificialPlayer = new AlternativeArtificialPlayer();
+    }
 
-        do{
-            column = random.nextInt(10);
-            row = random.nextInt(10);
-            Log.d(TAG, "shot: i shot in row = "+row+ " column = "+column);
-            Log.d("BattleFieldCPU", "shot:  mGrid.getGridConfiguration()["+row+"]["+column+"] = "+mGrid.getGridConfiguration()[row][column]);
 
-            if(!mGrid.getGridConfiguration()[row][column].equalsIgnoreCase("S") && !mGrid.getGridConfiguration()[row][column].equalsIgnoreCase("X")){
-                if(mGrid.getGridConfiguration()[row][column].equalsIgnoreCase("0")){
-                    shot = true;
-                    mGrid.setLastHit(row, column, false);
-                }else{
-                    shot = true;
-                    mGrid.setLastHit(row, column, true);
-                }
+    public void shot(){
+        Log.d("AlternativeArtificialPl", "shot: ");
+        Point coordinates = mAlterArtificialPlayer.shot();
+        int column = coordinates.y;
+        int row = coordinates.x;
+        Log.d("AlternativeArtificialPl", "shot: coordinates x= "+row+" y ="+column);
+        Log.d("AlternativeArtificialPl", "shot: "+mGrid.getGridConfiguration()[row][column]);
+        if(!mGrid.getGridConfiguration()[row][column].equalsIgnoreCase("S") && !mGrid.getGridConfiguration()[row][column].equalsIgnoreCase("X")){
+            if(mGrid.getGridConfiguration()[row][column].equalsIgnoreCase("0")){
+                mGrid.setLastHit(row, column, false);
+                mAlterArtificialPlayer.updateList(row, column, false);
+            }else{
+                mGrid.setLastHit(row, column, true);
+                mAlterArtificialPlayer.updateList(row, column, true);
             }
+        }
 
-        }while(!shot);
+        lastRow = row;
+        lastColumn = column;
 
         spawnAmmo(row, column);
     }
@@ -102,6 +113,12 @@ public class BattleFieldCPU extends IBattleField {
                 }else if(notifyNumber == 2){
                     mFragmentReference.notifyEndGame();
                     notificated = true;
+                }else if(notifyNumber == 3 ){
+                    mFragmentReference.notifyHit(mGrid.getLastHitCoordinates().x,mGrid.getLastHitCoordinates().y, mGrid.getLastHitResult());
+                    notificated = true;
+                    if(mLevelManager.needDistance()) {
+                        mAlterArtificialPlayer.updateListForDistance(lastRow, lastColumn);
+                    }
                 }
 
             }

@@ -237,10 +237,12 @@ public class SettingsFragment extends Fragment implements  //for spinners
 
                 switch (selectedLanguage[0]) { //Switch case to initialize the radioGroup
                     case "English":
+                    case"Inglese":
                         english_button.setChecked(true);
                         //mImageButtonLanguage.setImageResource(R.drawable.flag_usa);
                         break;
                     case "Italian":
+                    case"Italiano":
                         italian_button.setChecked(true);
                         //mImageButtonLanguage.setImageResource(R.drawable.flag_italy);
                         break;

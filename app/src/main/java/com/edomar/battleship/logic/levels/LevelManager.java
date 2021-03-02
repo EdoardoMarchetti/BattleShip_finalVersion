@@ -158,10 +158,10 @@ public class LevelManager { //Pagina 694
                                 .getTransform().getCollider();
 
 
-                        collider2Expanded.top = collider2.top - (blockSize/2);
-                        collider2Expanded.left = collider2.left - (blockSize/2);
-                        collider2Expanded.bottom = collider2.bottom + (blockSize/2);
-                        collider2Expanded.right = collider2.right + (blockSize/2);
+                        collider2Expanded.top = collider2.top - (blockSize/10);
+                        collider2Expanded.left = collider2.left - (blockSize/10);
+                        collider2Expanded.bottom = collider2.bottom + (blockSize/10);
+                        collider2Expanded.right = collider2.right + (blockSize/10);
 
                         if (RectF.intersects(collider1Expanded, collider2Expanded)) {
                             Log.d("ControlloPosizione", "checkCorrectFleetConfiguration: troppo vicine");

@@ -223,7 +223,7 @@ public class PreMatchFragment extends Fragment implements View.OnClickListener {
             mListener.requestToChangeFragment(PreMatchFragment.this);
         }else{
             Toast.makeText(getContext(), "Errore di avvio", Toast.LENGTH_SHORT).show();
-            mBattleField.repositionShips(mLevelToLoad, mPlayerNumber);
+            //mBattleField.repositionShips(mLevelToLoad, mPlayerNumber);
         }
 
     }

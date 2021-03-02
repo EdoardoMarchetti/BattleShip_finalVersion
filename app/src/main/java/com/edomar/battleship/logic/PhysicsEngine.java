@@ -93,6 +93,7 @@ public class PhysicsEngine {
             );
 
             if(result){ //Se il colpo è andato a segno verifica se la nave è affondata
+
                 ps.mShipHit = true;
                 boolean found = false;
 
@@ -105,6 +106,7 @@ public class PhysicsEngine {
 
                         if(shipTransform.getLives() == 0){
                             ship.setActive();
+                            bf.notifyNumber = 3;
                             if(mLevelMan.needDistance()){
                                 grid.setHitForDistance(shipTransform.getCollider());
                             }

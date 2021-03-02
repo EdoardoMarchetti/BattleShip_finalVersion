@@ -231,7 +231,7 @@ public class MatchFragment extends Fragment implements IFragmentForBattlefield {
 
 
     public void initCountDownTimer(){
-        mCounterDownTimer = new CountDownTimer(duration, 1000) {
+        mCounterDownTimer = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long l) {
                 Log.d(TAG, "onTick: is UIThread? "+ (Looper.myLooper() == Looper.getMainLooper()) + "fragment number = "+ mPlayerNumber);

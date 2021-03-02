@@ -70,7 +70,7 @@ public class BattleFieldMatch extends IBattleField {
 
 
             if(!notificated){
-                if(notifyNumber == 1){
+                if(notifyNumber == 1 || notifyNumber == 3){
                     mFragmentReference.notifyHit(mGrid.getLastHitCoordinates().x,mGrid.getLastHitCoordinates().y, mGrid.getLastHitResult());
                     notificated = true;
                 }else if(notifyNumber == 2){
